@@ -3,14 +3,10 @@
 var fs = require("fs"),
 	util = require("util"),
 	argv = require("optimist")
-		.usage("Usage: rename.js [-d] -f <find string> -r <replace string> <files>")
-		.demand(["f"])
-		.string(["f", "r"])
-		.default("r", "")
-		.boolean("d")
-		.describe("d", "dry run")
-		.describe("f", "find string")
-		.describe("r", "replacement string")
+		.usage("Usage: rename [-d] -f <find string> -r <replace string> <files>")
+		.options("f", { string: true, describe: "find string", demand: true })
+		.options("r", { string: true, default: "", describe: "replacement string" })
+		.options("d", { boolean: true, describe: "dry run" })
 		.argv;
 
 if (argv.debug) {
