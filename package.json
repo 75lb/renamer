@@ -1,11 +1,12 @@
 {
   "name": "rename",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "rename.js",
   "bin": "rename.js",
-  "repository": "",
-  "author": "",
+  "repository": "https://github.com/75lb/rename",
+  "author": "Lloyd Brookes",
   "dependencies": {
+    "config-master": "0.0.0",
     "optimist": "~0.3.5"
   }
 }
