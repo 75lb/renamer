@@ -1,24 +1,23 @@
 #!/usr/local/bin/node
 
 var fs = require("fs"),
-    util = require("util"),
-	config = require("config-master");
+	Config = require("../config-master").Config;
 
-var valid = true;
-
-config.option("find", { type: "string", alias: "f" })
+var config = new Config()
+    .option("files", { 
+        type: Array.isArray,
+        required: true,
+        defaultOption: true
+    })
+    .option("find", { type: "string", alias: "f" })
     .option("replace", { type: "string", alias: "r", default: "" })
-    .option("dry-run", { type: "boolean", alias: "d" })
-    .parseCliArgs({
-        onInvalidArgs: function(args){
-            log("Invalid Args: ");
-            log(args.join(", "));
-            valid = false;
-        }
-    });
+    .option("dry-run", { type: "boolean", alias: "d" });
 
-if (valid && config.has("find")){
-    config.get("inputFiles").forEach(function(file){
+process.argv.splice(0, 2);
+config.set(process.argv);
+
+if (config.hasValue("find")){
+    config.get("files").forEach(function(file){
         if(fs.existsSync(file)){
             var regEx = new RegExp(config.get("find"), "g"),
                 newName = file.replace(regEx, config.get("replace"));
