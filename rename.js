@@ -4,14 +4,15 @@ var fs = require("fs"),
 	Config = require("../config-master").Config;
 
 var config = new Config()
-    .option("files", { 
-        type: Array.isArray,
+    .define({ 
+        name: "files",
+        type: Array,
         required: true,
         defaultOption: true
     })
-    .option("find", { type: "string", alias: "f" })
-    .option("replace", { type: "string", alias: "r", default: "" })
-    .option("dry-run", { type: "boolean", alias: "d" });
+    .define({ name: "find", type: "string", alias: "f" })
+    .define({ name: "replace", type: "string", alias: "r", default: "" })
+    .define({ name: "dry-run", type: "boolean", alias: "d" });
 
 process.argv.splice(0, 2);
 config.set(process.argv);
