@@ -1,4 +1,6 @@
 Usage
 =====
-
-    $ rename [--dry-run] -f <find string> -r <replace string> <files>
+Batch rename files. Both `--find` and `--replace` accept regular expressions.
+```sh
+$ rename [--dry-run] --find <find string> --replace <replace string> <files>
+```

@@ -6,6 +6,6 @@
   "repository": "https://github.com/75lb/rename",
   "author": "Lloyd Brookes",
   "dependencies": {
-
+    "nature": "0.0.1"
   }
 }
