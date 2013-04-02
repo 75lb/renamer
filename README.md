@@ -17,7 +17,7 @@ Strip out unwanted prefixes:
 $ rename -f "Season 1 - " *
 ```
 
-Reformat filename: 
+Reformat filenames: 
 
 ```sh
 $ tree
