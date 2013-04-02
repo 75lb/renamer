@@ -32,7 +32,9 @@ if (config.hasValue("find")){
         var regEx = new RegExp(config.get("find"), "g"),
             newName = file.replace(regEx, config.get("replace"));
         console.log("new filename: " + newName);
-        if (!config.get("dry-run") && !fs.existsSync(newName)){
+        if (config["dry-run"]){
+            // do nothing else
+        } else if (!fs.existsSync(newName)){
             fs.renameSync(file, newName);
         } else {
             console.error("a file by that new name already exists: " + newName);
