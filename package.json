@@ -1,6 +1,6 @@
 {
   "name": "rename",
-  "description": "Batch rename files."
+  "description": "Batch rename files.",
   "version": "0.0.5",
   "bin": "rename.js",
   "repository": "https://github.com/75lb/rename",
