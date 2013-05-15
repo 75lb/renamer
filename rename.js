@@ -5,7 +5,7 @@ var fs = require("fs"),
 
 process.argv.splice(0, 2);
 
-var config = new Thing()
+var optionSet = new Thing()
     .define({ 
         name: "files",
         type: Array,
@@ -22,17 +22,12 @@ var config = new Thing()
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .set(process.argv);
 
-if (!config.valid){
-    console.error(config.errors);
-    return;
-}
-
-if (config.hasValue("find")){
-    config.get("files").forEach(function(file){
-        var regEx = new RegExp(config.get("find"), "g"),
-            newName = file.replace(regEx, config.get("replace"));
+if (optionSet.valid){
+    optionSet.files.forEach(function(file){
+        var regEx = new RegExp(optionSet.find, "g"),
+            newName = file.replace(regEx, optionSet.replace);
         console.log("new filename: " + newName);
-        if (config["dry-run"]){
+        if (optionSet["dry-run"]){
             // do nothing else
         } else if (!fs.existsSync(newName)){
             fs.renameSync(file, newName);
@@ -41,4 +36,7 @@ if (config.hasValue("find")){
             return;
         }
     });
+    
+} else {
+    console.error(optionSet.errors);
 }
