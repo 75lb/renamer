@@ -17,26 +17,31 @@ var optionSet = new Thing()
         ],
         valueFailMsg: "Must be at least one file, and all must exist"
     })
-    .define({ name: "find", type: "string", alias: "f", required: true })
+    .define({ name: "find", type: "string", alias: "f", required: false })
     .define({ name: "replace", type: "string", alias: "r", default: "" })
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .set(process.argv);
 
 if (optionSet.valid){
-    optionSet.files.forEach(function(file){
-        var regEx = new RegExp(optionSet.find, "g"),
-            newName = file.replace(regEx, optionSet.replace);
-        console.log("new filename: " + newName);
-        if (optionSet["dry-run"]){
-            // do nothing else
-        } else if (!fs.existsSync(newName)){
-            fs.renameSync(file, newName);
+    optionSet.files.forEach(function(file, index){
+        var regEx = new RegExp(optionSet.find || file, "g"),
+            newName = file.replace(regEx, optionSet.replace)
+                          .replace("{{index}}", index);
+        if(newName === file){
+            console.log("no change: " + newName);
         } else {
-            console.error("a file by that new name already exists: " + newName);
-            return;
+            console.log("new filename: " + newName);
+            if (optionSet["dry-run"]){
+                // do nothing else
+            } else if (!fs.existsSync(newName)){
+                fs.renameSync(file, newName);
+            } else {
+                console.error("a file by that new name already exists: " + newName);
+                return;
+            }
         }
     });
     
 } else {
-    console.error(optionSet.errors);
+    console.error(optionSet.validationMessages);
 }
