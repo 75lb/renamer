@@ -5,6 +5,9 @@ var fs = require("fs"),
 
 process.argv.splice(0, 2);
 
+/**
+TODO: rename beyutch/file* -r "clive{{index}}.txt"
+*/
 var optionSet = new Thing()
     .define({ 
         name: "files",
@@ -17,7 +20,7 @@ var optionSet = new Thing()
         ],
         valueFailMsg: "Must be at least one file, and all must exist"
     })
-    .define({ name: "find", type: "string", alias: "f", required: false })
+    .define({ name: "find", type: "string", alias: "f" })
     .define({ name: "replace", type: "string", alias: "r", default: "" })
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .set(process.argv);
@@ -26,11 +29,11 @@ if (optionSet.valid){
     optionSet.files.forEach(function(file, index){
         var regEx = new RegExp(optionSet.find || file, "g"),
             newName = file.replace(regEx, optionSet.replace)
-                          .replace("{{index}}", index);
+                          .replace("{{index}}", index + 1);
         if(newName === file){
             console.log("no change: " + newName);
         } else {
-            console.log("new filename: " + newName);
+            console.log(file, "->", newName);
             if (optionSet["dry-run"]){
                 // do nothing else
             } else if (!fs.existsSync(newName)){
