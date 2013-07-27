@@ -3,8 +3,6 @@
 var fs = require("fs"),
 	Thing = require("nature").Thing;
 
-process.argv.splice(0, 2);
-
 /**
 TODO: rename beyutch/file* -r "clive{{index}}.txt"
 */
@@ -23,6 +21,10 @@ var optionSet = new Thing()
     .define({ name: "find", type: "string", alias: "f" })
     .define({ name: "replace", type: "string", alias: "r", default: "" })
     .define({ name: "dry-run", type: "boolean", alias: "d" })
+    .on("error", function(err){
+        console.error("\033[31mError:\033[0m " + err.message);
+        process.exit(1);
+    })
     .set(process.argv);
 
 if (optionSet.valid){
@@ -30,8 +32,8 @@ if (optionSet.valid){
         var regEx = new RegExp(optionSet.find || file, "g"),
             newName = file.replace(regEx, optionSet.replace)
                           .replace("{{index}}", index + 1);
-        if(newName === file){
-            console.log("no change: " + newName);
+        if(newName === file || newName === ""){
+            console.log("no change: " + file);
         } else {
             console.log(file, "->", newName);
             if (optionSet["dry-run"]){
