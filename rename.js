@@ -1,4 +1,5 @@
 #!/usr/local/bin/node
+"use strict";
 
 var fs = require("fs"),
     Thing = require("nature").Thing,
