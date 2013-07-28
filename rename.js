@@ -3,6 +3,10 @@
 var fs = require("fs"),
 	Thing = require("nature").Thing;
 
+function red(txt){
+    return "\033[31m" + txt + "\033[0m";
+}
+
 /**
 TODO: rename beyutch/file* -r "clive{{index}}.txt"
 */
@@ -22,7 +26,7 @@ var optionSet = new Thing()
     .define({ name: "replace", type: "string", alias: "r", default: "" })
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .on("error", function(err){
-        console.error("\033[31mError:\033[0m " + err.message);
+        console.error(red("Error: ") + err.message);
         process.exit(1);
     })
     .set(process.argv);
@@ -48,5 +52,10 @@ if (optionSet.valid){
     });
     
 } else {
-    console.error(optionSet.validationMessages);
+    console.error(red("Some option values were invalid"));
+    optionSet.validationMessages.forEach(function(prop){
+        prop.validationMessages.forEach(function(msg){
+            console.error(prop.property, ":\t", msg);
+        });
+    });
 }
