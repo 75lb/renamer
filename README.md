@@ -14,7 +14,7 @@ Usage
 $ rename [--dry-run|-d] [--find|-f <regex>] [--replace|-r <regex>] <files>
 ```
 
-Both `--find` and `--replace` accept regular expressions. `--find` defaults to the source filename, `--replace` to empty string. 
+Both `--find` and `--replace` accept [javascript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). `--find` defaults to the source filename, `--replace` to empty string. 
 
 Use the special token `{{index}}` in your replace string to get an incrementing number per file processed. 
 
@@ -25,15 +25,15 @@ _Strip out unwanted prefixes_:
 ```sh
 $ tree -N
 .
-├── Season 1 - Another load of bollocks.mp4
 ├── Season 1 - Some crappy episode.mp4
+├── Season 1 - Another load of bollocks.mp4
 
 $ rename -f "Season 1 - " *
 
 $ tree -N
 .
-├── Another load of bollocks.mp4
 ├── Some crappy episode.mp4
+├── Another load of bollocks.mp4
 ```
 
 _Reformat filenames_: 
@@ -54,7 +54,7 @@ $ tree
 ├── File 3.test
 ```
 
-_Give your image filenames a new numbering scheme_:
+_Give image filenames a new numbering scheme_:
 
 ```sh
 $ tree
@@ -68,6 +68,6 @@ $ rename -r Image{{index}}.jpg *
 $ tree
 .
 ├── Image1.jpg
-├── Image1.jpg
-├── Image1.jpg
+├── Image2.jpg
+├── Image3.jpg
 ```
