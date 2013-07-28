@@ -1,15 +1,13 @@
 #!/usr/local/bin/node
 
 var fs = require("fs"),
-	Thing = require("nature").Thing;
+    Thing = require("nature").Thing,
+    path = require("path");
 
 function red(txt){
     return "\033[31m" + txt + "\033[0m";
 }
 
-/**
-TODO: rename beyutch/file* -r "clive{{index}}.txt"
-*/
 var optionSet = new Thing()
     .define({ 
         name: "files",
@@ -33,7 +31,7 @@ var optionSet = new Thing()
 
 if (optionSet.valid){
     optionSet.files.forEach(function(file, index){
-        var regEx = new RegExp(optionSet.find || file, "g"),
+        var regEx = new RegExp(optionSet.find || path.basename(file), "g"),
             newName = file.replace(regEx, optionSet.replace)
                           .replace("{{index}}", index + 1);
         if(newName === file || newName === ""){
