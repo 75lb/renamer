@@ -6,7 +6,7 @@ var fs = require("fs"),
     path = require("path");
 
 function red(txt){
-    return "\033[31m" + txt + "\033[0m";
+    return "\x1b[31m" + txt + "\x1b[0m";
 }
 
 var optionSet = new Thing()
