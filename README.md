@@ -1,6 +1,6 @@
 rename
 ======
-Batch rename files. 
+Batch replace string or regular expression patterns in filenames. 
 
 Install
 -------
@@ -26,14 +26,14 @@ _Strip out unwanted prefixes_:
 $ tree -N
 .
 ├── Season 1 - Some crappy episode.mp4
-├── Season 1 - Another load of bollocks.mp4
+├── Season 1 - Load of bollocks.mp4
 
 $ rename -f "Season 1 - " *
 
 $ tree -N
 .
 ├── Some crappy episode.mp4
-├── Another load of bollocks.mp4
+├── Load of bollocks.mp4
 ```
 
 _Reformat filenames_: 

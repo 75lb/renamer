@@ -1,11 +1,17 @@
 {
   "name": "rename",
   "description": "Batch rename files.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "bin": "rename.js",
   "repository": "https://github.com/75lb/rename",
   "author": "Lloyd Brookes",
+  "scripts": {
+    "test": "mocha --reporter spec test/unit-*.js"
+  },
   "dependencies": {
     "nature": "~0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.7.4"
   }
 }
