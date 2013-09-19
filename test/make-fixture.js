@@ -4,6 +4,10 @@ var fs = require("fs"),
     path = require("path"),
     dummyContent = "some content\n";
 
+if (!fs.existsSync("fixture")){
+    fs.mkdir("fixture");
+}
+
 fs.readdirSync("fixture").forEach(function(file){
     fs.unlinkSync(path.join("fixture", file));
 });
@@ -13,4 +17,4 @@ fs.readdirSync("fixture").forEach(function(file){
     fs.writeFileSync(fileName, dummyContent);
 });
 
-fs.writeFileSync("[#f1ipping4nn0y1ing].file_name-format_--23[$$$$!].mkv", dummyContent);
+fs.writeFileSync("fixture/[#f1ipping4nn0y1ing].file_name-format_--23[$$$$!].mkv", dummyContent);

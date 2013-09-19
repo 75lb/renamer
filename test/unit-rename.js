@@ -39,5 +39,27 @@ describe("rename <find-string> <replace-string>", function(){
 });
 
 describe("rename --regex <find-string> <replace-string>", function(){
-    it("")
+    it("replace simple string pattern in files", function(){
+        var args = [
+            "--find", "clive", "--replace", "hater", "--regex", 
+            "file clive 1.txt", "&*123file clive 2.txt", "clicclicclivehater.avi"
+        ];
+        assert.deepEqual(rename.rename(args), [
+            { before: "file clive 1.txt", after: "file hater 1.txt" },
+            { before: "&*123file clive 2.txt", after: "&*123file hater 2.txt" },
+            { before: "clicclicclivehater.avi", after: "clicclichaterhater.avi" }
+        ]);
+        
+    });
+    
+    it("replace all <find-string> instances", function(){
+        var args = [
+            "--find", "a", "--replace", "b", "--regex", 
+            "aaaaa", "rraarr"
+        ];
+        assert.deepEqual(rename.rename(args), [
+            { before: "aaaaa", after: "bbbbb" },
+            { before: "rraarr", after: "rrbbrr" }
+        ]);
+    });
 });
