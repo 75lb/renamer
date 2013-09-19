@@ -10,10 +10,11 @@ describe("rename <find-string> <replace-string>", function(){
         assert.deepEqual(rename.rename(args), [
             { before: "file clive 1.txt", after: "file hater 1.txt" },
             { before: "&*123file clive 2.txt", after: "&*123file hater 2.txt" },
-            { before: "clicclicclivehater.avi", after: "clicclichaterhater.avi" }            
+            { before: "clicclicclivehater.avi", after: "clicclichaterhater.avi" }
         ]);
         
     });
+    
     it("replace complex string pattern in files", function(){
         var args = [
             "--find", "[]()£$%^", "--replace", "[].*$%^", 
@@ -23,6 +24,20 @@ describe("rename <find-string> <replace-string>", function(){
             { before: "...[]()£$%^...", after: "...[].*$%^..." },
             { before: "++[]()£$%^++", after: "++[].*$%^++" }
         ]);
-        
     });
-})
+    
+    it("replace all <find-string> instances", function(){
+        var args = [
+            "--find", "a", "--replace", "b", 
+            "aaaaa", "rraarr"
+        ];
+        assert.deepEqual(rename.rename(args), [
+            { before: "aaaaa", after: "bbbbb" },
+            { before: "rraarr", after: "rrbbrr" }
+        ]);
+    });
+});
+
+describe("rename --regex <find-string> <replace-string>", function(){
+    it("")
+});
