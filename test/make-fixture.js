@@ -18,3 +18,4 @@ fs.readdirSync("fixture").forEach(function(file){
 });
 
 fs.writeFileSync("fixture/[#f1ipping4nn0y1ing].file_name-format_--23[$$$$!].mkv", dummyContent);
+fs.writeFileSync("fixture/[gg]_Shingeki_no_Kyojin_-_23_[38881CD2].mp4", dummyContent);

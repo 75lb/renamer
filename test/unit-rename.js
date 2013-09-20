@@ -63,3 +63,15 @@ describe("rename --regex <find-string> <replace-string>", function(){
         ]);
     });
 });
+
+describe("rename --regex --find <string> --new <string>", function(){
+   it("create new name, using regex match", function(){
+       var args = [
+           "--find", "_(\\d\\d)_", "--new", "File $1",
+           "--regex", "[gg]_Clive_no_Hater_-_23_[38881CD2].mp4"
+       ];
+       assert.deepEqual(rename.rename(args), [
+           { before: "[gg]_Clive_no_Hater_-_23_[38881CD2].mp4", after: "File 23" }
+       ]);
+   });
+});

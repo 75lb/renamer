@@ -34,7 +34,7 @@ var optionSet = new Thing()
 if (optionSet.valid){
     var results = rename.rename(optionSet.where({ group: "rename" }));
     results.forEach(function(result){
-        if (result.before === result.after || result.after === ""){
+        if (result.before === result.after || !result.after ){
             console.log("no change: " + result.before);
         } else {
             console.log(result.before, "->", result.after);
