@@ -80,6 +80,9 @@ if (optionSet.valid){
                             red(e.message)
                         );
                     }
+                } else {
+                    newFilenames.push(result.after);
+                    log("%s: %s -> %s", green("rename: "), result.before, result.after);
                 }
             }
         }

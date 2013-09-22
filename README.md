@@ -1,17 +1,18 @@
 rename
 ======
-Batch replace string or regular expression patterns in filenames. 
+Batch rename filenames.
 
 Install
 -------
 ```sh
 $ npm install -g rename
 ```
+*Linux/Mac users may need to run the above with `sudo`*
 
 Usage
 -----
 ```sh
-$ rename [--dry-run|-d] [--find|-f <regex>] [--replace|-r <regex>] <files>
+$ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex]  <files>
 ```
 
 Both `--find` and `--replace` accept [javascript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). `--find` defaults to the source filename, `--replace` to empty string. 

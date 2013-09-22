@@ -8,9 +8,16 @@ if (!fs.existsSync("fixture")){
     fs.mkdir("fixture");
 }
 
-fs.readdirSync("fixture").forEach(function(file){
-    fs.unlinkSync(path.join("fixture", file));
-});
+function clearDir(dirName){
+    fs.readdirSync(dirName).forEach(function(file){
+        if (fs.statSync(path.resolve(dirName, file)).isDirectory()){
+            clearDir(path.resolve(dirName, file))
+        } else {
+            fs.unlinkSync(path.join("fixture", file));
+        }
+    });
+}
+clearDir("fixture");
 
 [1,2,3,4,5].forEach(function(number){
     var fileName = path.join("fixture", "file" + number + ".test");
