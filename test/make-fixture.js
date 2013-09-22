@@ -17,5 +17,9 @@ fs.readdirSync("fixture").forEach(function(file){
     fs.writeFileSync(fileName, dummyContent);
 });
 
-fs.writeFileSync("fixture/[#f1ipping4nn0y1ing].file_name-format_--23[$$$$!].mkv", dummyContent);
-fs.writeFileSync("fixture/[gg]_Shingeki_no_Kyojin_-_23_[38881CD2].mp4", dummyContent);
+fs.writeFileSync("fixture/[#f1ipping4nn0y1ing].file.NAME--23[$1$$!].mkv", dummyContent);
+fs.writeFileSync("fixture/[#f1ipping4nn0y1ing].file.NAME--3[$2$$!].mkv", dummyContent);
+fs.writeFileSync("fixture/[#f1ipping4nn0y1ing].file.NAME--13[$3$$!].mkv", dummyContent);
+fs.writeFileSync("fixture/[ag]_Annoying_filename_-_3_[38881CD1].mp4", dummyContent);
+fs.writeFileSync("fixture/[eg]_Annoying_filename_-_13_[38881CD2].mp4", dummyContent);
+fs.writeFileSync("fixture/[fg]_Annoying_filename_-_23_[38881CD3].mp4", dummyContent);

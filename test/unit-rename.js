@@ -1,7 +1,8 @@
 var rename = require("../lib/rename"),
-    assert = require("assert");
+    assert = require("assert"),
+    l = console.log;
 
-describe("rename <find-string> <replace-string>", function(){
+describe("rename --find <string> --replace <string>", function(){
     it("replace simple string pattern in files", function(){
         var args = [
             "--find", "clive", "--replace", "hater", 
@@ -38,7 +39,7 @@ describe("rename <find-string> <replace-string>", function(){
     });
 });
 
-describe("rename --regex <find-string> <replace-string>", function(){
+describe("rename --regex --find <regex> --replace <string>", function(){
     it("replace simple string pattern in files", function(){
         var args = [
             "--find", "clive", "--replace", "hater", "--regex", 
@@ -64,14 +65,19 @@ describe("rename --regex <find-string> <replace-string>", function(){
     });
 });
 
-describe("rename --regex --find <string> --new <string>", function(){
+describe("rename --regex --find <regex> --new <string>", function(){
    it("create new name, using regex match", function(){
        var args = [
-           "--find", "_(\\d\\d)_", "--new", "File $1",
-           "--regex", "[gg]_Clive_no_Hater_-_23_[38881CD2].mp4"
+           "--find", "_(\\d{1,2})_", "--new", "$1 - File",
+           "--regex", 
+           "[ga]_Clive_no_Hater_-_23_[38881CD2].mp4", 
+           "[ga]_Clive_no_Hater_-_13_[38881CD2].mp4",
+           "[ga]_Clive_no_Hater_-_3_[38881CD2].mp4"
        ];
        assert.deepEqual(rename.rename(args), [
-           { before: "[gg]_Clive_no_Hater_-_23_[38881CD2].mp4", after: "File 23" }
+           { before: "[ga]_Clive_no_Hater_-_23_[38881CD2].mp4", after: "23 - File" },
+           { before: "[ga]_Clive_no_Hater_-_13_[38881CD2].mp4", after: "13 - File" },
+           { before: "[ga]_Clive_no_Hater_-_3_[38881CD2].mp4", after: "3 - File" }
        ]);
    });
 });

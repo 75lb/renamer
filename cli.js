@@ -9,6 +9,9 @@ var fs = require("fs"),
 function red(txt){
     return "\x1b[31m" + txt + "\x1b[0m";
 }
+function green(txt){
+    return "\x1b[32m" + txt + "\x1b[0m";
+}
 
 var optionSet = new Thing()
     .mixIn(new rename.RenameOptions(), "rename")
@@ -32,12 +35,18 @@ var optionSet = new Thing()
     .set(process.argv);
 
 if (optionSet.valid){
-    var results = rename.rename(optionSet.where({ group: "rename" }));
+    var results;
+    try {
+        results = rename.rename(optionSet.where({ group: "rename" }));
+    } catch (e){
+        console.error(red(e.message));
+        process.exit(1);
+    }
     results.forEach(function(result){
         if (result.before === result.after || !result.after ){
-            console.log("no change: " + result.before);
+            console.log(red("no change: ") + result.before);
         } else {
-            console.log(result.before, "->", result.after);
+            console.log(green("rename: ") + result.before, "->", result.after);
             if (optionSet["dry-run"]){
                 // do nothing else
             } else if (!fs.existsSync(result.after)){
@@ -50,6 +59,6 @@ if (optionSet.valid){
     });
     
 } else {
-    console.error(red("Some option values were invalid"));
+    console.error(red("Error: some option values were invalid"));
     console.error(optionSet.validationMessages.toString());
 }
