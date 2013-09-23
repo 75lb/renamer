@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/75lb/rename.png)](https://travis-ci.org/75lb/rename)
 rename
 ======
 Batch rename filenames.
