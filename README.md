@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/75lb/rename.png)](https://travis-ci.org/75lb/rename)
+[![NPM version](https://badge.fury.io/js/rename.png)](http://badge.fury.io/js/rename)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/rename/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 rename
 ======
 Batch rename filenames.
