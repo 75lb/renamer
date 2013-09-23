@@ -101,3 +101,19 @@ $ tree
 ├── Image2.jpg
 ├── Image3.jpg
 ```
+
+_do something about all those full stops_:
+
+```sh
+$ tree
+.
+├── loads.of.full.stops.every.where.jpeg
+├── loads.of.full.stops.every.where.mp4
+
+$ rename --regex --find '\.(?!\w+$)' --replace ' ' *
+
+$ tree
+.
+├── loads of full stops every where.jpeg
+├── loads of full stops every where.mp4
+```

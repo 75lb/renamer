@@ -63,6 +63,25 @@ describe("rename --regex --find <regex> --replace <string>", function(){
             { before: "rraarr", after: "rrbbrr" }
         ]);
     });
+
+    it("replace all full stops beside last", function(){
+        var args = [
+            "--find", "\\.(?!\\w+$)", "--replace", " ", "--regex", 
+            "loads.of.full.stops.every.where.mp4",
+            "loads.of.full.stops.every.where.jpeg"
+        ];
+        l(rename.rename(args))
+        assert.deepEqual(rename.rename(args), [
+            { 
+                before: "loads.of.full.stops.every.where.mp4", 
+                after: "loads of full stops every where.mp4" 
+            },
+            { 
+                before: "loads.of.full.stops.every.where.jpeg", 
+                after: "loads of full stops every where.jpeg" 
+            }
+        ]);
+    });    
 });
 
 describe("rename --regex --find <regex> --new <string>", function(){
