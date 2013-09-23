@@ -29,7 +29,7 @@ $ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>\n
 -h, --help      Print usage instructions.\n";
 
 /*
-TODO: Tidy error handling
+TODO: Tidy error handling, presets
 */
 var optionSet;
 try {
