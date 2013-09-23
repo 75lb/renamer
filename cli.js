@@ -14,6 +14,19 @@ function green(txt){
     return "\x1b[32m" + txt + "\x1b[0m";
 }
 
+var usage = "$ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>\n\
+\n\
+-f, --find      The find string, or regular expression when --regex is set.\n\
+                If not set, the whole filename will be replaced.\n\
+-r, --replace   The replace string. With --regex, --replace can reference\n\
+                parenthesised substrings from --find with $1, $2, $3 etc.\n\
+                If omitted, defaults to a blank string. The special token\n\
+                '{{index}}' will insert an incrementing number per file\n\
+                processed.\n\
+-e, --regex     When set, --find is intepreted as a regular expression.\n\
+-d, --dry-run   Used for test runs. When set, rename does everything but\n\
+                rename the file.\n";
+
 /*
 TODO: Tidy error handling
 */
@@ -34,6 +47,7 @@ try {
             valueFailMsg: "Must be at least one file, and all must exist"
         })
         .define({ name: "dry-run", type: "boolean", alias: "d" })
+        .define({ name: "help", type: "boolean", alias: "h" })
         .on("error", function(err){
             console.error(red("Error: ") + err.message);
             process.exit(1);
@@ -42,6 +56,11 @@ try {
 } catch (e){
     log(red("Invalid argument: " + e.message));
     process.exit(1);
+}
+
+if (optionSet.help){
+    log(usage);
+    process.exit(0);
 }
 
 if (optionSet.valid){
@@ -91,4 +110,5 @@ if (optionSet.valid){
 } else {
     log(red("Error: some values were invalid"));
     log(optionSet.validationMessages.toString());
+    log(usage);
 }
