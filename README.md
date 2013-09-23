@@ -12,16 +12,35 @@ $ npm install -g rename
 Usage
 -----
 ```sh
-$ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex]  <files>
-```
+$ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
 
-Both `--find` and `--replace` accept [javascript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). `--find` defaults to the source filename, `--replace` to empty string. 
+-f, --find      The find string, or [regular expression](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions) when --regex is set. If not set, the whole filename will be replaced. 
+-r, --replace   The replace string. With --regex, --replace can reference parenthesised substrings from --find with $1, $2, $3 etc. If omitted, defaults to a blank string.
+-e, --regex     When set, --find is intepreted as a regular expression. 
+-d, --dry-run   Used for test runs. When set, rename does everything but rename the file.
+```
 
 Use the special token `{{index}}` in your replace string to get an incrementing number per file processed. 
 
 Examples
 --------
-_Strip out unwanted prefixes_:
+_Simple replace_
+
+```sh
+$ tree -N
+.
+├── A poem [bad].txt
+├── A story [bad].txt
+
+$ rename --find [bad] --replace [good] *
+
+$ tree -N
+.
+├── A poem [good].txt
+├── A story [good].txt
+```
+
+_Strip out unwanted text_:
 
 ```sh
 $ tree -N
@@ -29,7 +48,7 @@ $ tree -N
 ├── Season 1 - Some crappy episode.mp4
 ├── Season 1 - Load of bollocks.mp4
 
-$ rename -f "Season 1 - " *
+$ rename --find 'Season 1 - ' *
 
 $ tree -N
 .
@@ -37,22 +56,22 @@ $ tree -N
 ├── Load of bollocks.mp4
 ```
 
-_Reformat filenames_: 
+_Simple filename cleanup_: 
 
 ```sh
 $ tree
 .
-├── file1.test
-├── file2.test
-├── file3.test
+├── [ag]_Annoying_filename_-_3_[38881CD1].mp4
+├── [ag]_Annoying_filename_-_34_[38881CD1].mp4
+├── [ag]_Annoying_filename_-_53_[38881CD1].mp4
 
-$ rename -f "file(\d)" -r "File \$1" *
+$ rename --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
 
 $ tree
 .
-├── File 1.test
-├── File 2.test
-├── File 3.test
+├── Video 3.mp4
+├── Video 34.mp4
+├── Video 53.mp4
 ```
 
 _Give image filenames a new numbering scheme_:
@@ -64,7 +83,7 @@ $ tree
 ├── IMG_5777.JPG
 ├── IMG_5778.JPG
 
-$ rename -r Image{{index}}.jpg *
+$ rename --replace Image{{index}}.jpg *
 
 $ tree
 .

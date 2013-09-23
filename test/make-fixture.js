@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+"use strict";
 
 var fs = require("fs"),
     path = require("path"),
@@ -11,7 +12,7 @@ if (!fs.existsSync("fixture")){
 function clearDir(dirName){
     fs.readdirSync(dirName).forEach(function(file){
         if (fs.statSync(path.resolve(dirName, file)).isDirectory()){
-            clearDir(path.resolve(dirName, file))
+            clearDir(path.resolve(dirName, file));
         } else {
             fs.unlinkSync(path.join("fixture", file));
         }
