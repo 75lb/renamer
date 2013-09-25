@@ -5,6 +5,7 @@ var fs = require("fs"),
     Thing = require("nature").Thing,
     path = require("path"),
     rename = require("./lib/rename"),
+    glob = require("glob"),
     log = console.log;
 
 function red(txt){
@@ -41,11 +42,7 @@ try {
             required: true,
             defaultOption: true,
             groups: ["rename"],
-            valueTest: [
-                function(files){ return files.every(fs.existsSync); },
-                function(files){ return files.length > 0; }
-            ],
-            valueFailMsg: "Must be at least one file, and all must exist"
+            valueFailMsg: "Must supply at least one file, and all must exist"
         })
         .define({ name: "dry-run", type: "boolean", alias: "d" })
         .define({ name: "help", type: "boolean", alias: "h" })
@@ -62,6 +59,16 @@ try {
 if (optionSet.help){
     log(usage);
     process.exit(0);
+}
+
+if (optionSet.files && optionSet.files.length === 1 && !fs.existsSync(optionSet.files[0])){
+    optionSet.files = glob.sync(optionSet.files[0]);
+}
+if (optionSet.files && (optionSet.files.length === 0 || !optionSet.files.every(fs.existsSync))){
+    log(red("Error: some values were invalid"));
+    log(red("files: Must supply at least one file, and all must exist"));
+    log(usage);
+    process.exit(1);
 }
 
 if (optionSet.valid){
@@ -110,6 +117,6 @@ if (optionSet.valid){
     
 } else {
     log(red("Error: some values were invalid"));
-    log(optionSet.validationMessages.toString());
+    log(red(optionSet.validationMessages.toString()));
     log(usage);
 }
