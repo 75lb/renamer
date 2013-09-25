@@ -6,6 +6,7 @@ Batch rename filenames.
 
 Install
 -------
+Install [node](http://nodejs.org) then:
 ```sh
 $ npm install -g rename
 ```
