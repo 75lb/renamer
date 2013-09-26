@@ -5,16 +5,13 @@ var fs = require("fs"),
     Thing = require("nature").Thing,
     path = require("path"),
     rename = require("./lib/rename"),
-    glob = require("glob"),
+    Glob = require("glob").Glob,
     log = console.log;
 
-function red(txt){
-    return "\x1b[31m" + txt + "\x1b[0m";
-}
-function green(txt){
-    return "\x1b[32m" + txt + "\x1b[0m";
-}
+function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
+function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
 
+log(process.argv)
 var usage = "Usage: \n\
 $ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>\n\
 \n\
@@ -61,25 +58,57 @@ if (optionSet.help){
     process.exit(0);
 }
 
-if (optionSet.files && optionSet.files.length === 1 && !fs.existsSync(optionSet.files[0])){
-    optionSet.files = glob.sync(optionSet.files[0]);
-}
-if (optionSet.files && (optionSet.files.length === 0 || !optionSet.files.every(fs.existsSync))){
-    log(red("Error: some values were invalid"));
-    log(red("files: Must supply at least one file, and all must exist"));
-    log(usage);
-    process.exit(1);
+var fileList = {};
+optionSet.files.forEach(function(file){
+    mixin(new Glob(file, { stat: true, sync: true, debug: false }).cache, fileList);
+});
+
+function mixin(from, to){
+    for (var prop in from){
+        to[prop] = from[prop];
+    }
 }
 
+function pluck(object, fn){
+    var output = [];
+    for (var prop in object){
+        if (fn(object[prop])) output.push(prop);
+    }
+    return output;
+}
+
+// log(fileList);
+
 if (optionSet.valid){
+    pluck(fileList, function(val){ return val === false; }).forEach(function(file){
+        log(red("File does not exist: " + file));
+    });
+    doWork(pluck(fileList, function(val){ return val === 1; }));
+    doWork(pluck(fileList, function(val){ return val === 2 || val instanceof Array; }));
+} else {
+    log(red("Error: some values were invalid"));
+    log(red(optionSet.validationMessages.toString()));
+    log(usage);
+}
+
+
+function doWork(files){
     var results,
         newFilenames = [];
+
     try {
-        results = rename.rename(optionSet.where({ group: "rename" }));
+        results = rename.rename({ 
+            files: files, 
+            find: optionSet.find, 
+            replace: optionSet.replace,
+            new: optionSet.new,
+            regex: optionSet.regex
+        });
     } catch (e){
         log(red(e.message));
         process.exit(1);
     }
+    
     results.forEach(function(result){
         if (result.before === result.after || !result.after ){
             log("%s: %s", red("no change"), result.before);
@@ -114,9 +143,4 @@ if (optionSet.valid){
             }
         }
     });
-    
-} else {
-    log(red("Error: some values were invalid"));
-    log(red(optionSet.validationMessages.toString()));
-    log(usage);
 }

@@ -70,7 +70,6 @@ describe("rename --regex --find <regex> --replace <string>", function(){
             "loads.of.full.stops.every.where.mp4",
             "loads.of.full.stops.every.where.jpeg"
         ];
-        l(rename.rename(args))
         assert.deepEqual(rename.rename(args), [
             { 
                 before: "loads.of.full.stops.every.where.mp4", 
