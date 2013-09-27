@@ -118,4 +118,22 @@ $ tree
 ├── loads of full stops every where.mp4
 ```
 
+_if not already done, add your name to a load of files_:
+
+```sh
+$ tree
+.
+├── data1.csv
+├── data2 (checked by Lloyd).csv
+├── data3.xls
+
+$ rename --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
+
+$ tree
+.
+├── data1 (checked by Lloyd).csv
+├── data2 (checked by Lloyd).csv
+├── data3 (checked by Lloyd).xls
+```
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/rename/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
