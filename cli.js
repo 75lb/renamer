@@ -67,12 +67,19 @@ optionSet.files.forEach(function(file){
     }
 });
 
+// log(fileList); 
+
 if (optionSet.valid){
-    pluck(fileList, function(val){ return val === false; }).forEach(function(file){
+    var noExist = pluck(fileList, function(val){ return val === false; }),
+        files = pluck(fileList, function(val){ return val === 1; }),
+        dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
+        
+    // log(noExist);log(files);log(dirs);return;
+    noExist.forEach(function(file){
         log(red("File does not exist: " + file));
     });
-    doWork(pluck(fileList, function(val){ return val === 1; }));
-    doWork(pluck(fileList, function(val){ return val === 2 || val instanceof Array; }));
+    doWork(files);
+    doWork(dirs.reverse());
 } else {
     log(red("Error: some values were invalid"));
     log(red(optionSet.validationMessages.toString()));
@@ -88,7 +95,6 @@ function doWork(files){
             files: files, 
             find: optionSet.find, 
             replace: optionSet.replace,
-            new: optionSet.new,
             regex: optionSet.regex
         });
     } catch (e){

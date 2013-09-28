@@ -37,6 +37,21 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "rraarr", after: "rrbbrr" }
         ]);
     });
+    
+    it("replace simple string pattern in deep files", function(){
+        var args = [
+            "--find", "clive", "--replace", "hater", 
+            "clive/clive.txt", 
+            "clive/clive/clive.txt", 
+            "clive/clive/clive/clive.txt"
+        ];
+        assert.deepEqual(rename.rename(args), [
+            { before: "clive/clive.txt", after: "clive/hater.txt" },
+            { before: "clive/clive/clive.txt", after: "clive/clive/hater.txt" },
+            { before: "clive/clive/clive/clive.txt", after: "clive/clive/clive/hater.txt" }
+        ]);
+        
+    });
 });
 
 describe("rename --regex --find <regex> --replace <string>", function(){
@@ -81,63 +96,4 @@ describe("rename --regex --find <regex> --replace <string>", function(){
             }
         ]);
     });    
-});
-
-describe("rename --regex --find <regex> --new <string>", function(){
-   it("create new name, using regex match", function(){
-       var args = [
-           "--find", "_(\\d{1,2})_", "--new", "$1 - File",
-           "--regex", 
-           "[ga]_Clive_no_Hater_-_23_[38881CD2].mp4", 
-           "[ga]_Clive_no_Hater_-_13_[38881CD2].mp4",
-           "[ga]_Clive_no_Hater_-_3_[38881CD2].mp4"
-       ];
-       assert.deepEqual(rename.rename(args), [
-           { before: "[ga]_Clive_no_Hater_-_23_[38881CD2].mp4", after: "23 - File" },
-           { before: "[ga]_Clive_no_Hater_-_13_[38881CD2].mp4", after: "13 - File" },
-           { before: "[ga]_Clive_no_Hater_-_3_[38881CD2].mp4", after: "3 - File" }
-       ]);
-   });
-});
-
-describe("rename --find <regex> --new <string>", function(){
-   it("create new name, using regex match, --regex implied", function(){
-       var args = [
-           "--find", "_(\\d{1,2})_", "--new", "$1 - File",
-           "[ga]_Clive_no_Hater_-_23_[38881CD2].mp4", 
-           "[ga]_Clive_no_Hater_-_13_[38881CD2].mp4",
-           "[ga]_Clive_no_Hater_-_3_[38881CD2].mp4"
-       ];
-       assert.deepEqual(rename.rename(args), [
-           { before: "[ga]_Clive_no_Hater_-_23_[38881CD2].mp4", after: "23 - File" },
-           { before: "[ga]_Clive_no_Hater_-_13_[38881CD2].mp4", after: "13 - File" },
-           { before: "[ga]_Clive_no_Hater_-_3_[38881CD2].mp4", after: "3 - File" }
-       ]);
-   });
-});
-
-describe("rename --new <string>", function(){
-   it("simple new name", function(){
-       var args = [
-           "--new", "clive",
-           "file1.txt", "file2.txt", "file3.txt"
-       ];
-       assert.deepEqual(rename.rename(args), [
-           { before: "file1.txt", after: "clive" },
-           { before: "file2.txt", after: "clive" },
-           { before: "file3.txt", after: "clive" }
-       ]);
-   });
-   
-   it("simple new name, with an {{index}}", function(){
-       var args = [
-           "--new", "clive {{index}}",
-           "file1.txt", "file2.txt", "file3.txt"
-       ];
-       assert.deepEqual(rename.rename(args), [
-           { before: "file1.txt", after: "clive 1" },
-           { before: "file2.txt", after: "clive 2" },
-           { before: "file3.txt", after: "clive 3" }
-       ]);
-   });
 });
