@@ -8,10 +8,6 @@ var fs = require("fs"),
     Glob = require("glob").Glob,
     log = console.log;
 
-function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
-function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
-
-log(process.argv)
 var usage = "Usage: \n\
 $ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>\n\
 \n\
@@ -59,25 +55,22 @@ if (optionSet.help){
 }
 
 var fileList = {};
+    
 optionSet.files.forEach(function(file){
-    mixin(new Glob(file, { stat: true, sync: true, debug: false }).cache, fileList);
+    if (fs.existsSync(file)){
+        fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
+    } else {
+        var glob = new Glob(file, { sync: true, stat: false });
+        log(glob.cache); log(glob.found);
+        return;
+        // log(cache); log();
+        // delete cache["."];
+        // mixin(glob.cache, fileList);
+    }
 });
 
-function mixin(from, to){
-    for (var prop in from){
-        to[prop] = from[prop];
-    }
-}
-
-function pluck(object, fn){
-    var output = [];
-    for (var prop in object){
-        if (fn(object[prop])) output.push(prop);
-    }
-    return output;
-}
-
-// log(fileList);
+log(fileList);
+return;
 
 if (optionSet.valid){
     pluck(fileList, function(val){ return val === false; }).forEach(function(file){
@@ -143,4 +136,19 @@ function doWork(files){
             }
         }
     });
+}
+
+function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
+function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
+function mixin(from, to){
+    for (var prop in from){
+        to[prop.replace(/^\.\//, "")] = from[prop];
+    }
+}
+function pluck(object, fn){
+    var output = [];
+    for (var prop in object){
+        if (fn(object[prop])) output.push(prop);
+    }
+    return output;
 }

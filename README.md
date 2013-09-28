@@ -32,6 +32,8 @@ $ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions). 
 
+**Don't forget to test your rename first using `--dry-run`!**
+ 
 Examples
 --------
 _Simple replace_

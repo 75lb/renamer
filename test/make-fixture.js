@@ -10,11 +10,12 @@ if (!fs.existsSync("fixture")){
 }
 
 function clearDir(dirName){
+    console.log("clearing dir: " + dirName)
     fs.readdirSync(dirName).forEach(function(file){
         if (fs.statSync(path.resolve(dirName, file)).isDirectory()){
             clearDir(path.resolve(dirName, file));
         } else {
-            fs.unlinkSync(path.join("fixture", file));
+            fs.unlinkSync(path.resolve(dirName, file));
         }
     });
 }
