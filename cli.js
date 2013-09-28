@@ -61,16 +61,11 @@ optionSet.files.forEach(function(file){
         fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
     } else {
         var glob = new Glob(file, { sync: true, stat: false });
-        log(glob.cache); log(glob.found);
-        return;
-        // log(cache); log();
-        // delete cache["."];
-        // mixin(glob.cache, fileList);
+        glob.found.forEach(function(file){
+            fileList[file] = glob.cache[file];
+        });
     }
 });
-
-log(fileList);
-return;
 
 if (optionSet.valid){
     pluck(fileList, function(val){ return val === false; }).forEach(function(file){
@@ -83,7 +78,6 @@ if (optionSet.valid){
     log(red(optionSet.validationMessages.toString()));
     log(usage);
 }
-
 
 function doWork(files){
     var results,
