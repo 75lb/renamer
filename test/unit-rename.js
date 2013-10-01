@@ -97,3 +97,24 @@ describe("rename --regex --find <regex> --replace <string>", function(){
         ]);
     });    
 });
+
+describe("rename --replace <string>", function(){
+    it("replace whole string", function(){
+        assert.deepEqual(
+            rename.rename({
+                files: ["one.txt", "two.txt"],
+                replace: "{{index}}.txt"
+            }),
+            [
+                { 
+                    before: "one.txt", 
+                    after: "1.txt" 
+                },
+                { 
+                    before: "two.txt", 
+                    after: "2.txt" 
+                }
+            ]
+        );
+    });
+});
