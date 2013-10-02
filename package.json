@@ -1,5 +1,5 @@
 {
-  "name": "rename",
+  "name": "renamer",
   "description": "Batch rename files.",
   "version": "0.2.0",
   "bin": "cli.js",

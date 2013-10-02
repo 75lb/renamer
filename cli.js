@@ -55,17 +55,19 @@ if (optionSet.help){
 }
 
 var fileList = {};
-    
-optionSet.files.forEach(function(file){
-    if (fs.existsSync(file)){
-        fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
-    } else {
-        var glob = new Glob(file, { sync: true, stat: false });
-        glob.found.forEach(function(file){
-            fileList[file] = glob.cache[file];
-        });
-    }
-});
+
+if (optionSet.files){
+    optionSet.files.forEach(function(file){
+        if (fs.existsSync(file)){
+            fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
+        } else {
+            var glob = new Glob(file, { sync: true, stat: true });
+            glob.found.forEach(function(file){
+                fileList[file] = glob.cache[file];
+            });
+        }
+    });
+}
 
 // log(fileList); 
 
@@ -140,11 +142,11 @@ function doWork(files){
 
 function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
 function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
-function mixin(from, to){
-    for (var prop in from){
-        to[prop.replace(/^\.\//, "")] = from[prop];
-    }
-}
+// function mixin(from, to){
+//     for (var prop in from){
+//         to[prop.replace(/^\.\//, "")] = from[prop];
+//     }
+// }
 function pluck(object, fn){
     var output = [];
     for (var prop in object){
