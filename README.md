@@ -1,21 +1,21 @@
-[![Build Status](https://travis-ci.org/75lb/rename.png)](https://travis-ci.org/75lb/rename)
-[![NPM version](https://badge.fury.io/js/rename.png)](http://badge.fury.io/js/rename)
-rename
-======
+[![Build Status](https://travis-ci.org/75lb/renamer.png)](https://travis-ci.org/75lb/renamer)
+[![NPM version](https://badge.fury.io/js/renamer.png)](http://badge.fury.io/js/renamer)
+renamer
+=======
 Batch rename filenames.
 
 Install
 -------
 Install [node](http://nodejs.org) then:
 ```sh
-$ npm install -g rename
+$ npm install -g renamer
 ```
 *Linux/Mac users may need to run the above with `sudo`*
 
 Usage
 -----
 ```sh
-$ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
+$ renamer [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
 ```
 ```
 -f, --find      The find string, or regular expression when --regex is set. 
@@ -44,7 +44,7 @@ $ tree -N
 ├── A poem [bad].txt
 ├── A story [bad].txt
 
-$ rename --find '[bad]' --replace '[good]' *
+$ renamer --find '[bad]' --replace '[good]' *
 
 $ tree -N
 .
@@ -60,7 +60,7 @@ $ tree -N
 ├── Season 1 - Some crappy episode.mp4
 ├── Season 1 - Load of bollocks.mp4
 
-$ rename --find 'Season 1 - ' *
+$ renamer --find 'Season 1 - ' *
 
 $ tree -N
 .
@@ -77,7 +77,7 @@ $ tree
 ├── [ag]_Annoying_filename_-_34_[38881CD1].mp4
 ├── [ag]_Annoying_filename_-_53_[38881CD1].mp4
 
-$ rename --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
+$ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
 
 $ tree
 .
@@ -95,7 +95,7 @@ $ tree
 ├── IMG_5777.JPG
 ├── IMG_5778.JPG
 
-$ rename --replace 'Image{{index}}.jpg' *
+$ renamer --replace 'Image{{index}}.jpg' *
 
 $ tree
 .
@@ -112,7 +112,7 @@ $ tree
 ├── loads.of.full.stops.every.where.jpeg
 ├── loads.of.full.stops.every.where.mp4
 
-$ rename --regex --find '\.(?!\w+$)' --replace ' ' *
+$ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
 
 $ tree
 .
@@ -129,7 +129,7 @@ $ tree
 ├── data2 (checked by Lloyd).csv
 ├── data3.xls
 
-$ rename --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
+$ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
 
 $ tree
 .
@@ -138,4 +138,4 @@ $ tree
 ├── data3 (checked by Lloyd).xls
 ```
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/rename/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/renamer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
