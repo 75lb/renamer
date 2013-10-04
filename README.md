@@ -2,7 +2,7 @@
 [![NPM version](https://badge.fury.io/js/renamer.png)](http://badge.fury.io/js/renamer)
 renamer
 =======
-Batch rename filenames.
+Batch rename files.
 
 Install
 -------
@@ -33,6 +33,12 @@ $ renamer [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions). 
 
 **Don't forget to test your rename first using `--dry-run`!**
+
+Globbing
+--------
+Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)). If you want to override your shell's native [expansion](http://www.gnu.org/software/bash/manual/bashref.html#Shell-Expansions) behaviour (say, for example it lacks the [globstar](http://www.linuxjournal.com/content/globstar-new-bash-globbing-option) option), pass the glob expression in single quotes and renamer will expand it. For example, this command operates on all js files, recursively: 
+
+    $ renamer -f 'this' -r 'that' '**/*.js'
  
 Examples
 --------
@@ -136,6 +142,27 @@ $ tree
 ├── data1 (checked by Lloyd).csv
 ├── data2 (checked by Lloyd).csv
 ├── data3 (checked by Lloyd).xls
+```
+_rename files and folders, recursively_
+
+```sh
+$ tree
+.
+├── pic1.jpg
+├── pic2.jpg
+└── pics
+    ├── pic3.jpg
+    └── pic4.jpg
+
+$ renamer --find 'pic' --replace 'photo' '**'
+
+$ tree
+.
+├── photo1.jpg
+├── photo2.jpg
+└── photos
+    ├── photo3.jpg
+    └── photo4.jpg
 ```
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/renamer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

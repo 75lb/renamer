@@ -9,7 +9,7 @@ var fs = require("fs"),
     log = console.log;
 
 var usage = "Usage: \n\
-$ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>\n\
+$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\n\
 \n\
 -f, --find      The find string, or regular expression when --regex is set.\n\
                 If not set, the whole filename will be replaced.\n\
@@ -19,7 +19,7 @@ $ rename [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>\n
                 '{{index}}' will insert an incrementing number per file\n\
                 processed.\n\
 -e, --regex     When set, --find is intepreted as a regular expression.\n\
--d, --dry-run   Used for test runs. Set to do everything but rename the file.\n\
+-d, --dry-run   Used for test runs. Prints the new names but will not rename the file.\n\
 -h, --help      Print usage instructions.\n";
 
 /*
