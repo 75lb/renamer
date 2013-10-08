@@ -19,12 +19,9 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\
                 '{{index}}' will insert an incrementing number per file\n\
                 processed.\n\
 -e, --regex     When set, --find is intepreted as a regular expression.\n\
--d, --dry-run   Used for test runs. Prints the new names but will not rename the file.\n\
+-d, --dry-run   Used for test runs. Set this to do everything but rename the file.\n\
 -h, --help      Print usage instructions.\n";
 
-/*
-TODO: Tidy error handling, presets
-*/
 var optionSet;
 try {
     optionSet = new Thing()
@@ -69,14 +66,11 @@ if (optionSet.files){
     });
 }
 
-// log(fileList); 
-
 if (optionSet.valid){
     var noExist = pluck(fileList, function(val){ return val === false; }),
         files = pluck(fileList, function(val){ return val === 1; }),
         dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
         
-    // log(noExist);log(files);log(dirs);return;
     noExist.forEach(function(file){
         log(red("File does not exist: " + file));
     });
@@ -142,11 +136,6 @@ function doWork(files){
 
 function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
 function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
-// function mixin(from, to){
-//     for (var prop in from){
-//         to[prop.replace(/^\.\//, "")] = from[prop];
-//     }
-// }
 function pluck(object, fn){
     var output = [];
     for (var prop in object){
@@ -154,3 +143,6 @@ function pluck(object, fn){
     }
     return output;
 }
+/*
+TODO: Tidy error handling, presets, replace token: $dirname, --js expression and $js token, date and string padding functions.. 
+*/

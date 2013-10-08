@@ -15,7 +15,7 @@ $ npm install -g renamer
 Usage
 -----
 ```sh
-$ renamer [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
+$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>
 ```
 ```
 -f, --find      The find string, or regular expression when --regex is set. 
@@ -26,7 +26,7 @@ $ renamer [--find <pattern>] [--replace <string>] [--dry-run] [--regex] <files>
                 '{{index}}' will insert an incrementing number per file 
                 processed.
 -e, --regex     When set, --find is intepreted as a regular expression. 
--d, --dry-run   Used for test runs. Set to do everything but rename the file.
+-d, --dry-run   Used for test runs. Set this to do everything but rename the file.
 -h, --help      Print usage instructions. 
 ```
 
