@@ -165,4 +165,26 @@ $ tree
     └── photo4.jpg
 ```
 
+_prefix files and folders, recursively_
+
+```sh
+$ tree
+.
+├── pic1.jpg
+├── pic2.jpg
+└── pics
+    ├── pic3.jpg
+    └── pic4.jpg
+
+$ renamer --regex --find '^' --replace 'good-' '**'
+
+$ tree
+.
+├── good-pic1.jpg
+├── good-pic2.jpg
+└── good-pics
+    ├── good-pic3.jpg
+    └── good-pic4.jpg
+```
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/renamer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
