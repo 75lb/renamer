@@ -26,6 +26,7 @@ var optionSet;
 optionSet = new Thing()
     .on("error", function(err){
         log(red("Error: " + err.message));
+        process.exit(1);
     })
     .mixIn(new rename.RenameOptions(), "rename")
     .define({
@@ -39,13 +40,6 @@ optionSet = new Thing()
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
     .set(process.argv);
-
-// try{
-//     optionSet.set(process.argv);
-// } catch (e){
-//     log(red("Error: " + e.message));
-//     process.exit(1);
-// }
 
 if (optionSet.help){
     log(usage);

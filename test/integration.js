@@ -3,7 +3,7 @@ var spawn = require("child_process").spawn,
 
 describe("integration tests", function(){
     it("should spawn without error", function(done){
-        spawn("renamer", [ "-h" ]).on("close", function(code){
+        spawn("./cli.js", [ "-h" ]).on("close", function(code){
             assert.strictEqual(code, 0, "Return code: " + code);
             done();
         });
