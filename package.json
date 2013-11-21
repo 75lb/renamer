@@ -9,7 +9,7 @@
     "test": "mocha --reporter spec test/unit-*.js test/integration.js"
   },
   "dependencies": {
-    "nature": "~0.1.0",
+    "nature": "~0.2.0",
     "glob": "~3.2.6"
   },
   "devDependencies": {

@@ -50,6 +50,7 @@ var fileList = {};
 
 if (optionSet.files){
     optionSet.files.forEach(function(file){
+
         if (fs.existsSync(file)){
             fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
         } else {
@@ -139,5 +140,5 @@ function pluck(object, fn){
     return output;
 }
 /*
-TODO: Tidy error handling, presets, replace token: $dirname, --js expression and $js token, date and string padding functions..
+TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions..
 */

@@ -5,7 +5,7 @@ var rename = require("../lib/rename"),
 describe("rename --find <string> --replace <string>", function(){
     it("replace simple string pattern in files", function(){
         var args = [
-            "--find", "clive", "--replace", "hater", 
+            "--find", "clive", "--replace", "hater",
             "file clive 1.txt", "&*123file clive 2.txt", "clicclicclivehater.avi"
         ];
         assert.deepEqual(rename.rename(args), [
@@ -13,12 +13,12 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "&*123file clive 2.txt", after: "&*123file hater 2.txt" },
             { before: "clicclicclivehater.avi", after: "clicclichaterhater.avi" }
         ]);
-        
+
     });
-    
+
     it("replace complex string pattern in files", function(){
         var args = [
-            "--find", "[]()£$%^", "--replace", "[].*$%^", 
+            "--find", "[]()£$%^", "--replace", "[].*$%^",
             "...[]()£$%^...", "++[]()£$%^++"
         ];
         assert.deepEqual(rename.rename(args), [
@@ -26,10 +26,10 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "++[]()£$%^++", after: "++[].*$%^++" }
         ]);
     });
-    
+
     it("replace all <find-string> instances", function(){
         var args = [
-            "--find", "a", "--replace", "b", 
+            "--find", "a", "--replace", "b",
             "aaaaa", "rraarr"
         ];
         assert.deepEqual(rename.rename(args), [
@@ -37,12 +37,12 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "rraarr", after: "rrbbrr" }
         ]);
     });
-    
+
     it("replace simple string pattern in deep files", function(){
         var args = [
-            "--find", "clive", "--replace", "hater", 
-            "clive/clive.txt", 
-            "clive/clive/clive.txt", 
+            "--find", "clive", "--replace", "hater",
+            "clive/clive.txt",
+            "clive/clive/clive.txt",
             "clive/clive/clive/clive.txt"
         ];
         assert.deepEqual(rename.rename(args), [
@@ -50,16 +50,16 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "clive/clive/clive.txt", after: "clive/clive/hater.txt" },
             { before: "clive/clive/clive/clive.txt", after: "clive/clive/clive/hater.txt" }
         ]);
-        
+
     });
 });
 
 describe("rename --regex --find <regex> --replace <string>", function(){
     it("replace simple string pattern in files", function(){
         var args = [
-            "--find", "clive", "--replace", "hater", "--regex", 
-            "file clive 1.txt", 
-            "&*123file clive 2.txt", 
+            "--find", "clive", "--replace", "hater", "--regex",
+            "file clive 1.txt",
+            "&*123file clive 2.txt",
             "clicclicclivehater.avi"
         ];
         assert.deepEqual(rename.rename(args), [
@@ -67,13 +67,13 @@ describe("rename --regex --find <regex> --replace <string>", function(){
             { before: "&*123file clive 2.txt", after: "&*123file hater 2.txt" },
             { before: "clicclicclivehater.avi", after: "clicclichaterhater.avi" }
         ]);
-        
+
     });
 
     it("replace simple string pattern in deep files", function(){
         var args = [
-            "--find", "clive", "--replace", "hater", "--regex", 
-            "clive/&*123file clive 2.txt", 
+            "--find", "clive", "--replace", "hater", "--regex",
+            "clive/&*123file clive 2.txt",
             "clive/hater/clicclicclivehater.avi"
         ];
         assert.deepEqual(rename.rename(args), [
@@ -81,10 +81,10 @@ describe("rename --regex --find <regex> --replace <string>", function(){
             { before: "clive/hater/clicclicclivehater.avi", after: "clive/hater/clicclichaterhater.avi" }
         ]);
     });
-    
+
     it("replace all <find-string> instances", function(){
         var args = [
-            "--find", "a", "--replace", "b", "--regex", 
+            "--find", "a", "--replace", "b", "--regex",
             "aaaaa", "rraarr",
             "aaa/aaaaa", "aaa/rraarr"
         ];
@@ -98,21 +98,21 @@ describe("rename --regex --find <regex> --replace <string>", function(){
 
     it("replace all full stops beside last", function(){
         var args = [
-            "--find", "\\.(?!\\w+$)", "--replace", " ", "--regex", 
+            "--find", "\\.(?!\\w+$)", "--replace", " ", "--regex",
             "loads.of.full.stops.every.where.mp4",
             "loads.of.full.stops.every.where.jpeg"
         ];
         assert.deepEqual(rename.rename(args), [
-            { 
-                before: "loads.of.full.stops.every.where.mp4", 
-                after: "loads of full stops every where.mp4" 
+            {
+                before: "loads.of.full.stops.every.where.mp4",
+                after: "loads of full stops every where.mp4"
             },
-            { 
-                before: "loads.of.full.stops.every.where.jpeg", 
-                after: "loads of full stops every where.jpeg" 
+            {
+                before: "loads.of.full.stops.every.where.jpeg",
+                after: "loads of full stops every where.jpeg"
             }
         ]);
-    });    
+    });
 });
 
 describe("rename --replace <string>", function(){
@@ -123,15 +123,33 @@ describe("rename --replace <string>", function(){
                 replace: "{{index}}.txt"
             }),
             [
-                { 
-                    before: "one.txt", 
-                    after: "1.txt" 
+                {
+                    before: "one.txt",
+                    after: "1.txt"
                 },
-                { 
-                    before: "two.txt", 
-                    after: "2.txt" 
+                {
+                    before: "two.txt",
+                    after: "2.txt"
                 }
             ]
         );
+    });
+});
+
+describe("error handling", function(){
+    it("should handle crap input", function(){
+        assert.throws(function(){
+            rename.rename("ldjf", 1, true);
+        });
+        assert.throws(function(){
+            rename.rename({ file: "clive.txt", find: "i", r: "o" });
+        });
+        assert.doesNotThrow(function(){
+            rename.rename({ files: "clive.txt", find: "i", r: "o" });
+        });
+    });
+    it("should not loop infinitly", function(){
+        rename.rename({ files: "bb.txt", find: "bb", replace: "bb" });
+        assert.ok(true);
     });
 });
