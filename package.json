@@ -1,18 +1,18 @@
 {
   "name": "renamer",
   "description": "Batch rename files.",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "bin": "cli.js",
   "repository": "https://github.com/75lb/renamer",
   "author": "Lloyd Brookes",
   "scripts": {
-    "test": "mocha --reporter spec test/unit-*.js"
+    "test": "mocha --reporter spec test/unit-*.js test/integration.js"
   },
   "dependencies": {
     "nature": "~0.1.0",
     "glob": "~3.2.6"
   },
   "devDependencies": {
-    "mocha": "~1.7.4"
+    "mocha": "~1.14"
   }
 }

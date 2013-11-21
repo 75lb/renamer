@@ -187,4 +187,6 @@ $ tree
     └── good-pic4.jpg
 ```
 
+[![NPM](https://nodei.co/npm-dl/renamer.png?months=1)](https://nodei.co/npm/renamer/)
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/renamer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

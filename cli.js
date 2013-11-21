@@ -23,28 +23,29 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\
 -h, --help      Print usage instructions.\n";
 
 var optionSet;
-try {
-    optionSet = new Thing()
-        .mixIn(new rename.RenameOptions(), "rename")
-        .define({ 
-            name: "files",
-            type: Array,
-            required: true,
-            defaultOption: true,
-            groups: ["rename"],
-            valueFailMsg: "Must supply at least one file, and all must exist"
-        })
-        .define({ name: "dry-run", type: "boolean", alias: "d" })
-        .define({ name: "help", type: "boolean", alias: "h" })
-        .on("error", function(err){
-            console.error(red("Error: ") + err.message);
-            process.exit(1);
-        })
-        .set(process.argv);
-} catch (e){
-    log(red("Invalid argument: " + e.message));
-    process.exit(1);
-}
+optionSet = new Thing()
+    .on("error", function(err){
+        log(red("Error: " + err.message));
+    })
+    .mixIn(new rename.RenameOptions(), "rename")
+    .define({
+        name: "files",
+        type: Array,
+        required: true,
+        defaultOption: true,
+        groups: ["rename"],
+        valueFailMsg: "Must supply at least one file, and all must exist"
+    })
+    .define({ name: "dry-run", type: "boolean", alias: "d" })
+    .define({ name: "help", type: "boolean", alias: "h" })
+    .set(process.argv);
+
+// try{
+//     optionSet.set(process.argv);
+// } catch (e){
+//     log(red("Error: " + e.message));
+//     process.exit(1);
+// }
 
 if (optionSet.help){
     log(usage);
@@ -70,14 +71,14 @@ if (optionSet.valid){
     var noExist = pluck(fileList, function(val){ return val === false; }),
         files = pluck(fileList, function(val){ return val === 1; }),
         dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
-        
+
     noExist.forEach(function(file){
         log(red("File does not exist: " + file));
     });
     doWork(files);
     doWork(dirs.reverse());
 } else {
-    log(red("Error: some values were invalid"));
+    log(red("Some values were invalid"));
     log(red(optionSet.validationMessages.toString()));
     log(usage);
 }
@@ -87,9 +88,9 @@ function doWork(files){
         newFilenames = [];
 
     try {
-        results = rename.rename({ 
-            files: files, 
-            find: optionSet.find, 
+        results = rename.rename({
+            files: files,
+            find: optionSet.find,
             replace: optionSet.replace,
             regex: optionSet.regex
         });
@@ -97,17 +98,17 @@ function doWork(files){
         log(red(e.message));
         process.exit(1);
     }
-    
+
     results.forEach(function(result){
         if (result.before === result.after || !result.after ){
             log("%s: %s", red("no change"), result.before);
         } else {
             if (fs.existsSync(result.after) || newFilenames.indexOf(result.after) > -1){
                 log(
-                    "%s: %s -> %s (%s)", 
-                    red("no change"), 
-                    result.before, 
-                    result.after, 
+                    "%s: %s -> %s (%s)",
+                    red("no change"),
+                    result.before,
+                    result.after,
                     red("file exists")
                 );
             } else {
@@ -118,10 +119,10 @@ function doWork(files){
                         log("%s: %s -> %s", green("rename: "), result.before, result.after);
                     } catch(e){
                         log(
-                            "%s: %s -> %s (%s)", 
-                            red("no change"), 
-                            result.before, 
-                            result.after, 
+                            "%s: %s -> %s (%s)",
+                            red("no change"),
+                            result.before,
+                            result.after,
                             red(e.message)
                         );
                     }
@@ -144,5 +145,5 @@ function pluck(object, fn){
     return output;
 }
 /*
-TODO: Tidy error handling, presets, replace token: $dirname, --js expression and $js token, date and string padding functions.. 
+TODO: Tidy error handling, presets, replace token: $dirname, --js expression and $js token, date and string padding functions..
 */
