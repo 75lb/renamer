@@ -2,7 +2,7 @@
 [![NPM version](https://badge.fury.io/js/renamer.png)](http://badge.fury.io/js/renamer)
 renamer
 =======
-Batch rename files.
+Batch rename files and folders.
 
 Install
 -------
