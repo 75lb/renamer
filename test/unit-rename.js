@@ -1,6 +1,5 @@
 var rename = require("../lib/rename"),
-    assert = require("assert"),
-    l = console.log;
+    assert = require("assert");
 
 describe("rename --find <string> --replace <string>", function(){
     it("replace simple string pattern in files", function(){
@@ -13,7 +12,6 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "&*123file clive 2.txt", after: "&*123file hater 2.txt" },
             { before: "clicclicclivehater.avi", after: "clicclichaterhater.avi" }
         ]);
-
     });
 
     it("replace complex string pattern in files", function(){
@@ -50,7 +48,18 @@ describe("rename --find <string> --replace <string>", function(){
             { before: "clive/clive/clive.txt", after: "clive/clive/hater.txt" },
             { before: "clive/clive/clive/clive.txt", after: "clive/clive/clive/hater.txt" }
         ]);
+    });
 
+    it("case-insensitive find", function(){
+        var args = [
+            "--find", "clive", "--replace", "hater", "-i",
+            "file CLIVe 1.txt", "&*123file clIVe 2.txt", "clicclicClivEhater.avi"
+        ];
+        assert.deepEqual(rename.rename(args), [
+            { before: "file CLIVe 1.txt", after: "file hater 1.txt" },
+            { before: "&*123file clIVe 2.txt", after: "&*123file hater 2.txt" },
+            { before: "clicclicClivEhater.avi", after: "clicclichaterhater.avi" }
+        ]);
     });
 });
 
@@ -111,6 +120,18 @@ describe("rename --regex --find <regex> --replace <string>", function(){
                 before: "loads.of.full.stops.every.where.jpeg",
                 after: "loads of full stops every where.jpeg"
             }
+        ]);
+    });
+
+    it("case-insensitive find", function(){
+        var args = [
+            "--find", "clive", "--replace", "hater", "-i", "--regex",
+            "file CLIVe 1.txt", "&*123file clIVe 2.txt", "clicclicClivEhater.avi"
+        ];
+        assert.deepEqual(rename.rename(args), [
+            { before: "file CLIVe 1.txt", after: "file hater 1.txt" },
+            { before: "&*123file clIVe 2.txt", after: "&*123file hater 2.txt" },
+            { before: "clicclicClivEhater.avi", after: "clicclichaterhater.avi" }
         ]);
     });
 });

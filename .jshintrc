@@ -1,0 +1,16 @@
+{
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "boss": true,
+  "eqnull": true,
+  "node": true,
+  "unused": "strict",
+  "laxbreak": true,
+  "multistr": true,
+  "globals": { "describe" : false, "it": false }
+}

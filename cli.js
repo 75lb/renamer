@@ -3,7 +3,6 @@
 
 var fs = require("fs"),
     Thing = require("nature").Thing,
-    path = require("path"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
     log = console.log;
@@ -11,16 +10,27 @@ var fs = require("fs"),
 var usage = "Usage: \n\
 $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\n\
 \n\
--f, --find      The find string, or regular expression when --regex is set.\n\
-                If not set, the whole filename will be replaced.\n\
--r, --replace   The replace string. With --regex set, --replace can reference\n\
-                parenthesised substrings from --find with $1, $2, $3 etc.\n\
-                If omitted, defaults to a blank string. The special token\n\
-                '{{index}}' will insert an incrementing number per file\n\
-                processed.\n\
--e, --regex     When set, --find is intepreted as a regular expression.\n\
--d, --dry-run   Used for test runs. Set this to do everything but rename the file.\n\
--h, --help      Print usage instructions.\n";
+-f, --find        The find string, or regular expression when --regex is set.\n\
+                  If not set, the whole filename will be replaced.\n\
+-r, --replace     The replace string. With --regex set, --replace can reference\n\
+                  parenthesised substrings from --find with $1, $2, $3 etc.\n\
+                  If omitted, defaults to a blank string. The special token\n\
+                  '{{index}}' will insert an incrementing number per file\n\
+                  processed.\n\
+-e, --regex       When set, --find is intepreted as a regular expression.\n\
+-i, --insensitive Enable case-insensitive finds.\n\
+-d, --dry-run     Used for test runs. Set this to do everything but rename the file.\n\
+-h, --help        Print usage instructions.\n";
+
+function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
+function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
+function pluck(object, fn){
+    var output = [];
+    for (var prop in object){
+        if (fn(object[prop])) output.push(prop);
+    }
+    return output;
+}
 
 var optionSet;
 optionSet = new Thing()
@@ -46,38 +56,6 @@ if (optionSet.help){
     process.exit(0);
 }
 
-var fileList = {};
-
-if (optionSet.files){
-    optionSet.files.forEach(function(file){
-
-        if (fs.existsSync(file)){
-            fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
-        } else {
-            var glob = new Glob(file, { sync: true, stat: true });
-            glob.found.forEach(function(file){
-                fileList[file] = glob.cache[file];
-            });
-        }
-    });
-}
-
-if (optionSet.valid){
-    var noExist = pluck(fileList, function(val){ return val === false; }),
-        files = pluck(fileList, function(val){ return val === 1; }),
-        dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
-
-    noExist.forEach(function(file){
-        log(red("File does not exist: " + file));
-    });
-    doWork(files);
-    doWork(dirs.reverse());
-} else {
-    log(red("Some values were invalid"));
-    log(red(optionSet.validationMessages.toString()));
-    log(usage);
-}
-
 function doWork(files){
     var results,
         newFilenames = [];
@@ -87,7 +65,8 @@ function doWork(files){
             files: files,
             find: optionSet.find,
             replace: optionSet.replace,
-            regex: optionSet.regex
+            regex: optionSet.regex,
+            insensitive: optionSet.insensitive
         });
     } catch (e){
         log(red(e.message));
@@ -130,15 +109,41 @@ function doWork(files){
     });
 }
 
-function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
-function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
-function pluck(object, fn){
-    var output = [];
-    for (var prop in object){
-        if (fn(object[prop])) output.push(prop);
-    }
-    return output;
+var fileList = {};
+
+if (optionSet.files){
+    optionSet.files.forEach(function(file){
+
+        if (fs.existsSync(file)){
+            fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
+        } else {
+            var glob = new Glob(file, { sync: true, stat: true });
+            glob.found.forEach(function(file){
+                fileList[file] = glob.cache[file];
+            });
+        }
+    });
 }
+
+if (optionSet.valid){
+    var noExist = pluck(fileList, function(val){ return val === false; }),
+        files = pluck(fileList, function(val){ return val === 1; }),
+        dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
+
+    noExist.forEach(function(file){
+        log(red("File does not exist: " + file));
+    });
+    doWork(files);
+    doWork(dirs.reverse());
+} else {
+    log(red("Some values were invalid"));
+    log(red(optionSet.validationMessages.toString()));
+    log(usage);
+}
+
 /*
-TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions..
+TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions, -i option for case-insensitive
+renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
+renamer -i -f "two words" -r "$1" --findModifier 'toProperCase()' // returns Two Words
+
 */
