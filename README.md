@@ -59,6 +59,22 @@ $ tree -N
 ├── A story [good].txt
 ```
 
+_Case insenstive finds_
+
+```sh
+$ tree -N
+.
+├── A video.MPEG4
+├── Another video.Mpeg4
+
+$ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
+
+$ tree -N
+.
+├── A video.mp4
+├── Another video.mp4
+```
+
 _Strip out unwanted text_:
 
 ```sh
