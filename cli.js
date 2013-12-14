@@ -144,6 +144,6 @@ if (optionSet.valid){
 /*
 TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions, -i option for case-insensitive
 renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
-renamer -i -f "two words" -r "$1" --findModifier 'toProperCase()' // returns Two Words
+renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
 
 */

@@ -18,16 +18,17 @@ Usage
 $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>
 ```
 ```
--f, --find      The find string, or regular expression when --regex is set. 
-                If not set, the whole filename will be replaced.
--r, --replace   The replace string. With --regex set, --replace can reference
-                parenthesised substrings from --find with $1, $2, $3 etc. 
-                If omitted, defaults to a blank string. The special token 
-                '{{index}}' will insert an incrementing number per file 
-                processed.
--e, --regex     When set, --find is intepreted as a regular expression. 
--d, --dry-run   Used for test runs. Set this to do everything but rename the file.
--h, --help      Print usage instructions. 
+-f, --find        The find string, or regular expression when --regex is set. 
+                  If not set, the whole filename will be replaced.
+-r, --replace     The replace string. With --regex set, --replace can reference
+                  parenthesised substrings from --find with $1, $2, $3 etc. 
+                  If omitted, defaults to a blank string. The special token 
+                  '{{index}}' will insert an incrementing number per file 
+                  processed.
+-e, --regex       When set, --find is intepreted as a regular expression. 
+-i, --insensitive Enable case-insensitive finds.
+-d, --dry-run     Used for test runs. Set this to do everything but rename the file.
+-h, --help        Print usage instructions. 
 ```
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions). 
