@@ -1,5 +1,8 @@
-[![Build Status](https://travis-ci.org/75lb/renamer.png)](https://travis-ci.org/75lb/renamer)
 [![NPM version](https://badge.fury.io/js/renamer.png)](http://badge.fury.io/js/renamer)
+[![Build Status](https://travis-ci.org/75lb/renamer.png)](https://travis-ci.org/75lb/renamer)
+[![Dependency Status](https://david-dm.org/75lb/renamer.png)](https://david-dm.org/75lb/renamer)
+![Analytics](https://ga-beacon.appspot.com/UA-27725889-22/renamer/README.md?pixel)
+
 renamer
 =======
 Batch rename files and folders.
@@ -204,6 +207,4 @@ $ tree
     └── good-pic4.jpg
 ```
 
-[![NPM](https://nodei.co/npm-dl/renamer.png?months=1)](https://nodei.co/npm/renamer/)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/75lb/renamer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![NPM](https://nodei.co/npm-dl/renamer.png?months=3)](https://nodei.co/npm/renamer/)

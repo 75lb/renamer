@@ -13,6 +13,6 @@
     "glob": "~3.2.6"
   },
   "devDependencies": {
-    "mocha": "~1.14"
+    "mocha": "~1.17"
   }
 }
