@@ -6,7 +6,7 @@
   "repository": "https://github.com/75lb/renamer",
   "author": "Lloyd Brookes",
   "scripts": {
-    "test": "mocha --reporter spec test/unit-*.js test/integration.js"
+    "test": "mocha --reporter spec test/unit-*.js"
   },
   "dependencies": {
     "nature": "~0.2.0",
