@@ -5,6 +5,7 @@ var fs = require("fs"),
     Thing = require("nature").Thing,
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
+    wodge = require("wodge"), red = wodge.red, green = wodge.green, pluck = wodge.pluck,
     log = console.log;
 
 var usage = "Usage: \n\
@@ -22,16 +23,6 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\
 -d, --dry-run     Used for test runs. Set this to do everything but rename the file.\n\
 -h, --help        Print usage instructions.\n";
 
-function red(txt){ return "\x1b[31m" + txt + "\x1b[0m"; }
-function green(txt){ return "\x1b[32m" + txt + "\x1b[0m"; }
-function pluck(object, fn){
-    var output = [];
-    for (var prop in object){
-        if (fn(object[prop])) output.push(prop);
-    }
-    return output;
-}
-
 var optionSet;
 optionSet = new Thing()
     .on("error", function(err){
@@ -39,14 +30,6 @@ optionSet = new Thing()
         process.exit(1);
     })
     .mixIn(new rename.RenameOptions(), "rename")
-    .define({
-        name: "files",
-        type: Array,
-        required: true,
-        defaultOption: true,
-        groups: ["rename"],
-        valueFailMsg: "Must supply at least one file, and all must exist"
-    })
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
     .set(process.argv);
@@ -142,8 +125,7 @@ if (optionSet.valid){
 }
 
 /*
-TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions, -i option for case-insensitive
+TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions
 renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
 renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
-
 */

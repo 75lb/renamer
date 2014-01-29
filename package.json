@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "nature": "~0.2.0",
-    "glob": "~3.2.6"
+    "glob": "~3.2.6",
+    "wodge": "0.0.0",
+    "firebase": "~1.0.2"
   },
   "devDependencies": {
     "mocha": "~1.17"
