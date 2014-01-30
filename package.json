@@ -9,10 +9,9 @@
     "test": "mocha --reporter spec test/unit-*.js"
   },
   "dependencies": {
-    "nature": "~0.2.0",
+    "nature": "~0.3.0",
     "glob": "~3.2.6",
-    "wodge": "0.0.0",
-    "firebase": "~1.0.2"
+    "wodge": "~0.1.0"
   },
   "devDependencies": {
     "mocha": "~1.17"

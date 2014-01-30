@@ -3,10 +3,12 @@
 
 var fs = require("fs"),
     Thing = require("nature").Thing,
+    history = require("./lib/history"),
+    preset = require("./lib/preset"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
     wodge = require("wodge"), red = wodge.red, green = wodge.green, pluck = wodge.pluck,
-    log = console.log;
+    l = console.log;
 
 var usage = "Usage: \n\
 $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\n\
@@ -26,18 +28,15 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\
 var optionSet;
 optionSet = new Thing()
     .on("error", function(err){
-        log(red("Error: " + err.message));
+        l(red("Error: " + err.message));
         process.exit(1);
     })
     .mixIn(new rename.RenameOptions(), "rename")
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
+    .define({ name: "name", type: "string", alias: "n", valueTest: /\w+/ })
+    .define({ name: "list", type: "boolean", alias: "l" })
     .set(process.argv);
-
-if (optionSet.help){
-    log(usage);
-    process.exit(0);
-}
 
 function doWork(files){
     var results,
@@ -52,16 +51,16 @@ function doWork(files){
             insensitive: optionSet.insensitive
         });
     } catch (e){
-        log(red(e.message));
+        l(red(e.message));
         process.exit(1);
     }
 
     results.forEach(function(result){
         if (result.before === result.after || !result.after ){
-            log("%s: %s", red("no change"), result.before);
+            l("%s: %s", red("no change"), result.before);
         } else {
             if (fs.existsSync(result.after) || newFilenames.indexOf(result.after) > -1){
-                log(
+                l(
                     "%s: %s -> %s (%s)",
                     red("no change"),
                     result.before,
@@ -73,9 +72,9 @@ function doWork(files){
                     try {
                         fs.renameSync(result.before, result.after);
                         newFilenames.push(result.after);
-                        log("%s: %s -> %s", green("rename: "), result.before, result.after);
+                        l("%s: %s -> %s", green("rename: "), result.before, result.after);
                     } catch(e){
-                        log(
+                        l(
                             "%s: %s -> %s (%s)",
                             red("no change"),
                             result.before,
@@ -85,7 +84,7 @@ function doWork(files){
                     }
                 } else {
                     newFilenames.push(result.after);
-                    log("%s: %s -> %s", green("rename: "), result.before, result.after);
+                    l("%s: %s -> %s", green("rename: "), result.before, result.after);
                 }
             }
         }
@@ -109,19 +108,43 @@ if (optionSet.files){
 }
 
 if (optionSet.valid){
+    l(optionSet.valid, optionSet.name)
+    if (optionSet.help){
+        l(usage);
+        process.exit(0);
+    }
+
+    if (optionSet.name) {
+        var toSave = optionSet.where({ 
+            name: {$ne: [ "files", "dry-run" ]}
+        }).toJSON();
+        l(toSave);
+        preset.save(toSave);
+    }
+    // history.log(optionSet.toJSON());
+
+    if (optionSet.list){
+        l("Preset list");
+        l("===========");
+        preset.list(function(list){
+            l(list);
+        });
+        return; 
+    }
+
     var noExist = pluck(fileList, function(val){ return val === false; }),
         files = pluck(fileList, function(val){ return val === 1; }),
         dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
 
     noExist.forEach(function(file){
-        log(red("File does not exist: " + file));
+        l(red("File does not exist: " + file));
     });
     doWork(files);
     doWork(dirs.reverse());
 } else {
-    log(red("Some values were invalid"));
-    log(red(optionSet.validationMessages.toString()));
-    log(usage);
+    l(red("Some values were invalid"));
+    l(red(optionSet.validationMessages.toString()));
+    l(usage);
 }
 
 /*
