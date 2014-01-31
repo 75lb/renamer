@@ -57,7 +57,7 @@ function doWork(files){
 
     results.forEach(function(result){
         if (result.before === result.after || !result.after ){
-            l("%s: %s", red("no change"), result.before);
+            l("%s %s", red("✕"), result.before);
         } else {
             if (fs.existsSync(result.after) || newFilenames.indexOf(result.after) > -1){
                 l(
@@ -72,7 +72,7 @@ function doWork(files){
                     try {
                         fs.renameSync(result.before, result.after);
                         newFilenames.push(result.after);
-                        l("%s: %s -> %s", green("rename: "), result.before, result.after);
+                        l("%s %s -> %s", green("✓"), result.before, result.after);
                     } catch(e){
                         l(
                             "%s: %s -> %s (%s)",
@@ -84,7 +84,7 @@ function doWork(files){
                     }
                 } else {
                     newFilenames.push(result.after);
-                    l("%s: %s -> %s", green("rename: "), result.before, result.after);
+                    l("%s %s -> %s", green("✓"), result.before, result.after);
                 }
             }
         }
@@ -107,8 +107,8 @@ if (optionSet.files){
     });
 }
 
+l(optionSet.valid, optionSet.name)
 if (optionSet.valid){
-    l(optionSet.valid, optionSet.name)
     if (optionSet.help){
         l(usage);
         process.exit(0);
@@ -121,7 +121,6 @@ if (optionSet.valid){
         l(toSave);
         preset.save(toSave);
     }
-    // history.log(optionSet.toJSON());
 
     if (optionSet.list){
         l("Preset list");
@@ -148,7 +147,7 @@ if (optionSet.valid){
 }
 
 /*
-TODO: presets, replace token: $dirname, --js expression and $js token, date and string padding functions
+TODO: replace token: $dirname, --js expression and $js token, date and string padding functions
 renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
 renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
 */
