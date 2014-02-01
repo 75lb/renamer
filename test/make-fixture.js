@@ -33,3 +33,5 @@ fs.writeFileSync("fixture/[ag]_Annoying_filename_-_3_[38881CD1].mp4", dummyConte
 fs.writeFileSync("fixture/[eg]_Annoying_filename_-_13_[38881CD2].mp4", dummyContent);
 fs.writeFileSync("fixture/[fg]_Annoying_filename_-_23_[38881CD3].mp4", dummyContent);
 fs.writeFileSync("fixture/loads.of.full.stops.every.where.mp4", dummyContent);
+fs.writeFileSync("fixture/youtube-dl-h5yIJXdItgo.mp4", dummyContent);
+fs.writeFileSync("fixture/blah don't blah - Mr Blah-h5yIJXdItgo.mp4", dummyContent);

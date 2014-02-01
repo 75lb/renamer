@@ -38,6 +38,15 @@ optionSet = new Thing()
     .define({ name: "list", type: "boolean", alias: "l" })
     .set(process.argv);
 
+function log(success, msg, error){
+    l(
+        "%s %s %s", 
+        success ? green("✓") : red("✕"), 
+        msg,
+        error ? "(" + red(error) + ")" : ""
+    );
+}
+
 function doWork(files){
     var results,
         newFilenames = [];
@@ -57,34 +66,22 @@ function doWork(files){
 
     results.forEach(function(result){
         if (result.before === result.after || !result.after ){
-            l("%s %s", red("✕"), result.before);
+            log(false, result.before);
         } else {
             if (fs.existsSync(result.after) || newFilenames.indexOf(result.after) > -1){
-                l(
-                    "%s: %s -> %s (%s)",
-                    red("no change"),
-                    result.before,
-                    result.after,
-                    red("file exists")
-                );
+                log(false, result.before + wodge.green(" -> ") + result.after, "file exists");
             } else {
                 if (!optionSet["dry-run"]) {
                     try {
                         fs.renameSync(result.before, result.after);
                         newFilenames.push(result.after);
-                        l("%s %s -> %s", green("✓"), result.before, result.after);
+                        log(true, result.before + wodge.green(" -> ") + result.after);
                     } catch(e){
-                        l(
-                            "%s: %s -> %s (%s)",
-                            red("no change"),
-                            result.before,
-                            result.after,
-                            red(e.message)
-                        );
+                        log(false, result.before + wodge.green(" -> ") + result.after, e.message);
                     }
                 } else {
                     newFilenames.push(result.after);
-                    l("%s %s -> %s", green("✓"), result.before, result.after);
+                    log(true, result.before + wodge.green(" -> ") + result.after);
                 }
             }
         }
