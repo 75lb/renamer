@@ -3,12 +3,23 @@
 
 var fs = require("fs"),
     Thing = require("nature").Thing,
-    history = require("./lib/history"),
-    preset = require("./lib/preset"),
+    presets = require("./lib/preset"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
     wodge = require("wodge"), red = wodge.red, green = wodge.green, pluck = wodge.pluck,
     l = console.log;
+
+function log(success, msg, error){
+    l(
+        "%s %s %s",
+        success ? green("✓") : red("✕"),
+        msg,
+        error ? "(" + red(error) + ")" : ""
+    );
+}
+function logError(msg){
+    l(red(msg));
+}
 
 var usage = "Usage: \n\
 $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\n\
@@ -28,28 +39,47 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\
 var optionSet;
 optionSet = new Thing()
     .on("error", function(err){
-        l(red("Error: " + err.message));
+        logError("Error: " + err.message);
         process.exit(1);
     })
     .mixIn(new rename.RenameOptions(), "rename")
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
-    .define({ name: "name", type: "string", alias: "n", valueTest: /\w+/ })
-    .define({ name: "list", type: "boolean", alias: "l" })
+    .define("presets", [
+        { name: "name", type: "string", alias: "n", valueTest: /\w+/ },
+        { name: "list", type: "boolean", alias: "l" },
+        { name: "preset", type: "string", alias: "p", valueTest: /\w+/ }
+    ])
     .set(process.argv);
 
-function log(success, msg, error){
-    l(
-        "%s %s %s", 
-        success ? green("✓") : red("✕"), 
-        msg,
-        error ? "(" + red(error) + ")" : ""
-    );
+function doRename(from, to){
+    var newFilenames = [],
+        logMsg = from + wodge.green(" -> ") + to;
+
+    if (from === to || !to ){
+        log(false, from);
+    } else {
+        if (fs.existsSync(to) || newFilenames.indexOf(to) > -1){
+            log(false, logMsg, "file exists");
+        } else {
+            if (!optionSet["dry-run"]) {
+                try {
+                    fs.renameSync(from, to);
+                    newFilenames.push(to);
+                    log(true, logMsg);
+                } catch(e){
+                    log(false, logMsg, e.message);
+                }
+            } else {
+                newFilenames.push(to);
+                log(true, logMsg);
+            }
+        }
+    }
 }
 
 function doWork(files){
-    var results,
-        newFilenames = [];
+    var results;
 
     try {
         results = rename.rename({
@@ -60,31 +90,12 @@ function doWork(files){
             insensitive: optionSet.insensitive
         });
     } catch (e){
-        l(red(e.message));
+        logError(e.message);
         process.exit(1);
     }
 
     results.forEach(function(result){
-        if (result.before === result.after || !result.after ){
-            log(false, result.before);
-        } else {
-            if (fs.existsSync(result.after) || newFilenames.indexOf(result.after) > -1){
-                log(false, result.before + wodge.green(" -> ") + result.after, "file exists");
-            } else {
-                if (!optionSet["dry-run"]) {
-                    try {
-                        fs.renameSync(result.before, result.after);
-                        newFilenames.push(result.after);
-                        log(true, result.before + wodge.green(" -> ") + result.after);
-                    } catch(e){
-                        log(false, result.before + wodge.green(" -> ") + result.after, e.message);
-                    }
-                } else {
-                    newFilenames.push(result.after);
-                    log(true, result.before + wodge.green(" -> ") + result.after);
-                }
-            }
-        }
+        doRename(result.before, result.after);
     });
 }
 
@@ -92,54 +103,60 @@ var fileList = {};
 
 if (optionSet.files){
     optionSet.files.forEach(function(file){
-
         if (fs.existsSync(file)){
             fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
         } else {
             var glob = new Glob(file, { sync: true, stat: true });
-            glob.found.forEach(function(file){
-                fileList[file] = glob.cache[file];
-            });
+            if (glob.found.length){
+                glob.found.forEach(function(file){
+                    fileList[file] = glob.cache[file];
+                });
+            } else {
+                logError("File does not exist: " + file);
+            }
         }
     });
 }
 
-l(optionSet.valid, optionSet.name)
+function processFilelist(){
+    var files = pluck(fileList, function(val){ return val === 1; }),
+        dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
+
+    doWork(files);
+    doWork(dirs.reverse());
+}
+
 if (optionSet.valid){
     if (optionSet.help){
         l(usage);
-        process.exit(0);
-    }
 
-    if (optionSet.name) {
-        var toSave = optionSet.where({ 
-            name: {$ne: [ "files", "dry-run" ]}
+    } else if (optionSet.name) {
+        var toSave = optionSet.where({
+            name: {$ne: [ "files", "dry-run", "name" ]}
         }).toJSON();
-        l(toSave);
-        preset.save(toSave);
-    }
+        presets.save(optionSet.name, toSave);
 
-    if (optionSet.list){
+    } else if (optionSet.list){
         l("Preset list");
         l("===========");
-        preset.list(function(list){
+        presets.list(function(list){
             l(list);
         });
-        return; 
+
+    } else if (optionSet.preset){
+        presets.load(optionSet.preset, function(preset){
+            l(optionSet.toJSON());
+            optionSet.mixIn(preset);
+            l(optionSet.toJSON());
+            processFilelist();
+        });
+    } else {
+        processFilelist();
     }
 
-    var noExist = pluck(fileList, function(val){ return val === false; }),
-        files = pluck(fileList, function(val){ return val === 1; }),
-        dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
-
-    noExist.forEach(function(file){
-        l(red("File does not exist: " + file));
-    });
-    doWork(files);
-    doWork(dirs.reverse());
 } else {
-    l(red("Some values were invalid"));
-    l(red(optionSet.validationMessages.toString()));
+    logError("Some values were invalid");
+    logError(optionSet.validationMessages.toString());
     l(usage);
 }
 
