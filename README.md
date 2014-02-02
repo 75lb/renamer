@@ -207,4 +207,4 @@ $ tree
     └── good-pic4.jpg
 ```
 
-[![NPM](https://nodei.co/npm-dl/renamer.png?months=3)](https://nodei.co/npm/renamer/)
+![NPM](https://nodei.co/npm-dl/renamer.png?months=3)]

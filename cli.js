@@ -51,6 +51,7 @@ optionSet = new Thing()
         { name: "list", type: "boolean", alias: "l" },
         { name: "preset", type: "string", alias: "p", valueTest: /\w+/ }
     ])
+    .define({ name: "user", type: "string" })
     .set(process.argv);
 
 function doRename(from, to){
