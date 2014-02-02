@@ -6,7 +6,7 @@ var fs = require("fs"),
     presets = require("./lib/preset"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
-    w = require("wodge"), 
+    w = require("wodge"),
     l = console.log;
 
 function log(success, msg, error){
@@ -22,7 +22,9 @@ function logError(msg){
 }
 
 var usage = "Usage: \n\
-$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\n\
+$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbose] [--name <string>] <files>\n\
+$ renamer --list [--verbose]\n\
+$ renamer --preset <files>\n\
 \n\
 -f, --find        The find string, or regular expression when --regex is set.\n\
                   If not set, the whole filename will be replaced.\n\
@@ -34,7 +36,13 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] <files>\
 -e, --regex       When set, --find is intepreted as a regular expression.\n\
 -i, --insensitive Enable case-insensitive finds.\n\
 -d, --dry-run     Used for test runs. Set this to do everything but rename the file.\n\
--h, --help        Print usage instructions.\n";
+-v, --verbose     Use to print additional information.\n\
+-l, --list        List the available presets.\n\
+-p, --preset      Use the specified preset.\n\
+-n, --name        Save the command as a preset with the specified name. \n\
+-h, --help        Print usage instructions.\n\
+\n\
+for more detailed instructions, visit https://github.com/75lb/renamer\n";
 
 var optionSet;
 optionSet = new Thing()
