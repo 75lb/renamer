@@ -41,7 +41,7 @@ fs.writeFileSync("fixture/[eg]_Annoying_filename_-_13_[38881CD2].mp4", dummyCont
 fs.writeFileSync("fixture/[fg]_Annoying_filename_-_23_[38881CD3].mp4", dummyContent);
 fs.writeFileSync("fixture/loads.of.full.stops.every.where.mp4", dummyContent);
 fs.writeFileSync("fixture/youtube-dl-h5yIJXdItgo.mp4", dummyContent);
-fs.writeFileSync("fixture/blah don't blah - Mr Blah-h5yIJXdItgo.avi", dummyContent);
+fs.writeFileSync("fixture/blah don't blah - Mr Blah-tkxWmh-tFGs.avi", dummyContent);
 
 fs.writeFileSync("fixture/folder/[#f1ipping4nn0y1ing].file.NAME--23[$1$$!].mkv", dummyContent);
 fs.writeFileSync("fixture/folder/[#f1ipping4nn0y1ing].file.NAME--3[$2$$!].mkv", dummyContent);
@@ -51,4 +51,4 @@ fs.writeFileSync("fixture/folder/[eg]_Annoying_filename_-_13_[38881CD2].mp4", du
 fs.writeFileSync("fixture/folder/[fg]_Annoying_filename_-_23_[38881CD3].mp4", dummyContent);
 fs.writeFileSync("fixture/folder/loads.of.full.stops.every.where.mp4", dummyContent);
 fs.writeFileSync("fixture/folder/youtube-dl-h5yIJXdItgo.mp4", dummyContent);
-fs.writeFileSync("fixture/folder/blah don't blah - Mr Blah-h5yIJXdItgo.avi", dummyContent);
+fs.writeFileSync("fixture/folder/blah don't blah - Mr Blah-h5yIJ-XdItgo.avi", dummyContent);

@@ -145,13 +145,13 @@ if (optionSet.valid){
 
     } else if (optionSet.preset){
         presets.load(optionSet.preset, function(preset){
-            l(optionSet.toJSON());
-            optionSet.mixIn(preset);
-            l(optionSet.toJSON());
+            optionSet.set(preset);
             processFilelist();
         });
-    } else {
+    } else if (optionSet.files.length){
         processFilelist();
+    } else {
+        l(usage);
     }
 
 } else {
