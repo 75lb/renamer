@@ -6,19 +6,19 @@ var fs = require("fs"),
     presets = require("./lib/preset"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
-    wodge = require("wodge"), red = wodge.red, green = wodge.green, pluck = wodge.pluck,
+    w = require("wodge"), 
     l = console.log;
 
 function log(success, msg, error){
     l(
         "%s %s %s",
-        success ? green("✓") : red("✕"),
+        success ? w.green(w.symbol.tick) : w.red(w.symbol.cross),
         msg,
-        error ? "(" + red(error) + ")" : ""
+        error ? "(" + w.red(error) + ")" : ""
     );
 }
 function logError(msg){
-    l(red(msg));
+    l(w.red(msg));
 }
 
 var usage = "Usage: \n\
@@ -49,14 +49,15 @@ optionSet = new Thing()
     .define("presets", [
         { name: "name", type: "string", alias: "n", valueTest: /\w+/ },
         { name: "list", type: "boolean", alias: "l" },
-        { name: "preset", type: "string", alias: "p", valueTest: /\w+/ }
+        { name: "preset", type: "string", alias: "p", valueTest: /\w+/ },
+        { name: "description", type: "string", alias: "x", valueTest: /\w+/ }
     ])
     .define({ name: "user", type: "string" })
     .set(process.argv);
 
 function doRename(from, to){
     var newFilenames = [],
-        logMsg = from + wodge.green(" -> ") + to;
+        logMsg = from + w.green(" -> ") + to;
 
     if (from === to || !to ){
         if (optionSet.verbose) log(false, from);
@@ -121,8 +122,8 @@ if (optionSet.files){
 }
 
 function processFilelist(){
-    var files = pluck(fileList, function(val){ return val === 1; }),
-        dirs = pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
+    var files = w.pluck(fileList, function(val){ return val === 1; }),
+        dirs = w.pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
 
     doWork(files);
     doWork(dirs.reverse());
@@ -139,15 +140,18 @@ if (optionSet.valid){
         presets.save(optionSet.name, toSave);
 
     } else if (optionSet.list){
-        l("Preset list");
-        l("===========");
+        l(w.ansi("Preset list", "bold", "underline"));
         presets.list(function(list){
             Object.keys(list).forEach(function(name){
                 var preset = list[name];
-                l(wodge.bold(name));
-                Object.keys(preset).forEach(function(option){
-                    l(option + ":", preset[option]);
-                });
+                l(w.bold(name), preset.description, "[" + preset.user + "]");
+                if (optionSet.verbose){
+                    delete preset.description;
+                    delete preset.user;
+                    Object.keys(preset).forEach(function(option){
+                        l(option + ":", preset[option]);
+                    });
+                }
             });
         });
 

@@ -14,7 +14,7 @@ function clearDir(dirName){
             fs.unlinkSync(path.resolve(dirName, file));
         }
     });
-    fs.rmdir(dirName);
+    fs.rmdirSync(dirName);
 }
 
 if (fs.existsSync("fixture")){
@@ -51,4 +51,4 @@ fs.writeFileSync("fixture/folder/[eg]_Annoying_filename_-_13_[38881CD2].mp4", du
 fs.writeFileSync("fixture/folder/[fg]_Annoying_filename_-_23_[38881CD3].mp4", dummyContent);
 fs.writeFileSync("fixture/folder/loads.of.full.stops.every.where.mp4", dummyContent);
 fs.writeFileSync("fixture/folder/youtube-dl-h5yIJXdItgo.mp4", dummyContent);
-fs.writeFileSync("fixture/folder/blah don't blah - Mr Blah-h5yIJ-XdItgo.avi", dummyContent);
+fs.writeFileSync("fixture/folder/blah don't blah - Mr Blah-tkxWmh-tFGs.avi", dummyContent);
