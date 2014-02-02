@@ -45,6 +45,7 @@ optionSet = new Thing()
     .mixIn(new rename.RenameOptions(), "rename")
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
+    .define({ name: "verbose", type: "boolean", alias: "v" })
     .define("presets", [
         { name: "name", type: "string", alias: "n", valueTest: /\w+/ },
         { name: "list", type: "boolean", alias: "l" },
@@ -57,7 +58,7 @@ function doRename(from, to){
         logMsg = from + wodge.green(" -> ") + to;
 
     if (from === to || !to ){
-        log(false, from);
+        if (optionSet.verbose) log(false, from);
     } else {
         if (fs.existsSync(to) || newFilenames.indexOf(to) > -1){
             log(false, logMsg, "file exists");
@@ -140,7 +141,13 @@ if (optionSet.valid){
         l("Preset list");
         l("===========");
         presets.list(function(list){
-            l(list);
+            Object.keys(list).forEach(function(name){
+                var preset = list[name];
+                l(wodge.bold(name));
+                Object.keys(preset).forEach(function(option){
+                    l(option + ":", preset[option]);
+                });
+            });
         });
 
     } else if (optionSet.preset){
