@@ -1,4 +1,5 @@
 var rename = require("../lib/rename"),
+    path = require("path"),
     assert = require("assert");
 
 describe("rename --find <string> --replace <string>", function(){
@@ -44,21 +45,41 @@ describe("rename --find <string> --replace <string>", function(){
             "clive/clive/clive/clive.txt"
         ];
         assert.deepEqual(rename.rename(args), [
-            { before: "clive/clive.txt", after: "clive/hater.txt" },
-            { before: "clive/clive/clive.txt", after: "clive/clive/hater.txt" },
-            { before: "clive/clive/clive/clive.txt", after: "clive/clive/clive/hater.txt" }
+            {
+                before: path.join("clive", "clive.txt"),
+                after: path.join("clive", "hater.txt")
+            },
+            {
+                before: path.join("clive", "clive", "clive.txt"),
+                after: path.join("clive", "clive", "hater.txt")
+            },
+            {
+                before: path.join("clive", "clive", "clive", "clive.txt"),
+                after: path.join("clive", "clive", "clive", "hater.txt")
+            }
         ]);
     });
 
     it("case-insensitive find", function(){
         var args = [
-            "--find", "clive", "--replace", "hater", "-i",
-            "file CLIVe 1.txt", "&*123file clIVe 2.txt", "clicclicClivEhater.avi"
+            "--find", "CLIve", "--replace", "hater", "-i",
+            "clive/clive.txt",
+            "clive/clive/clive.txt",
+            "clive/clive/clive/clive.txt"
         ];
         assert.deepEqual(rename.rename(args), [
-            { before: "file CLIVe 1.txt", after: "file hater 1.txt" },
-            { before: "&*123file clIVe 2.txt", after: "&*123file hater 2.txt" },
-            { before: "clicclicClivEhater.avi", after: "clicclichaterhater.avi" }
+            {
+                before: path.join("clive", "clive.txt"),
+                after: path.join("clive", "hater.txt")
+            },
+            {
+                before: path.join("clive", "clive", "clive.txt"),
+                after: path.join("clive", "clive", "hater.txt")
+            },
+            {
+                before: path.join("clive", "clive", "clive", "clive.txt"),
+                after: path.join("clive", "clive", "clive", "hater.txt")
+            }
         ]);
     });
 });
@@ -86,8 +107,14 @@ describe("rename --regex --find <regex> --replace <string>", function(){
             "clive/hater/clicclicclivehater.avi"
         ];
         assert.deepEqual(rename.rename(args), [
-            { before: "clive/&*123file clive 2.txt", after: "clive/&*123file hater 2.txt" },
-            { before: "clive/hater/clicclicclivehater.avi", after: "clive/hater/clicclichaterhater.avi" }
+            {
+                before: path.join("clive", "&*123file clive 2.txt"),
+                after: path.join("clive", "&*123file hater 2.txt")
+            },
+            {
+                before: path.join("clive", "hater", "clicclicclivehater.avi"),
+                after: path.join("clive", "hater", "clicclichaterhater.avi")
+            }
         ]);
     });
 
@@ -100,8 +127,8 @@ describe("rename --regex --find <regex> --replace <string>", function(){
         assert.deepEqual(rename.rename(args), [
             { before: "aaaaa", after: "bbbbb" },
             { before: "rraarr", after: "rrbbrr" },
-            { before: "aaa/aaaaa", after: "aaa/bbbbb" },
-            { before: "aaa/rraarr", after: "aaa/rrbbrr" }
+            { before: path.join("aaa", "aaaaa"), after: path.join("aaa", "bbbbb") },
+            { before: path.join("aaa", "rraarr"), after: path.join("aaa", "rrbbrr") }
         ]);
     });
 
