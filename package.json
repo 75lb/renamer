@@ -11,7 +11,8 @@
   "dependencies": {
     "nature": "~0.3.0",
     "glob": "~3.2.6",
-    "wodge": "~0.1.0"
+    "wodge": "~0.3.0",
+    "console-dope": "~0.2.1"
   },
   "devDependencies": {
     "mocha": "~1.17"

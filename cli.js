@@ -1,24 +1,25 @@
 #!/usr/bin/env node
 "use strict";
 
+require("console-dope");
 var fs = require("fs"),
     Thing = require("nature").Thing,
     presets = require("./lib/preset"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
-    w = require("wodge"),
-    l = console.log;
+    w = require("wodge");
 
 function log(success, msg, error){
-    l(
-        "%s %s %s",
-        success ? w.green(w.symbol.tick) : w.red(w.symbol.cross),
+    console.log(
+        "%%%s{%s} %s %s",
+        success ? "green" : "red",
+        success ? w.symbol.tick : w.symbol.cross,
         msg,
-        error ? "(" + w.red(error) + ")" : ""
+        error ? "(%red{" + error + "})" : ""
     );
 }
 function logError(msg){
-    l(w.red(msg));
+    console.red.log(msg);
 }
 
 var usage = "Usage: \n\
@@ -139,7 +140,7 @@ function processFilelist(){
 
 if (optionSet.valid){
     if (optionSet.help){
-        l(usage);
+        console.log(usage);
 
     } else if (optionSet.name) {
         var toSave = optionSet.where({
@@ -148,16 +149,16 @@ if (optionSet.valid){
         presets.save(optionSet.name, toSave);
 
     } else if (optionSet.list){
-        l(w.ansi("Preset list", "bold", "underline"));
+        console.bold.underline.log("Preset list");
         presets.list(function(list){
             Object.keys(list).forEach(function(name){
                 var preset = list[name];
-                l(w.bold(name), preset.description, "[" + preset.user + "]");
+                console.log("%bold{%s} %s [%s]", name, preset.description, preset.user);
                 if (optionSet.verbose){
                     delete preset.description;
                     delete preset.user;
                     Object.keys(preset).forEach(function(option){
-                        l(option + ":", preset[option]);
+                        console.log("%s: %s", option, preset[option]);
                     });
                 }
             });
@@ -171,13 +172,13 @@ if (optionSet.valid){
     } else if (optionSet.files.length){
         processFilelist();
     } else {
-        l(usage);
+        console.log(usage);
     }
 
 } else {
     logError("Some values were invalid");
     logError(optionSet.validationMessages.toString());
-    l(usage);
+    console.log(usage);
 }
 
 /*
