@@ -11,10 +11,10 @@
   "dependencies": {
     "nature": "~0.3.0",
     "glob": "~3.2.6",
-    "wodge": "~0.3.0",
-    "console-dope": "~0.2.1"
+    "wodge": "~0.4.0",
+    "console-dope": "~0.3"
   },
   "devDependencies": {
-    "mocha": "~1.17"
+    "mocha": "~1.18"
   }
 }
