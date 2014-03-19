@@ -1,4 +1,4 @@
-var rename = require("../lib/rename"),
+var rename = require("../lib/renamer"),
     path = require("path"),
     assert = require("assert");
 

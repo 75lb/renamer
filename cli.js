@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 
-var fs = require("fs"),
-    Thing = require("nature").Thing,
+var Thing = require("nature").Thing,
     dope = require("console-dope"),
-    rename = require("./lib/rename"),
-    Glob = require("glob").Glob,
+    renamer = require("./lib/renamer"),
     w = require("wodge");
 
 function log(success, msg, error){
@@ -45,16 +43,10 @@ argv = new Thing()
         logError("Error: " + err.message);
         process.exit(1);
     })
-    .mixIn(new rename.RenameOptions(), "rename")
+    .mixIn(new renamer.RenameOptions(), "rename")
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
     .define({ name: "verbose", type: "boolean", alias: "v" })
-    .define("presets", [
-        { name: "name", type: "string", alias: "n", valueTest: /\w+/ },
-        { name: "list", type: "boolean", alias: "l" },
-        { name: "preset", type: "string", alias: "p", valueTest: /\w+/ },
-        { name: "description", type: "string", alias: "x", valueTest: /\w+/ }
-    ])
     .define({ name: "user", type: "string" })
     .set(process.argv);
     
@@ -65,82 +57,8 @@ if (!argv.valid) {
     process.exit(1);
 }
 
-function doRename(from, to){
-    var newFilenames = [],
-        logMsg = from + " %green{->} " + to;
-
-    if (from === to || !to ){
-        if (argv.verbose) log(false, from);
-    } else {
-        if (fs.existsSync(to) || newFilenames.indexOf(to) > -1){
-            log(false, logMsg, "file exists");
-        } else {
-            if (!argv["dry-run"]) {
-                try {
-                    fs.renameSync(from, to);
-                    newFilenames.push(to);
-                    log(true, logMsg);
-                } catch(e){
-                    log(false, logMsg, e.message);
-                }
-            } else {
-                newFilenames.push(to);
-                log(true, logMsg);
-            }
-        }
-    }
-}
-
-function renameFiles(files){
-    var results;
-
-    try {
-        results = rename.rename({
-            files: files,
-            find: argv.find,
-            replace: argv.replace,
-            regex: argv.regex,
-            insensitive: argv.insensitive
-        });
-    } catch (e){
-        logError(e.message);
-        process.exit(1);
-    }
-
-    results.forEach(function(result){
-        doRename(result.before, result.after);
-    });
-}
-
-function getFileStats(files){
-    var fileStats = {},
-        existingFiles = files.filter(fs.existsSync),
-        notExistingFiles = w.without(files, existingFiles);
-        
-    existingFiles.forEach(function(file){
-        fileStats[file] = fs.statSync(file).isDirectory() ? 2 : 1;
-    });
-    
-    notExistingFiles.forEach(function(file){
-        var glob = new Glob(file, { sync: true, stat: true });
-        if (glob.found.length){
-            glob.found.forEach(function(file){
-                fileStats[file] = glob.cache[file];
-            });
-        } else {
-            logError("File does not exist: " + file);
-        }
-    });
-    return fileStats;
-}
-
 if (argv.files.length){
-    var fileStats = getFileStats(argv.files),
-        files = w.pluck(fileStats, function(val){ return val === 1; }),
-        dirs = w.pluck(fileStats, function(val){ return val === 2 || val instanceof Array; });
-
-    renameFiles(files);
-    renameFiles(dirs.reverse());
+    renamer.process(argv);
 } else {
     dope.log(usage);
 }
