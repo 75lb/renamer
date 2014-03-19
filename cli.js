@@ -60,7 +60,7 @@ argv = new Thing()
 
 function doRename(from, to){
     var newFilenames = [],
-        logMsg = from + w.green(" -> ") + to;
+        logMsg = from + " %green{->} " + to;
 
     if (from === to || !to ){
         if (argv.verbose) log(false, from);

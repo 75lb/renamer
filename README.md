@@ -18,9 +18,7 @@ $ npm install -g renamer
 Usage
 -----
 ```sh
-$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbose] [--name <string>] <files>
-$ renamer --list [--verbose]
-$ renamer --preset <files>
+$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbose] <files>
 ```
 ```
 -f, --find        The find string, or regular expression when --regex is set.
@@ -34,9 +32,6 @@ $ renamer --preset <files>
 -i, --insensitive Enable case-insensitive finds.
 -d, --dry-run     Used for test runs. Set this to do everything but rename the file.
 -v, --verbose     Use to print additional information.
--l, --list        List the available presets.
--p, --preset      Use the specified preset.
--n, --name        Save the command as a preset with the specified name. 
 -h, --help        Print usage instructions.
 ```
 
