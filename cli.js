@@ -151,4 +151,8 @@ if (argv.valid){
 TODO: replace token: $dirname, --js expression and $js token, date and string padding functions
 renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
 renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
+integration tests
 */
+/* 
+BUG: renamer -r blah{{index}} * // index should not reset when processing folders
+ */
