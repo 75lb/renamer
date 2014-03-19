@@ -57,6 +57,13 @@ argv = new Thing()
     ])
     .define({ name: "user", type: "string" })
     .set(process.argv);
+    
+if (!argv.valid) {
+    logError("Some values were invalid");
+    logError(argv.validationMessages.toString());
+    dope.log(usage);
+    process.exit(1);
+}
 
 function doRename(from, to){
     var newFilenames = [],
@@ -84,7 +91,7 @@ function doRename(from, to){
     }
 }
 
-function doWork(files){
+function renameFiles(files){
     var results;
 
     try {
@@ -105,45 +112,36 @@ function doWork(files){
     });
 }
 
-var fileList = {};
-
-if (argv.files){
-    argv.files.forEach(function(file){
-        if (fs.existsSync(file)){
-            fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
+function getFileStats(files){
+    var fileStats = {},
+        existingFiles = files.filter(fs.existsSync),
+        notExistingFiles = w.without(files, existingFiles);
+        
+    existingFiles.forEach(function(file){
+        fileStats[file] = fs.statSync(file).isDirectory() ? 2 : 1;
+    });
+    
+    notExistingFiles.forEach(function(file){
+        var glob = new Glob(file, { sync: true, stat: true });
+        if (glob.found.length){
+            glob.found.forEach(function(file){
+                fileStats[file] = glob.cache[file];
+            });
         } else {
-            var glob = new Glob(file, { sync: true, stat: true });
-            if (glob.found.length){
-                glob.found.forEach(function(file){
-                    fileList[file] = glob.cache[file];
-                });
-            } else {
-                logError("File does not exist: " + file);
-            }
+            logError("File does not exist: " + file);
         }
     });
+    return fileStats;
 }
 
-function processFilelist(){
-    var files = w.pluck(fileList, function(val){ return val === 1; }),
-        dirs = w.pluck(fileList, function(val){ return val === 2 || val instanceof Array; });
+if (argv.files.length){
+    var fileStats = getFileStats(argv.files),
+        files = w.pluck(fileStats, function(val){ return val === 1; }),
+        dirs = w.pluck(fileStats, function(val){ return val === 2 || val instanceof Array; });
 
-    doWork(files);
-    doWork(dirs.reverse());
-}
-
-if (argv.valid){
-    if (argv.help){
-        dope.log(usage);
-    } else if (argv.files.length){
-        processFilelist();
-    } else {
-        dope.log(usage);
-    }
-
+    renameFiles(files);
+    renameFiles(dirs.reverse());
 } else {
-    logError("Some values were invalid");
-    logError(argv.validationMessages.toString());
     dope.log(usage);
 }
 
@@ -152,7 +150,8 @@ TODO: replace token: $dirname, --js expression and $js token, date and string pa
 renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
 renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
 integration tests
+accept input from stdin
 */
 /* 
-BUG: renamer -r blah{{index}} * // index should not reset when processing folders
+BUG: renamer -r blah{{index}} * // index should not reset when processing folders, also appears incorrectly as tick in dry-run
  */
