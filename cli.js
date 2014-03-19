@@ -31,6 +31,7 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbo
                   If omitted, defaults to a blank string. The special token\n\
                   '{{index}}' will insert an incrementing number per file\n\
                   processed.\n\
+-R, --recursive   Process folders recursively.\n\
 -e, --regex       When set, --find is intepreted as a regular expression.\n\
 -i, --insensitive Enable case-insensitive finds.\n\
 -d, --dry-run     Used for test runs. Set this to do everything but rename the file.\n\
@@ -49,6 +50,7 @@ argv = new Thing()
     .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
     .define({ name: "verbose", type: "boolean", alias: "v" })
+    .define({ name: "recursive", type: "boolean", alias: "R" })
     .define("presets", [
         { name: "name", type: "string", alias: "n", valueTest: /\w+/ },
         { name: "list", type: "boolean", alias: "l" },
@@ -134,13 +136,26 @@ function getFileStats(files){
     return fileStats;
 }
 
-if (argv.files.length){
-    var fileStats = getFileStats(argv.files),
+function processFiles(list, recursive) {
+    var fileStats = getFileStats(list),
         files = w.pluck(fileStats, function(val){ return val === 1; }),
         dirs = w.pluck(fileStats, function(val){ return val === 2 || val instanceof Array; });
 
     renameFiles(files);
-    renameFiles(dirs.reverse());
+    if (recursive) {
+        dirs.forEach(function(dir) {
+            var list = fs.readdirSync(dir).map(function(filename) {
+                return dir + "/" + filename;
+            });
+            processFiles(list, true);
+        });
+    } else {
+        renameFiles(dirs.reverse());
+    }
+}
+
+if (argv.files.length) {
+    processFiles(argv.files, argv.recursive);
 } else {
     dope.log(usage);
 }
