@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 "use strict";
 
-require("console-dope");
 var fs = require("fs"),
     Thing = require("nature").Thing,
-    presets = require("./lib/preset"),
+    dope = require("console-dope"),
     rename = require("./lib/rename"),
     Glob = require("glob").Glob,
     w = require("wodge");
 
 function log(success, msg, error){
-    console.log(
+    dope.log(
         "%%%s{%s} %s %s",
         success ? "green" : "red",
         success ? w.symbol.tick : w.symbol.cross,
@@ -19,13 +18,11 @@ function log(success, msg, error){
     );
 }
 function logError(msg){
-    console.red.log(msg);
+    dope.red.log(msg);
 }
 
 var usage = "Usage: \n\
-$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbose] [--name <string>] <files>\n\
-$ renamer --list [--verbose]\n\
-$ renamer --preset <files>\n\
+$ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbose] <files>\n\
 \n\
 -f, --find        The find string, or regular expression when --regex is set.\n\
                   If not set, the whole filename will be replaced.\n\
@@ -38,15 +35,12 @@ $ renamer --preset <files>\n\
 -i, --insensitive Enable case-insensitive finds.\n\
 -d, --dry-run     Used for test runs. Set this to do everything but rename the file.\n\
 -v, --verbose     Use to print additional information.\n\
--l, --list        List the available presets.\n\
--p, --preset      Use the specified preset.\n\
--n, --name        Save the command as a preset with the specified name. \n\
 -h, --help        Print usage instructions.\n\
 \n\
 for more detailed instructions, visit https://github.com/75lb/renamer\n";
 
-var optionSet;
-optionSet = new Thing()
+var argv;
+argv = new Thing()
     .on("error", function(err){
         logError("Error: " + err.message);
         process.exit(1);
@@ -69,12 +63,12 @@ function doRename(from, to){
         logMsg = from + w.green(" -> ") + to;
 
     if (from === to || !to ){
-        if (optionSet.verbose) log(false, from);
+        if (argv.verbose) log(false, from);
     } else {
         if (fs.existsSync(to) || newFilenames.indexOf(to) > -1){
             log(false, logMsg, "file exists");
         } else {
-            if (!optionSet["dry-run"]) {
+            if (!argv["dry-run"]) {
                 try {
                     fs.renameSync(from, to);
                     newFilenames.push(to);
@@ -96,10 +90,10 @@ function doWork(files){
     try {
         results = rename.rename({
             files: files,
-            find: optionSet.find,
-            replace: optionSet.replace,
-            regex: optionSet.regex,
-            insensitive: optionSet.insensitive
+            find: argv.find,
+            replace: argv.replace,
+            regex: argv.regex,
+            insensitive: argv.insensitive
         });
     } catch (e){
         logError(e.message);
@@ -113,8 +107,8 @@ function doWork(files){
 
 var fileList = {};
 
-if (optionSet.files){
-    optionSet.files.forEach(function(file){
+if (argv.files){
+    argv.files.forEach(function(file){
         if (fs.existsSync(file)){
             fileList[file] = fs.statSync(file).isDirectory() ? 2 : 1;
         } else {
@@ -138,47 +132,19 @@ function processFilelist(){
     doWork(dirs.reverse());
 }
 
-if (optionSet.valid){
-    if (optionSet.help){
-        console.log(usage);
-
-    } else if (optionSet.name) {
-        var toSave = optionSet.where({
-            name: {$ne: [ "files", "dry-run", "name" ]}
-        }).toJSON();
-        presets.save(optionSet.name, toSave);
-
-    } else if (optionSet.list){
-        console.bold.underline.log("Preset list");
-        presets.list(function(list){
-            Object.keys(list).forEach(function(name){
-                var preset = list[name];
-                console.log("%bold{%s} %s [%s]", name, preset.description, preset.user);
-                if (optionSet.verbose){
-                    delete preset.description;
-                    delete preset.user;
-                    Object.keys(preset).forEach(function(option){
-                        console.log("%s: %s", option, preset[option]);
-                    });
-                }
-            });
-        });
-
-    } else if (optionSet.preset){
-        presets.load(optionSet.preset, function(preset){
-            optionSet.set(preset);
-            processFilelist();
-        });
-    } else if (optionSet.files.length){
+if (argv.valid){
+    if (argv.help){
+        dope.log(usage);
+    } else if (argv.files.length){
         processFilelist();
     } else {
-        console.log(usage);
+        dope.log(usage);
     }
 
 } else {
     logError("Some values were invalid");
-    logError(optionSet.validationMessages.toString());
-    console.log(usage);
+    logError(argv.validationMessages.toString());
+    dope.log(usage);
 }
 
 /*
