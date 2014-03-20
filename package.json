@@ -10,7 +10,7 @@
     "testx": "mocha --reporter spec test/unit-*.js"
   },
   "dependencies": {
-    "nature": "~0.3.0",
+    "nature": "~0.4.0",
     "glob": "~3.2.6",
     "wodge": "~0.4.0",
     "console-dope": "~0.3"

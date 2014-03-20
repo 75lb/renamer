@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-var Thing = require("nature").Thing,
+var Model = require("nature").Model,
     dope = require("console-dope"),
     renamer = require("./lib/renamer"),
     Renamer = renamer.Renamer,
@@ -40,7 +40,7 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbo
 for more detailed instructions, visit https://github.com/75lb/renamer\n";
 
 var argv;
-argv = new Thing()
+argv = new Model()
     .on("error", function(err){
         logError("Error: " + err.message);
         process.exit(1);
