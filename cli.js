@@ -4,6 +4,8 @@
 var Thing = require("nature").Thing,
     dope = require("console-dope"),
     renamer = require("./lib/renamer"),
+    Renamer = renamer.Renamer,
+    RenameOptions = renamer.RenameOptions,
     w = require("wodge");
 
 function log(success, msg, error){
@@ -43,7 +45,8 @@ argv = new Thing()
         logError("Error: " + err.message);
         process.exit(1);
     })
-    .mixIn(new renamer.RenameOptions(), "rename")
+    .mixIn(new RenameOptions(), "rename")
+    .define({ name: "verbose", type: "boolean", alias: "v" })
     .define({ name: "help", type: "boolean", alias: "h" })
     .set(process.argv);
     
@@ -55,7 +58,21 @@ if (!argv.valid) {
 }
 
 if (argv.files.length){
-    renamer.process(argv.where({ group: "rename" }) );
+    if (argv["dry-run"]) dope.bold.underline.log("Dry run");
+    
+    var renamer = new Renamer(argv.where({ group: "rename" }));
+    var results = renamer.process();
+    results.forEach(function(file){
+        if (file.error){
+            logError(file.error);
+        } else {
+            if(file.renamed){
+                log(true, file.before + " %green{->} " + file.after);
+            } else if (!file.renamed && argv.verbose){
+                log(false, file.before);
+            }
+        }
+    });
 } else {
     dope.log(usage);
 }
