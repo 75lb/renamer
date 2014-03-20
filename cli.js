@@ -44,10 +44,7 @@ argv = new Thing()
         process.exit(1);
     })
     .mixIn(new renamer.RenameOptions(), "rename")
-    .define({ name: "dry-run", type: "boolean", alias: "d" })
     .define({ name: "help", type: "boolean", alias: "h" })
-    .define({ name: "verbose", type: "boolean", alias: "v" })
-    .define({ name: "user", type: "string" })
     .set(process.argv);
     
 if (!argv.valid) {
@@ -58,7 +55,7 @@ if (!argv.valid) {
 }
 
 if (argv.files.length){
-    renamer.process(argv);
+    renamer.process(argv.where({ group: "rename" }) );
 } else {
     dope.log(usage);
 }
@@ -69,6 +66,7 @@ renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOME
 renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
 integration tests
 accept input from stdin
+chain rename presets together.. remove "this" then "that".. 
 */
 /* 
 BUG: renamer -r blah{{index}} * // index should not reset when processing folders, also appears incorrectly as tick in dry-run
