@@ -13,7 +13,8 @@
     "nature": "~0.4.0",
     "glob": "~3.2.6",
     "wodge": "~0.4.0",
-    "console-dope": "~0.3"
+    "console-dope": "~0.3",
+    "more-fs": "~0.1.2"
   },
   "devDependencies": {}
 }

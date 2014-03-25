@@ -64,7 +64,7 @@ if (argv.files.length){
     var results = renamer.process();
     results.forEach(function(file){
         if (file.error){
-            logError(file.error);
+            log(false, file.before + " %red{->} " + file.after, file.error)
         } else {
             if(file.renamed){
                 log(true, file.before + " %green{->} " + file.after);
@@ -85,6 +85,3 @@ integration tests
 accept input from stdin
 chain rename presets together.. remove "this" then "that".. 
 */
-/* 
-BUG: renamer -r blah{{index}} * // index should not reset when processing folders, also appears incorrectly as tick in dry-run
- */
