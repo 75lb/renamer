@@ -2,19 +2,19 @@
   "name": "renamer",
   "description": "Batch rename files and folders",
   "version": "0.3.1",
-  "bin": "cli.js",
+  "bin": "bin/cli.js",
   "main": "./lib/renamer",
   "repository": "https://github.com/75lb/renamer",
   "author": "Lloyd Brookes",
   "scripts": {
-    "testx": "mocha --reporter spec test/unit-*.js"
+    "test": ""
   },
   "dependencies": {
     "nature": "~0.4.0",
     "glob": "~3.2.6",
     "wodge": "~0.4.0",
     "console-dope": "~0.3",
-    "more-fs": "~0.1.2"
+    "more-fs": "~0.2"
   },
   "devDependencies": {}
 }

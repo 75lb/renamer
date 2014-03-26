@@ -1,0 +1,6 @@
+{
+    "source": {
+        "include": [ "lib", "README.md" ]
+    },
+    "plugins": [ "plugins/markdown" ]
+}

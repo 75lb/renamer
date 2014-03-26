@@ -3,7 +3,7 @@
 
 var Model = require("nature").Model,
     dope = require("console-dope"),
-    renamer = require("./lib/renamer"),
+    renamer = require("../lib/renamer"),
     Renamer = renamer.Renamer,
     RenameOptions = renamer.RenameOptions,
     w = require("wodge");
@@ -18,7 +18,7 @@ function log(success, msg, error){
     );
 }
 function logError(msg){
-    dope.red.log(msg);
+    dope.red.error(msg);
 }
 
 var usage = "Usage: \n\
