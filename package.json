@@ -7,7 +7,7 @@
   "repository": "https://github.com/75lb/renamer",
   "author": "Lloyd Brookes",
   "scripts": {
-    "test": ""
+    "test": "tape test/*.js"
   },
   "dependencies": {
     "nature": "~0.4.0",
@@ -16,5 +16,7 @@
     "console-dope": "~0.3",
     "more-fs": "~0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "tape": "~2.12.0"
+  }
 }
