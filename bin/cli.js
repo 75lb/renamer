@@ -4,19 +4,20 @@
 var Model = require("nature").Model,
     dope = require("console-dope"),
     renamer = require("../lib/renamer"),
-    Renamer = renamer.Renamer,
-    RenameOptions = renamer.RenameOptions,
+    RenamerOptions = renamer.RenamerOptions,
     w = require("wodge");
 
-function log(success, msg, error){
+function log(verbose, result){
+    if (!verbose && !result.renamed) return;
     dope.log(
         "%%%s{%s} %s %s",
-        success ? "green" : "red",
-        success ? w.symbol.tick : w.symbol.cross,
-        msg,
-        error ? "(%red{" + error + "})" : ""
+        result.renamed ? "green" : "red",
+        result.renamed ? w.symbol.tick : w.symbol.cross,
+        result.before + (result.after ? " -> " + result.after : ""),
+        result.error ? "(%red{" + result.error + "})" : ""
     );
 }
+
 function logError(msg){
     dope.red.error(msg);
 }
@@ -45,7 +46,7 @@ argv = new Model()
         logError("Error: " + err.message);
         process.exit(1);
     })
-    .mixIn(new RenameOptions(), "rename")
+    .mixIn(new RenamerOptions(), "rename")
     .define({ name: "verbose", type: "boolean", alias: "v" })
     .define({ name: "help", type: "boolean", alias: "h" })
     .set(process.argv);
@@ -58,21 +59,15 @@ if (!argv.valid) {
 }
 
 if (argv.files.length){
-    if (argv["dry-run"]) dope.bold.underline.log("Dry run");
+    var options = argv.where({ group: "rename" });
+    var results = renamer.replace(options);
     
-    var renamer = new Renamer(argv.where({ group: "rename" }));
-    var results = renamer.process();
-    results.forEach(function(file){
-        if (file.error){
-            log(false, file.before + " %red{->} " + file.after, file.error)
-        } else {
-            if(file.renamed){
-                log(true, file.before + " %green{->} " + file.after);
-            } else if (!file.renamed && argv.verbose){
-                log(false, file.before);
-            }
-        }
-    });
+    if (options["dry-run"]){
+        dope.bold.underline.log("Dry run");
+        renamer.dryRun(results).forEach(log.bind(null, argv.verbose));
+    } else {
+        renamer.rename(results).forEach(log.bind(null, argv.verbose));
+    }
 } else {
     dope.log(usage);
 }
