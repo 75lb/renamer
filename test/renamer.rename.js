@@ -70,6 +70,6 @@ _test("crap input", function(t){
     t.equal(results[0].before, "sdfsdg");
     t.equal(results[0].after, "dsfkhdlkfh");
     t.equal(results[0].renamed, false);
-    t.ok(/ENOENT/.test(results[0].error));
+    t.ok(/ENOENT/.test(results[0].error), "ENOENT");
     t.end();
 });
