@@ -39,11 +39,19 @@ For more information on Regular Expressions, see [this useful guide](https://dev
 
 **Don't forget to test your rename first using `--dry-run`!**
 
-Globbing
---------
-Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)). If you want to override your shell's native [expansion](http://www.gnu.org/software/bash/manual/bashref.html#Shell-Expansions) behaviour (say, for example it lacks the [globstar](http://www.linuxjournal.com/content/globstar-new-bash-globbing-option) option), pass the glob expression in single quotes and renamer will expand it. For example, this command operates on all js files, recursively:
+Recursing
+---------
+Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)), enabling recursive operations. To recurse, using the `**` wildcard where a directory name would be appear means "any directory, including this one". For example, this command operates on all js files in the current directory:
 
-    $ renamer -f 'this' -r 'that' '**/*.js'
+    $ renamer --find this --replace that *.js
+    
+this command operates on all js files, recursively:
+
+    $ renamer --find this --replace that **/*.js
+    
+this command operates on all js files from the `lib` directory downward:
+
+    $ renamer --find this --replace that lib/**/*.js
 
 Examples
 --------
