@@ -55,7 +55,7 @@ this command operates on all js files from the `lib` directory downward:
 
     $ renamer --find this --replace that lib/**/*.js
     
-**Mac users without globstar will need to enclose the glob expression in quotes to prevent native bash file expansion, i.e. `"**/*.js"`**
+**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `"**/*.js"`
 
 Examples
 --------
