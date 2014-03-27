@@ -21,7 +21,7 @@ test("--find, --replace: find string not found, nothing replaced", function(t){
     t.deepEqual(results, [
         { before: "file1.txt" },
         { before: "file2.txt" },
-        { before: "folder/file3.txt" }
+        { before: path.join("folder", "file3.txt") }
     ]);
 
     t.end();
@@ -38,7 +38,7 @@ test("--find, --replace: simple replace", function(t){
     t.deepEqual(results, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
-        { before: "folder/file3.txt", after: "folder/clive3.txt" }
+        { before: path.join("folder", "file3.txt"), after: "folder/clive3.txt" }
     ]);
     t.end();
 });
@@ -54,7 +54,7 @@ test("--find, --replace, --insensitive: simple replace", function(t){
     t.deepEqual(results, [
         { before: "file1.txt" },
         { before: "file2.txt" },
-        { before: "folder/file3.txt" }
+        { before: path.join("folder", "file3.txt") }
     ]);
 
     options.insensitive = true;
@@ -62,7 +62,7 @@ test("--find, --replace, --insensitive: simple replace", function(t){
     t.deepEqual(results, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
-        { before: "folder/file3.txt", after: "folder/clive3.txt" }
+        { before: path.join("folder", "file3.txt"), after: "folder/clive3.txt" }
     ]);
     t.end();
 });
@@ -126,7 +126,7 @@ test("--replace: replace whole string", function(t){
     t.deepEqual(renamer.replace(options), [
         { before: "file1.txt", after: "{{index}}.txt" },
         { before: "file2.txt", after: "{{index}}.txt" },
-        { before: "folder/file3.txt", after: "folder/{{index}}.txt" }
+        { before: path.join("folder", "file3.txt"), after: "folder/{{index}}.txt" }
     ]);
     t.end();
 });
@@ -144,7 +144,7 @@ test("--find, --replace, --regex: find string not found, nothing replaced", func
     t.deepEqual(results, [
         { before: "file1.txt" },
         { before: "file2.txt" },
-        { before: "folder/file3.txt" }
+        { before: path.join("folder", "file3.txt") }
     ]);
 
     t.end();
@@ -162,7 +162,7 @@ test("--find, --replace, --regex: simple replace", function(t){
     t.deepEqual(results, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
-        { before: "folder/file3.txt", after: "folder/clive3.txt" }
+        { before: path.join("folder", "file3.txt"), after: "folder/clive3.txt" }
     ]);
     t.end();
 });
@@ -179,7 +179,7 @@ test("--find, --replace, --insensitive, --regex: simple replace", function(t){
     t.deepEqual(results, [
         { before: "file1.txt" },
         { before: "file2.txt" },
-        { before: "folder/file3.txt" }
+        { before: path.join("folder", "file3.txt") }
     ]);
 
     options.insensitive = true;
@@ -187,7 +187,7 @@ test("--find, --replace, --insensitive, --regex: simple replace", function(t){
     t.deepEqual(results, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
-        { before: "folder/file3.txt", after: "folder/clive3.txt" }
+        { before: path.join("folder", "file3.txt"), after: "folder/clive3.txt" }
     ]);
     t.end();
 });
@@ -275,7 +275,7 @@ test("--replace, --regex: replace whole string", function(t){
     t.deepEqual(renamer.replace(options), [
         { before: "file1.txt", after: "{{index}}.txt" },
         { before: "file2.txt", after: "{{index}}.txt" },
-        { before: "folder/file3.txt", after: "folder/{{index}}.txt" }
+        { before: path.join("folder", "file3.txt"), after: "folder/{{index}}.txt" }
     ]);
     t.end();
 });
