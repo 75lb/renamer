@@ -279,3 +279,16 @@ test("--replace, --regex: replace whole string", function(t){
     ]);
     t.end();
 });
+
+test("should handle crap input", function(t){
+    t.throws(function(){
+        renamer.replace("ldjf", 1, true);
+    });
+    t.throws(function(){
+        renamer.replace({ file: "clive.txt", find: "i", r: "o" });
+    });
+    t.doesNotThrow(function(){
+        renamer.replace({ files: "clive.txt", find: "i", r: "o" });
+    });
+    t.end();
+});
