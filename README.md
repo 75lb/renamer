@@ -35,13 +35,13 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbo
 -h, --help        Print usage instructions.
 ```
 
-For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions). 
+For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
 **Don't forget to test your rename first using `--dry-run`!**
 
 Globbing
 --------
-Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)). If you want to override your shell's native [expansion](http://www.gnu.org/software/bash/manual/bashref.html#Shell-Expansions) behaviour (say, for example it lacks the [globstar](http://www.linuxjournal.com/content/globstar-new-bash-globbing-option) option), pass the glob expression in single quotes and renamer will expand it. For example, this command operates on all js files, recursively: 
+Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)). If you want to override your shell's native [expansion](http://www.gnu.org/software/bash/manual/bashref.html#Shell-Expansions) behaviour (say, for example it lacks the [globstar](http://www.linuxjournal.com/content/globstar-new-bash-globbing-option) option), pass the glob expression in single quotes and renamer will expand it. For example, this command operates on all js files, recursively:
 
     $ renamer -f 'this' -r 'that' '**/*.js'
 
@@ -97,6 +97,9 @@ $ renamer --find 'Season 1 - ' *
 ```
 
 <table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
     <tbody>
         <tr>
             <td><pre><code>.
@@ -109,117 +112,156 @@ $ renamer --find 'Season 1 - ' *
     </tbody>
 </table>
 
-_Simple filename cleanup_: 
+###Simple filename cleanup
 
 ```sh
-$ tree
-.
+$ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
+```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
 ├── [ag]_Annoying_filename_-_3_[38881CD1].mp4
 ├── [ag]_Annoying_filename_-_34_[38881CD1].mp4
-├── [ag]_Annoying_filename_-_53_[38881CD1].mp4
-
-$ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
-
-$ tree
-.
+├── [ag]_Annoying_filename_-_53_[38881CD1].mp4</code></pre></td>
+            <td><pre><code>.
 ├── Video 3.mp4
 ├── Video 34.mp4
-├── Video 53.mp4
-```
+├── Video 53.mp4</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
-_Give your images a new numbering scheme_:
+###Give your images a new numbering scheme
 
 ```sh
-$ tree
-.
+$ renamer --replace 'Image{{index}}.jpg' *
+```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
 ├── IMG_5776.JPG
 ├── IMG_5777.JPG
-├── IMG_5778.JPG
-
-$ renamer --replace 'Image{{index}}.jpg' *
-
-$ tree
-.
+├── IMG_5778.JPG</code></pre></td>
+            <td><pre><code>.
 ├── Image1.jpg
 ├── Image2.jpg
-├── Image3.jpg
-```
+├── Image3.jpg</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
-_do something about all those full stops_:
+###do something about all those full stops
 
 ```sh
-$ tree
-.
-├── loads.of.full.stops.every.where.jpeg
-├── loads.of.full.stops.every.where.mp4
-
 $ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
-
-$ tree
-.
-├── loads of full stops every where.jpeg
-├── loads of full stops every where.mp4
 ```
 
-_if not already done, add your name to a load of files_:
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
+├── loads.of.full.stops.every.where.jpeg
+├── loads.of.full.stops.every.where.mp4</code></pre></td>
+            <td><pre><code>.
+├── loads of full stops every where.jpeg
+├── loads of full stops every where.mp4</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
+###if not already done, add your name to a load of files
 ```sh
-$ tree
-.
+$ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
+```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
 ├── data1.csv
 ├── data2 (checked by Lloyd).csv
-├── data3.xls
-
-$ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
-
-$ tree
-.
+├── data3.xls</code></pre></td>
+            <td><pre><code>.
 ├── data1 (checked by Lloyd).csv
 ├── data2 (checked by Lloyd).csv
-├── data3 (checked by Lloyd).xls
-```
-_rename files and folders, recursively_
+├── data3 (checked by Lloyd).xls</code></pre></td>
+        </tr>
+    </tbody>
+</table>
+
+
+###rename files and folders, recursively
 
 ```sh
-$ tree
-.
+$ renamer --find 'pic' --replace 'photo' '**'
+```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
 ├── pic1.jpg
 ├── pic2.jpg
 └── pics
     ├── pic3.jpg
     └── pic4.jpg
-
-$ renamer --find 'pic' --replace 'photo' '**'
-
-$ tree
-.
+</code></pre></td>
+            <td><pre><code>.
 ├── photo1.jpg
 ├── photo2.jpg
 └── photos
     ├── photo3.jpg
-    └── photo4.jpg
-```
+    └── photo4.jpg</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
-_prefix files and folders, recursively_
+###prefix files and folders, recursively
 
 ```sh
-$ tree
-.
+$ renamer --regex --find '^' --replace 'good-' '**'
+```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
 ├── pic1.jpg
 ├── pic2.jpg
 └── pics
     ├── pic3.jpg
     └── pic4.jpg
-
-$ renamer --regex --find '^' --replace 'good-' '**'
-
-$ tree
-.
+</code></pre></td>
+            <td><pre><code>.
 ├── good-pic1.jpg
 ├── good-pic2.jpg
 └── good-pics
     ├── good-pic3.jpg
-    └── good-pic4.jpg
-```
+    └── good-pic4.jpg</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
 ![NPM](https://nodei.co/npm-dl/renamer.png?months=3)
