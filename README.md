@@ -44,24 +44,30 @@ Globbing
 Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)). If you want to override your shell's native [expansion](http://www.gnu.org/software/bash/manual/bashref.html#Shell-Expansions) behaviour (say, for example it lacks the [globstar](http://www.linuxjournal.com/content/globstar-new-bash-globbing-option) option), pass the glob expression in single quotes and renamer will expand it. For example, this command operates on all js files, recursively: 
 
     $ renamer -f 'this' -r 'that' '**/*.js'
- 
+
 Examples
 --------
-_Simple replace_
+###Simple replace
 
 ```sh
-$ tree -N
-.
-├── A poem [bad].txt
-├── A story [bad].txt
-
 $ renamer --find '[bad]' --replace '[good]' *
-
-$ tree -N
-.
-├── A poem [good].txt
-├── A story [good].txt
 ```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
+├── A poem [bad].txt
+├── A story [bad].txt</code></pre></td>
+            <td><pre><code>.
+├── A poem [good].txt
+├── A story [good].txt</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
 _Case insenstive finds_
 
