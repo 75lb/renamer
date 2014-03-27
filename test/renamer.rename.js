@@ -26,3 +26,14 @@ test("rename on disk", function(t){
     ]);
     t.end();
 });
+
+test("ignore when no .after is passed", function(t){
+    var resultArray = [
+        { before: "test/fixture/file1.txt" }
+    ];
+    var results = renamer.rename(resultArray);
+    t.deepEqual(results, [
+        { before: "test/fixture/file1.txt", renamed: false, error: "no change" }
+    ]);
+    t.end();
+});

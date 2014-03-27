@@ -62,3 +62,30 @@ test("case insensitive", function(t){
     ]);
     t.end();
 });
+
+test("replace complex string pattern in files", function(t){
+    var options = new Options({
+        files: [ "...[]()£$%^...", "++[]()£$%^++" ],
+        find: "[]()£$%^",
+        replace: "[].*$%^"
+    });
+    t.deepEqual(renamer.replace(options), [
+        { before: "...[]()£$%^...", after: "...[].*$%^..." },
+        { before: "++[]()£$%^++", after: "++[].*$%^++" }
+    ]);
+    t.end();
+});
+
+
+test("replace all <find-string> instances", function(t){
+    var options = new Options({
+        files: [ "aaaaa", "rraarr" ],
+        find: "a",
+        replace: "b"
+    });
+    t.deepEqual(renamer.replace(options), [
+        { before: "aaaaa", after: "bbbbb" },
+        { before: "rraarr", after: "rrbbrr" }
+    ]);
+    t.end();
+});
