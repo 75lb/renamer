@@ -3,7 +3,8 @@ var test = require("tape"),
     Options = require("../lib/RenamerOptions"),
     mfs = require("more-fs"),
     w = require("wodge"),
-    fs = require("fs");
+    fs = require("fs"),
+    path = require("path");
 
 var preset = {
     one: [ "file1.txt", "file2.txt", "folder/file3.txt"]
@@ -22,14 +23,14 @@ function _test(){
 
 _test("rename on disk", function(t){
     var resultArray = [
-        { before: "test/fixture/file1.txt", after: "test/fixture/clive1.txt" }
+        { before: "test/fixture/file1.txt", after: path.join("test", "fixture", "clive1.txt") }
     ];
     var results = renamer.rename(resultArray);
     t.deepEqual(results, [
-        { before: "test/fixture/file1.txt", after: "test/fixture/clive1.txt", renamed: true },
+        { before: "test/fixture/file1.txt", after: path.join("test", "fixture", "clive1.txt"), renamed: true },
     ]);
     t.notOk(fs.existsSync("test/fixture/file1.txt"), "file doesn't exist");
-    t.ok(fs.existsSync("test/fixture/clive1.txt"), "file exists");
+    t.ok(fs.existsSync(path.join("test", "fixture", "clive1.txt")), "file exists");
     t.end();
 });
 
