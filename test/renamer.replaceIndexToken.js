@@ -17,7 +17,7 @@ test("--replace: replace whole string", function(t){
     t.deepEqual(results, [
         { before: "file1.txt", after: "1.txt" },
         { before: "file2.txt", after: "2.txt" },
-        { before: "folder/file3.txt", after: "folder/3.txt" }
+        { before: path.join("folder", "file3.txt"), after: path.join("folder", "3.txt") }
     ]);
     t.end();
 });
@@ -33,7 +33,7 @@ test("--replace, --regex: replace whole string", function(t){
     t.deepEqual(results, [
         { before: "file1.txt", after: "1.txt" },
         { before: "file2.txt", after: "2.txt" },
-        { before: "folder/file3.txt", after: "folder/3.txt" }
+        { before: path.join("folder", "file3.txt"), after: path.join("folder", "3.txt") }
     ]);
     t.end();
 });
