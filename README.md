@@ -41,7 +41,7 @@ For more information on Regular Expressions, see [this useful guide](https://dev
 
 Recursing
 ---------
-Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)), enabling recursive operations. To recurse, using the `**` wildcard where a directory name would be appear means "any directory, including this one". 
+Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)), enabling recursive operations. To recurse, use the `**` wildcard where a directory name would appear to apply the meaning "any directory, including this one". 
 
 For example, this command operates on all js files in the current directory:
 
