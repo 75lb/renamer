@@ -80,12 +80,3 @@ if (argv.files.length){
 } else {
     dope.log(usage);
 }
-
-/*
-TODO: replace token: $dirname, --js expression and $js token, date and string padding functions
-renamer -i -f "something" -r "$1" --findModifier 'toUpperCase()' // returns SOMETHING
-renamer -i -f "two words" -r "$1" --findModifier 'toTitleCase()' // returns Two Words
-integration tests
-accept input from stdin
-chain rename presets together.. remove "this" then "that".. 
-*/
