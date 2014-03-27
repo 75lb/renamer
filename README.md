@@ -69,37 +69,45 @@ $ renamer --find '[bad]' --replace '[good]' *
     </tbody>
 </table>
 
-_Case insenstive finds_
+###Case insenstive finds
 
 ```sh
-$ tree -N
-.
-├── A video.MPEG4
-├── Another video.Mpeg4
-
 $ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
-
-$ tree -N
-.
-├── A video.mp4
-├── Another video.mp4
 ```
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
+├── A video.MPEG4
+├── Another video.Mpeg4</code></pre></td>
+            <td><pre><code>.
+├── A video.mp4
+├── Another video.mp4</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
-_Strip out unwanted text_:
+###Strip out unwanted text
 
 ```sh
-$ tree -N
-.
-├── Season 1 - Some crappy episode.mp4
-├── Season 1 - Load of bollocks.mp4
-
 $ renamer --find 'Season 1 - ' *
-
-$ tree -N
-.
-├── Some crappy episode.mp4
-├── Load of bollocks.mp4
 ```
+
+<table>
+    <tbody>
+        <tr>
+            <td><pre><code>.
+├── Season 1 - Some crappy episode.mp4
+├── Season 1 - Load of bollocks.mp4</code></pre></td>
+            <td><pre><code>.
+├── Some crappy episode.mp4
+├── Load of bollocks.mp4</code></pre></td>
+        </tr>
+    </tbody>
+</table>
 
 _Simple filename cleanup_: 
 
