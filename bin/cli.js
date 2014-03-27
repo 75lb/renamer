@@ -60,13 +60,22 @@ if (!argv.valid) {
 
 if (argv.files.length){
     var options = argv.where({ group: "rename" });
-    var results = renamer.replace(options);
+    var fileStats = renamer.expand(options.files);
+    options.files = fileStats.filesAndDirs;
     
-    if (options["dry-run"]){
-        dope.bold.underline.log("Dry run");
-        renamer.dryRun(results).forEach(log.bind(null, argv.verbose));
-    } else {
-        renamer.rename(results).forEach(log.bind(null, argv.verbose));
+    fileStats.notExisting.forEach(function(file){
+        log(argv.verbose, { before: file, error: "does not exist" });
+    });
+    
+    var results = renamer.replace(options);
+    results = renamer.replaceIndexToken(results);
+    if (results.length){
+        if (options["dry-run"]){
+            dope.bold.underline.log("Dry run");
+            renamer.dryRun(results).forEach(log.bind(null, argv.verbose));
+        } else {
+            renamer.rename(results).forEach(log.bind(null, argv.verbose));
+        }
     }
 } else {
     dope.log(usage);
