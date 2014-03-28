@@ -1,4 +1,5 @@
 node_modules
-test/fixture/*
+test/fixture
 out
 tmp
+test/sandbox
