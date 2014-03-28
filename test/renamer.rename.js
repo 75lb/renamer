@@ -1,5 +1,6 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
+    Results = renamer.Results,
     Options = require("../lib/RenamerOptions"),
     mfs = require("more-fs"),
     w = require("wodge"),
@@ -25,8 +26,8 @@ _test("rename on disk", function(t){
     var resultArray = [
         { before: "test/fixture/file1.txt", after: path.join("test", "fixture", "clive1.txt") }
     ];
-    var results = renamer.rename(resultArray);
-    t.deepEqual(results, [
+    var results = renamer.rename(new Results(resultArray));
+    t.deepEqual(results.list, [
         { before: "test/fixture/file1.txt", after: path.join("test", "fixture", "clive1.txt"), renamed: true },
     ]);
     t.notOk(fs.existsSync("test/fixture/file1.txt"), "file doesn't exist");
@@ -39,8 +40,8 @@ _test("rename on disk, file exists", function(t){
         { before: "test/fixture/file2.txt", after: "test/fixture/clive2.txt" },
         { before: "test/fixture/file3.txt", after: "test/fixture/clive2.txt" }
     ];
-    var results = renamer.rename(resultArray);
-    t.deepEqual(results, [
+    var results = renamer.rename(new Results(resultArray));
+    t.deepEqual(results.list, [
         { before: "test/fixture/file2.txt", after: "test/fixture/clive2.txt", renamed: true },
         { before: "test/fixture/file3.txt", after: "test/fixture/clive2.txt", renamed: false, error: "file exists" }
     ]);
@@ -55,8 +56,8 @@ _test("no .after specified", function(t){
     var resultArray = [
         { before: "test/fixture/file1.txt" }
     ];
-    var results = renamer.rename(resultArray);
-    t.deepEqual(results, [
+    var results = renamer.rename(new Results(resultArray));
+    t.deepEqual(results.list, [
         { before: "test/fixture/file1.txt", renamed: false, error: "no change" }
     ]);
     t.end();
@@ -66,10 +67,10 @@ _test("crap input", function(t){
     var resultArray = [
         { before: "sdfsdg", after: "dsfkhdlkfh" }
     ];
-    var results = renamer.rename(resultArray);
-    t.equal(results[0].before, "sdfsdg");
-    t.equal(results[0].after, "dsfkhdlkfh");
-    t.equal(results[0].renamed, false);
-    t.ok(/ENOENT/.test(results[0].error), "ENOENT");
+    var results = renamer.rename(new Results(resultArray));
+    t.equal(results.list[0].before, "sdfsdg");
+    t.equal(results.list[0].after, "dsfkhdlkfh");
+    t.equal(results.list[0].renamed, false);
+    t.ok(/ENOENT/.test(results.list[0].error), "ENOENT");
     t.end();
 });

@@ -1,5 +1,6 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
+    Results = renamer.Results,
     Options = require("../lib/RenamerOptions"),
     path = require("path");
 
@@ -18,7 +19,7 @@ test("--find, --replace: find string not found, nothing replaced", function(t){
     });
 
     var results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt" },
         { before: "file2.txt" },
         { before: path.join("folder", "file3.txt") }
@@ -35,7 +36,7 @@ test("--find, --replace: simple replace", function(t){
     });
 
     var results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "clive3.txt") }
@@ -51,7 +52,7 @@ test("--find, --replace, --insensitive: simple replace", function(t){
     });
 
     var results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt" },
         { before: "file2.txt" },
         { before: path.join("folder", "file3.txt") }
@@ -59,7 +60,7 @@ test("--find, --replace, --insensitive: simple replace", function(t){
 
     options.insensitive = true;
     results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "clive3.txt") }
@@ -73,7 +74,7 @@ test("--find, --replace: regex chars in files", function(t){
         find: "[]()£$%^",
         replace: "[].*$%^"
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         { before: "...[]()£$%^...", after: "...[].*$%^..." },
         { before: "++[]()£$%^++", after: "++[].*$%^++" }
     ]);
@@ -87,7 +88,7 @@ test("--find, --replace: replace all <find-string> instances", function(t){
         find: "a",
         replace: "b"
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         { before: "aaaaa", after: "bbbbb" },
         { before: "rraarr", after: "rrbbrr" }
     ]);
@@ -100,7 +101,7 @@ test("--find, --replace: replace simple string pattern in deep files", function(
         find: "clive",
         replace: "hater"
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         {
             before: path.join("clive", "clive.txt"),
             after: path.join("clive", "hater.txt")
@@ -123,7 +124,7 @@ test("--replace: replace whole string", function(t){
         replace: "{{index}}.txt"
     });
     
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         { before: "file1.txt", after: "{{index}}.txt" },
         { before: "file2.txt", after: "{{index}}.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "{{index}}.txt") }
@@ -141,7 +142,7 @@ test("--find, --replace, --regex: find string not found, nothing replaced", func
     });
 
     var results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt" },
         { before: "file2.txt" },
         { before: path.join("folder", "file3.txt") }
@@ -159,7 +160,7 @@ test("--find, --replace, --regex: simple replace", function(t){
     });
 
     var results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "clive3.txt") }
@@ -176,7 +177,7 @@ test("--find, --replace, --insensitive, --regex: simple replace", function(t){
     });
 
     var results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt" },
         { before: "file2.txt" },
         { before: path.join("folder", "file3.txt") }
@@ -184,7 +185,7 @@ test("--find, --replace, --insensitive, --regex: simple replace", function(t){
 
     options.insensitive = true;
     results = renamer.replace(options);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt", after: "clive1.txt" },
         { before: "file2.txt", after: "clive2.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "clive3.txt") }
@@ -199,7 +200,7 @@ test("--find, --replace, --regex: regex chars in files", function(t){
         replace: "[].*$%^",
         regex: true
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         { before: "...[]()£$%^..." },
         { before: "++[]()£$%^++" }
     ]);
@@ -214,7 +215,7 @@ test("--find, --replace, --regex: replace all <find-string> instances", function
         replace: "b",
         regex: true
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         { before: "aaaaa", after: "bbbbb" },
         { before: "rraarr", after: "rrbbrr" }
     ]);
@@ -228,7 +229,7 @@ test("--find, --replace, --regex: replace simple string pattern in deep files", 
         replace: "hater",
         regex: true
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         {
             before: path.join("clive", "clive.txt"),
             after: path.join("clive", "hater.txt")
@@ -252,7 +253,7 @@ test("--find, --replace, --regex: replace all full stops beside last", function(
         replace: " ",
         regex: true
     });
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         {
             before: "loads.of.full.stops.every.where.mp4",
             after: "loads of full stops every where.mp4"
@@ -272,7 +273,7 @@ test("--replace, --regex: replace whole string", function(t){
         regex: true
     });
     
-    t.deepEqual(renamer.replace(options), [
+    t.deepEqual(renamer.replace(options).list, [
         { before: "file1.txt", after: "{{index}}.txt" },
         { before: "file2.txt", after: "{{index}}.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "{{index}}.txt") }

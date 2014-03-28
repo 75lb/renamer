@@ -1,5 +1,6 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
+    Results = renamer.Results,
     Options = require("../lib/RenamerOptions"),
     path = require("path");
 
@@ -14,7 +15,7 @@ test("--replace: replace whole string", function(t){
     });
     var results = renamer.replace(options);
     results = renamer.replaceIndexToken(results);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt", after: "1.txt" },
         { before: "file2.txt", after: "2.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "3.txt") }
@@ -30,7 +31,7 @@ test("--replace, --regex: replace whole string", function(t){
     });
     var results = renamer.replace(options);
     results = renamer.replaceIndexToken(results);
-    t.deepEqual(results, [
+    t.deepEqual(results.list, [
         { before: "file1.txt", after: "1.txt" },
         { before: "file2.txt", after: "2.txt" },
         { before: path.join("folder", "file3.txt"), after: path.join("folder", "3.txt") }

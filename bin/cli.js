@@ -69,7 +69,7 @@ if (argv.files.length){
     
     var results = renamer.replace(options);
     results = renamer.replaceIndexToken(results);
-    if (results.length){
+    if (results.list.length){
         if (options["dry-run"]){
             dope.bold.underline.log("Dry run");
             renamer.dryRun(results).forEach(log.bind(null, argv.verbose));
