@@ -18,7 +18,7 @@ function _test(){
 test("cli: no args", function(t){
     initFixture();
     t.plan(2);
-    exec("renamer", function(err, stdout, stderr){
+    exec("./bin/cli.js", function(err, stdout, stderr){
         t.ok(/Usage:/.test(stdout), "usage is there");
         if (err) {
             t.error(err);
@@ -31,7 +31,7 @@ test("cli: no args", function(t){
 test("cli: simple replace", function(t){
     initFixture();
     t.plan(6);
-    exec("renamer -f clive -r hater test/fixture/*", function(err, stdout, stderr){
+    exec("./bin/cli.js -f clive -r hater test/fixture/*", function(err, stdout, stderr){
         if (err) {
             t.error(err);
         } else {
