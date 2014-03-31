@@ -22,7 +22,8 @@ function _test(){
     return test.apply(test, arguments);
 }
 
-_test("rename on disk", function(t){
+test("rename on disk", function(t){
+    initFixture();
     var resultArray = [
         { before: "test/fixture/file1.txt", after: path.join("test", "fixture", "clive1.txt") }
     ];
@@ -35,7 +36,8 @@ _test("rename on disk", function(t){
     t.end();
 });
 
-_test("rename on disk, file exists", function(t){
+test("rename on disk, file exists", function(t){
+    initFixture();
     var resultArray = [
         { before: "test/fixture/file2.txt", after: "test/fixture/clive2.txt" },
         { before: "test/fixture/file3.txt", after: "test/fixture/clive2.txt" }
@@ -52,7 +54,8 @@ _test("rename on disk, file exists", function(t){
     t.end();
 });
 
-_test("no .after specified", function(t){
+test("no .after specified", function(t){
+    initFixture();
     var resultArray = [
         { before: "test/fixture/file1.txt" }
     ];
@@ -63,7 +66,8 @@ _test("no .after specified", function(t){
     t.end();
 });
 
-_test("crap input", function(t){
+test("crap input", function(t){
+    initFixture();
     var resultArray = [
         { before: "sdfsdg", after: "dsfkhdlkfh" }
     ];

@@ -72,9 +72,9 @@ if (argv.files.length){
     if (results.list.length){
         if (options["dry-run"]){
             dope.bold.underline.log("Dry run");
-            renamer.dryRun(results).forEach(log.bind(null, argv.verbose));
+            renamer.dryRun(results).list.forEach(log.bind(null, argv.verbose));
         } else {
-            renamer.rename(results).forEach(log.bind(null, argv.verbose));
+            renamer.rename(results).list.forEach(log.bind(null, argv.verbose));
         }
     }
 } else {

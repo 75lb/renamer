@@ -7,7 +7,7 @@
   "repository": "https://github.com/75lb/renamer",
   "author": "Lloyd Brookes",
   "scripts": {
-    "test": "tape test/renamer.*.js"
+    "test": "tape test/cli.js test/renamer.*.js"
   },
   "dependencies": {
     "nature": "~0.4.0",
