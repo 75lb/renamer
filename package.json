@@ -12,7 +12,7 @@
   "dependencies": {
     "nature": "~0.4.0",
     "glob": "~3.2.6",
-    "wodge": "~0.4.0",
+    "wodge": "~0.5.0",
     "console-dope": "~0.3",
     "more-fs": "~0.2"
   },
