@@ -45,17 +45,17 @@ Renamer comes with globbing support built in (provided by [node-glob](https://gi
 
 For example, this command operates on all js files in the current directory:
 
-    $ renamer --find this --replace that *.js
+    $ renamer --find this --replace that '*.js'
     
 this command operates on all js files, recursively:
 
-    $ renamer --find this --replace that **/*.js
+    $ renamer --find this --replace that '**/*.js'
     
 this command operates on all js files from the `lib` directory downward:
 
-    $ renamer --find this --replace that lib/**/*.js
+    $ renamer --find this --replace that 'lib/**/*.js'
     
-**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `"**/*.js"`
+**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `'**/*.js'`
 
 Examples
 --------
