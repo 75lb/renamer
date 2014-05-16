@@ -1,6 +1,7 @@
-[![NPM version](https://badge.fury.io/js/renamer.png)](http://badge.fury.io/js/renamer)
-[![Build Status](https://travis-ci.org/75lb/renamer.png)](https://travis-ci.org/75lb/renamer)
-[![Dependency Status](https://david-dm.org/75lb/renamer.png)](https://david-dm.org/75lb/renamer)
+[![view on npm](http://img.shields.io/npm/v/renamer.svg)](https://www.npmjs.org/package/renamer)
+[![npm module downloads per month](http://img.shields.io/npm/dm/renamer.svg)](https://www.npmjs.org/package/renamer)
+[![Build Status](https://travis-ci.org/75lb/renamer.svg)](https://travis-ci.org/75lb/renamer)
+[![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 ![Analytics](https://ga-beacon.appspot.com/UA-27725889-22/renamer/README.md?pixel)
 
 renamer
@@ -275,5 +276,3 @@ $ renamer --regex --find '^' --replace 'good-' '**'
         </tr>
     </tbody>
 </table>
-
-![NPM](https://nodei.co/npm-dl/renamer.png?months=3)
