@@ -279,6 +279,22 @@ test("--replace, --regex: replace whole string", function(t){
     t.end();
 });
 
+test("--replace, --regex: replace regex in multiple files", function(t){
+    var options = {
+        files: [ "1.txt", "2.jpg", "3.png" ],
+        find: "\\d",
+        replace: "x",
+        regex: true
+    };
+    var result = renamer.replace(options).list;
+    t.deepEqual(result, [
+        { before: "1.txt", after: "x.txt" },
+        { before: "2.jpg", after: "x.jpg" },
+        { before: "3.png", after: "x.png" }
+    ]);
+    t.end();
+});
+
 test("should handle crap input", function(t){
     t.throws(function(){
         renamer.replace("ldjf", 1, true);

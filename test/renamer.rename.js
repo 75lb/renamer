@@ -12,6 +12,13 @@ function initFixture(){
     mfs.write("test/fixture/file3.txt");
 }
 
+function initFixture2(){
+    mfs.rmdir("test/fixture");
+    mfs.write("test/fixture/1.txt");
+    mfs.write("test/fixture/2.jpg");
+    mfs.write("test/fixture/3.png");
+}
+
 test("rename on disk", function(t){
     initFixture();
     var resultArray = [
@@ -55,6 +62,23 @@ test("no .after specified", function(t){
     ]);
     t.end();
 });
+
+test("replace regex in multiple files", function(t){
+    initFixture2();
+    var resultArray = [ 
+        { before: 'test/fixture/1.txt', after: 'test/fixture/x.txt' },
+        { before: 'test/fixture/2.jpg', after: 'test/fixture/x.jpg' },
+        { before: 'test/fixture/3.png', after: 'test/fixture/x.png' } 
+    ];
+    var results = renamer.rename(new Results(resultArray));
+    t.deepEqual(results.list, [ 
+        { before: 'test/fixture/1.txt', after: 'test/fixture/x.txt', renamed: true },
+        { before: 'test/fixture/2.jpg', after: 'test/fixture/x.jpg', renamed: true },
+        { before: 'test/fixture/3.png', after: 'test/fixture/x.png', renamed: true } 
+    ]);
+    t.end();
+});
+
 
 test("crap input", function(t){
     initFixture();
