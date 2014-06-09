@@ -1,6 +1,5 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
-    Options = require("../lib/RenamerOptions"),
     path = require("path");
 
 var preset = {
@@ -8,10 +7,10 @@ var preset = {
 };
 
 test("--replace: replace whole string", function(t){
-    var options = new Options({
+    var options = {
         files: preset.one,
         replace: "{{index}}.txt"
-    });
+    };
     var results = renamer.replace(options);
     results = renamer.replaceIndexToken(results);
     t.deepEqual(results.list, [
@@ -23,11 +22,11 @@ test("--replace: replace whole string", function(t){
 });
 
 test("--replace, --regex: replace whole string", function(t){
-    var options = new Options({
+    var options = {
         files: preset.one,
         replace: "{{index}}.txt",
         regex: true
-    });
+    };
     var results = renamer.replace(options);
     results = renamer.replaceIndexToken(results);
     t.deepEqual(results.list, [
