@@ -1,25 +1,20 @@
 #!/usr/bin/env node
 "use strict";
 
-var Model = require("nature").Model,
+var cliArgs = require("command-line-args"),
     dope = require("console-dope"),
     renamer = require("../lib/renamer"),
-    RenamerOptions = renamer.RenamerOptions,
-    w = require("wodge");
+    s = require("string-ting");
 
 function log(verbose, result){
     if (!verbose && !result.renamed) return;
     dope.log(
         "%%%s{%s} %s %s",
         result.renamed ? "green" : "red",
-        result.renamed ? w.symbol.tick : w.symbol.cross,
+        result.renamed ? s.symbol.tick : s.symbol.cross,
         result.before + (result.after ? " -> " + result.after : ""),
         result.error ? "(%red{" + result.error + "})" : ""
     );
-}
-
-function logError(msg){
-    dope.red.error(msg);
 }
 
 var usage = "Usage: \n\
@@ -40,37 +35,29 @@ $ renamer [--regex] [--find <pattern>] [--replace <string>] [--dry-run] [--verbo
 \n\
 for more detailed instructions, visit https://github.com/75lb/renamer\n";
 
-var argv;
-argv = new Model()
-    .on("error", function(err){
-        logError("Error: " + err.message);
-        process.exit(1);
-    })
-    .mixIn(new RenamerOptions(), "rename")
-    .define({ name: "verbose", type: "boolean", alias: "v" })
-    .define({ name: "help", type: "boolean", alias: "h" })
-    .set(process.argv);
-    
-if (!argv.valid) {
-    logError("Some values were invalid");
-    logError(argv.validationMessages.toString());
-    dope.log(usage);
-    process.exit(1);
-}
+var argv = cliArgs([
+    { name: "files", type: Array, defaultOption: true, value: [] },
+    { name: "find", alias: "f" },
+    { name: "replace", alias: "r", value: "" },
+    { name: "regex", type: Boolean, alias: "e" },
+    { name: "dry-run", type: Boolean, alias: "d" },
+    { name: "insensitive", type: Boolean, alias: "i" },
+    { name: "verbose", type: Boolean, alias: "v" },
+    { name: "help", type: Boolean, alias: "h" }
+]).parse();
 
 if (argv.files.length){
-    var options = argv.where({ group: "rename" });
-    var fileStats = renamer.expand(options.files);
-    options.files = fileStats.filesAndDirs;
+    var fileStats = renamer.expand(argv.files);
+    argv.files = fileStats.filesAndDirs;
     
     fileStats.notExisting.forEach(function(file){
         log(argv.verbose, { before: file, error: "does not exist" });
     });
     
-    var results = renamer.replace(options);
+    var results = renamer.replace(argv);
     results = renamer.replaceIndexToken(results);
     if (results.list.length){
-        if (options["dry-run"]){
+        if (argv["dry-run"]){
             dope.bold.underline.log("Dry run");
             renamer.dryRun(results).list.forEach(log.bind(null, argv.verbose));
         } else {

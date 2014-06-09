@@ -10,10 +10,6 @@ function initFixture(){
     mfs.write("test/fixture/clive2.txt");
     mfs.write("test/fixture/file3.txt");
 }
-function _test(){
-    initFixture();
-    return test.apply(test, arguments);
-}
 
 test("cli: no args", function(t){
     initFixture();
@@ -23,7 +19,7 @@ test("cli: no args", function(t){
         if (err) {
             t.error(err);
         } else {
-            t.pass("ran ok. ")
+            t.pass("ran ok. ");
         }
     });
 });
@@ -35,7 +31,7 @@ test("cli: simple replace", function(t){
         if (err) {
             t.error(err);
         } else {
-            t.pass("ran ok. ")
+            t.pass("ran ok. ");
         }
 
         t.notOk(fs.existsSync(path.join("test", "fixture", "clive1.txt")), "file doesn't exist");

@@ -1,25 +1,15 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
     Results = renamer.Results,
-    Options = require("../lib/RenamerOptions"),
     mfs = require("more-fs"),
-    w = require("wodge"),
     fs = require("fs"),
     path = require("path");
-
-var preset = {
-    one: [ "file1.txt", "file2.txt", "folder/file3.txt"]
-};
 
 function initFixture(){
     mfs.rmdir("test/fixture");
     mfs.write("test/fixture/file1.txt");
     mfs.write("test/fixture/file2.txt");
     mfs.write("test/fixture/file3.txt");
-}
-function _test(){
-    initFixture();
-    return test.apply(test, arguments);
 }
 
 test("rename on disk", function(t){

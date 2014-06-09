@@ -1,6 +1,5 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
-    Results = renamer.Results,
     Options = require("../lib/RenamerOptions"),
     path = require("path");
 

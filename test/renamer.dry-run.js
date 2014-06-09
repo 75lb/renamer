@@ -1,11 +1,6 @@
 var test = require("tape"),
     renamer = require("../lib/renamer"),
-    Results = renamer.Results,
-    Options = require("../lib/RenamerOptions");
-
-var preset = {
-    one: [ "file1.txt", "file2.txt", "folder/file3.txt"]
-};
+    Results = renamer.Results;
 
 test("dryRun data added", function(t){
     var resultList = [
