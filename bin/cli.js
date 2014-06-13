@@ -4,7 +4,7 @@
 var cliArgs = require("command-line-args"),
     dope = require("console-dope"),
     renamer = require("../lib/renamer"),
-    s = require("string-ting");
+    s = require("string-tools");
 
 function log(verbose, result){
     if (!verbose && !result.renamed) return;
