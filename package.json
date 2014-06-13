@@ -14,8 +14,7 @@
     "array-tools": "^1.0.6",
     "command-line-args": "^0.2.3",
     "console-dope": "~0.3",
-    "file-set": "0.0.1",
-    "glob": "~3.2.6",
+    "file-set": "^0.1.1",
     "string-tools": "^0.1.4"
   },
   "devDependencies": {
