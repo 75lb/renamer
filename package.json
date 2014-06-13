@@ -1,7 +1,7 @@
 {
   "name": "renamer",
   "description": "Batch rename files and folders",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "bin": "bin/cli.js",
   "main": "./lib/renamer",
   "repository": "https://github.com/75lb/renamer",
