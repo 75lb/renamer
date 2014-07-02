@@ -66,15 +66,15 @@ test("no .after specified", function(t){
 test("replace regex in multiple files", function(t){
     initFixture2();
     var resultArray = [ 
-        { before: 'test/fixture/1.txt', after: 'test/fixture/x.txt' },
-        { before: 'test/fixture/2.jpg', after: 'test/fixture/x.jpg' },
-        { before: 'test/fixture/3.png', after: 'test/fixture/x.png' } 
+        { before: "test/fixture/1.txt", after: "test/fixture/x.txt" },
+        { before: "test/fixture/2.jpg", after: "test/fixture/x.jpg" },
+        { before: "test/fixture/3.png", after: "test/fixture/x.png" } 
     ];
     var results = renamer.rename(new Results(resultArray));
     t.deepEqual(results.list, [ 
-        { before: 'test/fixture/1.txt', after: 'test/fixture/x.txt', renamed: true },
-        { before: 'test/fixture/2.jpg', after: 'test/fixture/x.jpg', renamed: true },
-        { before: 'test/fixture/3.png', after: 'test/fixture/x.png', renamed: true } 
+        { before: "test/fixture/1.txt", after: "test/fixture/x.txt", renamed: true },
+        { before: "test/fixture/2.jpg", after: "test/fixture/x.jpg", renamed: true },
+        { before: "test/fixture/3.png", after: "test/fixture/x.png", renamed: true } 
     ]);
     t.end();
 });

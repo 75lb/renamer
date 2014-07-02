@@ -7,18 +7,19 @@
   "repository": "https://github.com/75lb/renamer",
   "author": "Lloyd Brookes",
   "scripts": {
-    "test": "tape test/cli.js test/renamer.*.js",
+    "test": "tape test/cli.js test/renamer.*.js | tap-spec",
     "lint": "jshint bin/cli.js lib/*.js test/*.js; echo;"
   },
   "dependencies": {
     "array-tools": "^1.0.6",
-    "command-line-args": "^0.2.3",
+    "command-line-args": "^0.4",
     "console-dope": "~0.3",
-    "file-set": "^0.1.1",
+    "file-set": "^0.2",
     "string-tools": "^0.1.4"
   },
   "devDependencies": {
     "more-fs": "^0.4.0",
-    "tape": "~2.12.0"
+    "tap-spec": "^0.2.0",
+    "tape": "^2.12.0"
   }
 }
