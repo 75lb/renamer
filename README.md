@@ -18,7 +18,7 @@ $ npm install -g renamer
 
 Usage
 -----
-```sh
+```
 Usage
 $ renamer <options> <files>
 
