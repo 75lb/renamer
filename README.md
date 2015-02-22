@@ -62,7 +62,7 @@ this command operates on all js files from the `lib` directory downward:
 
 Examples
 --------
-###Simple replace
+### Simple replace
 
 ```sh
 $ renamer --find '[bad]' --replace '[good]' *
@@ -84,7 +84,7 @@ $ renamer --find '[bad]' --replace '[good]' *
     </tbody>
 </table>
 
-###Case insenstive finds
+### Case insenstive finds
 
 ```sh
 $ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
@@ -105,7 +105,7 @@ $ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
     </tbody>
 </table>
 
-###Strip out unwanted text
+### Strip out unwanted text
 
 ```sh
 $ renamer --find 'Season 1 - ' *
@@ -127,7 +127,7 @@ $ renamer --find 'Season 1 - ' *
     </tbody>
 </table>
 
-###Simple filename cleanup
+### Simple filename cleanup
 
 ```sh
 $ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
@@ -151,7 +151,7 @@ $ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
     </tbody>
 </table>
 
-###Give your images a new numbering scheme
+### Give your images a new numbering scheme
 
 ```sh
 $ renamer --replace 'Image{{index}}.jpg' *
@@ -175,7 +175,7 @@ $ renamer --replace 'Image{{index}}.jpg' *
     </tbody>
 </table>
 
-###do something about all those full stops
+### do something about all those full stops
 
 ```sh
 $ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
@@ -197,7 +197,7 @@ $ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
     </tbody>
 </table>
 
-###if not already done, add your name to a load of files
+### if not already done, add your name to a load of files
 ```sh
 $ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
 ```
@@ -221,7 +221,7 @@ $ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
 </table>
 
 
-###rename files and folders, recursively
+### rename files and folders, recursively
 
 ```sh
 $ renamer --find 'pic' --replace 'photo' '**'
@@ -250,7 +250,7 @@ $ renamer --find 'pic' --replace 'photo' '**'
     </tbody>
 </table>
 
-###prefix files and folders, recursively
+### prefix files and folders, recursively
 
 ```sh
 $ renamer --regex --find '^' --replace 'good-' '**'

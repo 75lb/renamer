@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 "use strict";
 
-var cliArgs = require("command-line-args"),
-    dope = require("console-dope"),
-    renamer = require("../lib/renamer"),
-    s = require("string-tools");
+var cliArgs = require("command-line-args");
+var dope = require("console-dope");
+var renamer = require("../lib/renamer");
+var s = require("string-tools");
 
 var cli = cliArgs([
     {   name: "files", type: Array, defaultOption: true, value: [],
