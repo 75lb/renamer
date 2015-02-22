@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "array-tools": "^1.0.6",
+    "command-line-args": "^0.5.5",
     "console-dope": "~0.3",
     "file-set": "^0.2",
     "string-tools": "^0.1.4"
