@@ -278,3 +278,7 @@ $ renamer --regex --find '^' --replace 'good-' '**'
         </tr>
     </tbody>
 </table>
+
+* * *
+
+&copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
