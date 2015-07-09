@@ -1,32 +1,16 @@
 #!/usr/bin/env node
 "use strict";
-
 var cliArgs = require("command-line-args");
+var cliOptions = require("../lib/cliOptions");
 var dope = require("console-dope");
 var renamer = require("../lib/renamer");
 var s = require("string-tools");
 
-var cli = cliArgs([
-    {   name: "files", type: Array, defaultOption: true, value: [],
-        description: "The files to rename. This is the default option." },
-    {   name: "find", alias: "f",
-        description: "The find string, or regular expression when --regex is set.\nIf not set, the whole filename will be replaced." },
-    {   name: "replace", alias: "r", value: "",
-        description: "The replace string. With --regex set, --replace can reference\nparenthesised substrings from --find with $1, $2, $3 etc.\nIf omitted, defaults to a blank string. The special token\n'{{index}}' will insert an incrementing number per file\nprocessed." },
-    {   name: "regex", type: Boolean, alias: "e",
-        description: "When set, --find is intepreted as a regular expression." },
-    {   name: "dry-run", type: Boolean, alias: "d",
-        description: "Used for test runs. Set this to do everything but rename the file." },
-    {   name: "insensitive", type: Boolean, alias: "i",
-        description: "Enable case-insensitive finds." },
-    {   name: "verbose", type: Boolean, alias: "v",
-        description: "Use to print additional information." },
-    {   name: "help", type: Boolean, alias: "h",
-        description: "Print usage instructions." }
-]);
-
+var cli = cliArgs(cliOptions);
 var usage = cli.getUsage({
-    forms: [ "$ renamer <options> <files>" ],
+    title: "renamer",
+    description: "Batch rename files and folders.",
+    forms: "$ renamer <options> <files>",
     footer: "for more detailed instructions, visit https://github.com/75lb/renamer"
 });
 
