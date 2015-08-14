@@ -11,7 +11,7 @@ var usage = cli.getUsage({
     title: "renamer",
     description: "Batch rename files and folders.",
     forms: "$ renamer <options> <files>",
-    footer: "for more detailed instructions, visit https://github.com/75lb/renamer",
+    footer: "for more detailed instructions, visit [underline]{https://github.com/75lb/renamer}",
     hide: "files"
 });
 
