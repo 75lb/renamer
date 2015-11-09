@@ -15,7 +15,7 @@ test("cli: no args", function(t){
     initFixture();
     t.plan(2);
     exec("node bin/cli.js", function(err, stdout){
-        t.ok(/Usage/.test(stdout), "usage is there");
+        t.ok(/renamer/.test(stdout), "usage is there");
         if (err) {
             t.error(err);
         } else {

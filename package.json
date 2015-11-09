@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "array-tools": "^2",
-    "command-line-args": "^1.0.0",
+    "command-line-args": "^2.1",
     "console-dope": "~0.3",
     "file-set": "^0.2",
-    "string-tools": "^0.1.4"
+    "string-tools": "^1"
   },
   "devDependencies": {
     "more-fs": "^0.5.0",
