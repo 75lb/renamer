@@ -44,24 +44,28 @@ For more information on Regular Expressions, see [this useful guide](https://dev
 
 Recursing
 ---------
-Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)), enabling recursive operations. To recurse, use the `**` wildcard where a directory name would appear to apply the meaning "any directory, including this one". 
+Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)), enabling recursive operations. To recurse, use the `**` wildcard where a directory name would appear to apply the meaning "any directory, including this one".
 
 For example, this command operates on all js files in the current directory:
 
     $ renamer --find this --replace that '*.js'
-    
+
 this command operates on all js files, recursively:
 
     $ renamer --find this --replace that '**/*.js'
-    
+
 this command operates on all js files from the `lib` directory downward:
 
     $ renamer --find this --replace that 'lib/**/*.js'
-    
+
 **Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `'**/*.js'`
 
 Examples
 --------
+Some real-world examples.
+
+**Windows users**: the single-quotation marks used in the example commands below are for bash (Mac/Linux) users, please replace these with double-quotation marks on Windows.
+
 ### Simple replace
 
 ```sh
