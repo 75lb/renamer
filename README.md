@@ -2,7 +2,7 @@
 [![npm module downloads per month](http://img.shields.io/npm/dm/renamer.svg)](https://www.npmjs.org/package/renamer)
 [![Build Status](https://travis-ci.org/75lb/renamer.svg)](https://travis-ci.org/75lb/renamer)
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
-![Analytics](https://ga-beacon.appspot.com/UA-27725889-22/renamer/README.md?pixel)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 renamer
 =======
@@ -285,4 +285,4 @@ $ renamer --regex --find '^' --replace 'good-' '**'
 
 * * *
 
-&copy; 2015 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+&copy; 2015-16 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
