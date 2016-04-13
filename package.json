@@ -11,11 +11,12 @@
     "test": "tape test/cli.js test/renamer.*.js"
   },
   "dependencies": {
-    "array-tools": "^2.0.9",
+    "array-back": "^1.0.3",
     "command-line-args": "^2.1.6",
     "console-dope": "~0.3.6",
     "file-set": "^1.0.0",
-    "string-tools": "^1.0.0"
+    "string-tools": "^1.0.0",
+    "test-value": "^2.0.0"
   },
   "devDependencies": {
     "more-fs": "~0.5.0",
