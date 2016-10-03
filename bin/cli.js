@@ -32,24 +32,24 @@ try {
   tool.halt(err)
 }
 
-var argv = cli.options
+var options = cli.options
 
-if (argv.files.length) {
-  var fileStats = renamer.expand(argv.files)
-  argv.files = fileStats.filesAndDirs
+if (options.files.length) {
+  var fileStats = renamer.expand(options.files)
+  options.files = fileStats.filesAndDirs
 
   fileStats.notExisting.forEach(function (file) {
-    log(argv.verbose, { before: file, error: 'does not exist' })
+    log(options.verbose, { before: file, error: 'does not exist' })
   })
 
-  var results = renamer.replace(argv)
+  var results = renamer.replace(options)
   results = renamer.replaceIndexToken(results)
   if (results.list.length) {
-    if (argv['dry-run']) {
+    if (options['dry-run']) {
       dope.bold.underline.log('Dry run')
-      renamer.dryRun(results).list.forEach(log.bind(null, argv.verbose))
+      renamer.dryRun(results).list.forEach(log.bind(null, options.verbose))
     } else {
-      renamer.rename(results).list.forEach(log.bind(null, argv.verbose))
+      renamer.rename(results).list.forEach(log.bind(null, options.verbose))
     }
   }
 } else {
