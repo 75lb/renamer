@@ -1,93 +1,90 @@
-var test = require('tape')
+var TestRunner = require('test-runner')
 var renamer = require('../lib/renamer')
 var Results = renamer.Results
 var mfs = require('more-fs')
 var fs = require('fs')
 var path = require('path')
+var a = require('core-assert')
 
-function initFixture () {
-  mfs.rmdir('test/fixture')
-  mfs.write('test/fixture/file1.txt')
-  mfs.write('test/fixture/file2.txt')
-  mfs.write('test/fixture/file3.txt')
+var runner = new TestRunner()
+
+function initFixture (dir) {
+  mfs.rmdir('tmp/' + dir)
+  mfs.write('tmp/' + dir + '/file1.txt')
+  mfs.write('tmp/' + dir + '/file2.txt')
+  mfs.write('tmp/' + dir + '/file3.txt')
 }
 
 function initFixture2 () {
-  mfs.rmdir('test/fixture')
-  mfs.write('test/fixture/1.txt')
-  mfs.write('test/fixture/2.jpg')
-  mfs.write('test/fixture/3.png')
+  mfs.rmdir('tmp/fixture')
+  mfs.write('tmp/fixture/1.txt')
+  mfs.write('tmp/fixture/2.jpg')
+  mfs.write('tmp/fixture/3.png')
 }
 
-test('rename on disk', function (t) {
-  initFixture()
+runner.test('rename on disk', function () {
+  initFixture('rename-one')
   var resultArray = [
-    { before: 'test/fixture/file1.txt', after: path.join('test', 'fixture', 'clive1.txt') }
+    { before: 'tmp/rename-one/file1.txt', after: path.join('tmp', 'rename-one', 'clive1.txt') }
   ]
   var results = renamer.rename(new Results(resultArray))
-  t.deepEqual(results.list, [
-    { before: 'test/fixture/file1.txt', after: path.join('test', 'fixture', 'clive1.txt'), renamed: true }
+  a.deepEqual(results.list, [
+    { before: 'tmp/rename-one/file1.txt', after: path.join('tmp', 'rename-one', 'clive1.txt'), renamed: true }
   ])
-  t.notOk(fs.existsSync('test/fixture/file1.txt'), "file doesn't exist")
-  t.ok(fs.existsSync(path.join('test', 'fixture', 'clive1.txt')), 'file exists')
-  t.end()
+  a.ok(!fs.existsSync('tmp/rename-one/file1.txt'), "file doesn't exist")
+  a.ok(fs.existsSync(path.join('tmp', 'rename-one', 'clive1.txt')), 'file exists')
 })
 
-test('rename on disk, file exists', function (t) {
-  initFixture()
+runner.test('rename on disk, file exists', function () {
+  initFixture('rename-two')
   var resultArray = [
-    { before: 'test/fixture/file2.txt', after: 'test/fixture/clive2.txt' },
-    { before: 'test/fixture/file3.txt', after: 'test/fixture/clive2.txt' }
+    { before: 'tmp/rename-two/file2.txt', after: 'tmp/rename-two/clive2.txt' },
+    { before: 'tmp/rename-two/file3.txt', after: 'tmp/rename-two/clive2.txt' }
   ]
   var results = renamer.rename(new Results(resultArray))
-  t.deepEqual(results.list, [
-    { before: 'test/fixture/file2.txt', after: 'test/fixture/clive2.txt', renamed: true },
-    { before: 'test/fixture/file3.txt', after: 'test/fixture/clive2.txt', renamed: false, error: 'file exists' }
+  a.deepEqual(results.list, [
+    { before: 'tmp/rename-two/file2.txt', after: 'tmp/rename-two/clive2.txt', renamed: true },
+    { before: 'tmp/rename-two/file3.txt', after: 'tmp/rename-two/clive2.txt', renamed: false, error: 'file exists' }
   ])
 
-  t.notOk(fs.existsSync('test/fixture/file2.txt'), "file doesn't exist")
-  t.ok(fs.existsSync('test/fixture/clive2.txt'), 'file exists')
-  t.ok(fs.existsSync('test/fixture/file3.txt'), 'file exists')
-  t.end()
+  a.ok(!fs.existsSync('tmp/rename-two/file2.txt'), "file doesn't exist")
+  a.ok(fs.existsSync('tmp/rename-two/clive2.txt'), 'file exists')
+  a.ok(fs.existsSync('tmp/rename-two/file3.txt'), 'file exists')
 })
 
-test('no .after specified', function (t) {
-  initFixture()
+runner.test('no .after specified', function () {
+  initFixture('three')
   var resultArray = [
-    { before: 'test/fixture/file1.txt' }
+    { before: 'test/three/file1.txt' }
   ]
   var results = renamer.rename(new Results(resultArray))
-  t.deepEqual(results.list, [
-    { before: 'test/fixture/file1.txt', renamed: false, error: 'no change' }
+  a.deepEqual(results.list, [
+    { before: 'test/three/file1.txt', renamed: false, error: 'no change' }
   ])
-  t.end()
 })
 
-test('replace regex in multiple files', function (t) {
+runner.test('replace regex in multiple files', function () {
   initFixture2()
   var resultArray = [
-    { before: 'test/fixture/1.txt', after: 'test/fixture/x.txt' },
-    { before: 'test/fixture/2.jpg', after: 'test/fixture/x.jpg' },
-    { before: 'test/fixture/3.png', after: 'test/fixture/x.png' }
+    { before: 'tmp/fixture/1.txt', after: 'tmp/fixture/x.txt' },
+    { before: 'tmp/fixture/2.jpg', after: 'tmp/fixture/x.jpg' },
+    { before: 'tmp/fixture/3.png', after: 'tmp/fixture/x.png' }
   ]
   var results = renamer.rename(new Results(resultArray))
-  t.deepEqual(results.list, [
-    { before: 'test/fixture/1.txt', after: 'test/fixture/x.txt', renamed: true },
-    { before: 'test/fixture/2.jpg', after: 'test/fixture/x.jpg', renamed: true },
-    { before: 'test/fixture/3.png', after: 'test/fixture/x.png', renamed: true }
+  a.deepEqual(results.list, [
+    { before: 'tmp/fixture/1.txt', after: 'tmp/fixture/x.txt', renamed: true },
+    { before: 'tmp/fixture/2.jpg', after: 'tmp/fixture/x.jpg', renamed: true },
+    { before: 'tmp/fixture/3.png', after: 'tmp/fixture/x.png', renamed: true }
   ])
-  t.end()
 })
 
-test('crap input', function (t) {
-  initFixture()
+runner.test('crap input', function () {
   var resultArray = [
     { before: 'sdfsdg', after: 'dsfkhdlkfh' }
   ]
   var results = renamer.rename(new Results(resultArray))
-  t.equal(results.list[0].before, 'sdfsdg')
-  t.equal(results.list[0].after, 'dsfkhdlkfh')
-  t.equal(results.list[0].renamed, false)
-  t.ok(/ENOENT/.test(results.list[0].error), 'ENOENT')
-  t.end()
+  a.equal(results.list[0].before, 'sdfsdg')
+  a.equal(results.list[0].after, 'dsfkhdlkfh')
+  a.equal(results.list[0].renamed, false)
+  a.ok(/ENOENT/.test(results.list[0].error), 'ENOENT')
 })

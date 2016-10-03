@@ -1,43 +1,42 @@
-var test = require('tape')
+var TestRunner = require('test-runner')
 var fs = require('fs')
 var path = require('path')
 var mfs = require('more-fs')
 var exec = require('child_process').exec
+var a = require('core-assert')
+
+var runner = new TestRunner()
 
 function initFixture () {
-  mfs.rmdir('test/fixture')
-  mfs.write('test/fixture/clive1.txt')
-  mfs.write('test/fixture/clive2.txt')
-  mfs.write('test/fixture/file3.txt')
+  mfs.rmdir('tmp/test-cli')
+  mfs.write('tmp/test-cli/clive1.txt')
+  mfs.write('tmp/test-cli/clive2.txt')
+  mfs.write('tmp/test-cli/file3.txt')
 }
 
-test('cli: no args', function (t) {
+runner.test('cli: no args', function () {
   initFixture()
-  t.plan(2)
-  exec('node bin/cli.js', function (err, stdout) {
-    t.ok(/renamer/.test(stdout), 'usage is there')
-    if (err) {
-      t.error(err)
-    } else {
-      t.pass('ran ok. ')
-    }
+  return new Promise(function (resolve, reject) {
+    exec('node bin/cli.js', function (err, stdout) {
+      if (err) return reject(err)
+      a.ok(/renamer/.test(stdout), 'usage is there')
+      resolve()
+    })
   })
 })
 
-test('cli: simple replace', function (t) {
+runner.test('cli: simple replace', function () {
   initFixture()
-  t.plan(6)
-  exec('node bin/cli.js -f clive -r hater test/fixture/*', function (err) {
-    if (err) {
-      t.error(err)
-    } else {
-      t.pass('ran ok. ')
-    }
+  return new Promise(function (resolve, reject) {
+    exec('node bin/cli.js -f clive -r hater test/fixture/*', function (err) {
+      if (err) return reject(err)
 
-    t.notOk(fs.existsSync(path.join('test', 'fixture', 'clive1.txt')), "file doesn't exist")
-    t.notOk(fs.existsSync(path.join('test', 'fixture', 'clive2.txt')), "file doesn't exist")
-    t.ok(fs.existsSync(path.join('test', 'fixture', 'hater1.txt')), 'file exists')
-    t.ok(fs.existsSync(path.join('test', 'fixture', 'hater2.txt')), 'file exists')
-    t.ok(fs.existsSync(path.join('test', 'fixture', 'file3.txt')), 'file exists')
+      a.ok(!fs.existsSync(path.join('test', 'fixture', 'clive1.txt')), "file doesn't exist")
+      a.ok(!fs.existsSync(path.join('test', 'fixture', 'clive2.txt')), "file doesn't exist")
+      a.ok(fs.existsSync(path.join('test', 'fixture', 'hater1.txt')), 'file exists')
+      a.ok(fs.existsSync(path.join('test', 'fixture', 'hater2.txt')), 'file exists')
+      a.ok(fs.existsSync(path.join('test', 'fixture', 'file3.txt')), 'file exists')
+      resolve()
+    })
   })
 })

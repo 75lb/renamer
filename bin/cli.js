@@ -1,25 +1,38 @@
 #!/usr/bin/env node
 'use strict'
+var tool = require('command-line-tool')
 var cliArgs = require('command-line-args')
 var cliOptions = require('../lib/cliOptions')
 var dope = require('console-dope')
 var renamer = require('../lib/renamer')
 var s = require('string-tools')
 
-var cli = cliArgs(cliOptions)
-var usage = cli.getUsage({
-  title: 'renamer',
-  description: 'Batch rename files and folders.',
-  forms: '$ renamer <options> <files>',
-  footer: 'for more detailed instructions, visit [underline]{https://github.com/75lb/renamer}',
-  hide: 'files'
-})
+var usageSections = [
+  {
+    header: 'renamer',
+    content: 'Batch rename files and folders.'
+  },
+  {
+    header: 'Synopsis',
+    content: '$ renamer <options> <files>'
+  },
+  {
+    header: 'Options',
+    optionList: cliOptions,
+    hide: 'files'
+  },
+  {
+    content: 'for more detailed instructions, visit [underline]{https://github.com/75lb/renamer}'
+  }
+]
 
 try {
-  var argv = cli.parse()
+  var cli = tool.getCli(cliOptions, usageSections)
 } catch (err) {
-  halt(err)
+  tool.halt(err)
 }
+
+var argv = cli.options
 
 if (argv.files.length) {
   var fileStats = renamer.expand(argv.files)
@@ -40,7 +53,7 @@ if (argv.files.length) {
     }
   }
 } else {
-  dope.log(usage)
+  dope.log(cli.usage)
 }
 
 function log (verbose, result) {
@@ -52,10 +65,4 @@ function log (verbose, result) {
     result.before + (result.after ? ' -> ' + result.after : ''),
     result.error ? '(%red{' + result.error + '})' : ''
   )
-}
-
-function halt (err) {
-  dope.red.error(err.message)
-  dope.log(usage)
-  process.exit(1)
 }
