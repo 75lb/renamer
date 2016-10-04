@@ -11,11 +11,11 @@
     "test": "test-runner test/cli.js test/renamer.*.js"
   },
   "dependencies": {
-    "app-usage-stats": "^0.3.5",
+    "app-usage-stats": "^0.3.6",
     "array-back": "^1.0.3",
     "command-line-tool": "^0.6.3",
     "console-dope": "~0.3.6",
-    "file-set": "^1.0.2",
+    "file-set": "^1.1.0",
     "string-tools": "^1.0.0",
     "test-value": "^2.1.0"
   },
