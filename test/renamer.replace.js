@@ -281,7 +281,7 @@ runner.test('--replace, --regex: replace regex in multiple files', function () {
 runner.test('should handle crap input', function () {
   a.throws(function () {
     renamer.replace('ldjf', 1, true)
-  })
+  }, /Invalid/)
   a.throws(function () {
     renamer.replace({ file: 'clive.txt', find: 'i', r: 'o' })
   })
