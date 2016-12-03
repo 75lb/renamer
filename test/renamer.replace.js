@@ -25,7 +25,6 @@ runner.test('--find, --replace: find string not found, nothing replaced', functi
     { before: 'file2.txt' },
     { before: path.join('folder', 'file3.txt') }
   ])
-
 })
 
 runner.test('--find, --replace: simple replace', function () {
@@ -140,7 +139,6 @@ runner.test('--find, --replace, --regex: find string not found, nothing replaced
     { before: 'file2.txt' },
     { before: path.join('folder', 'file3.txt') }
   ])
-
 })
 
 runner.test('--find, --replace, --regex: simple replace', function () {

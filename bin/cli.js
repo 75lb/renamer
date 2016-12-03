@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict'
 var tool = require('command-line-tool')
-var cliArgs = require('command-line-args')
 var cliOptions = require('../lib/cliOptions')
 var dope = require('console-dope')
 var renamer = require('../lib/renamer')
