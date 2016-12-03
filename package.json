@@ -1,7 +1,7 @@
 {
   "name": "renamer",
   "description": "Batch rename files and folders",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "bin": "bin/cli.js",
   "main": "./lib/renamer",
   "license": "MIT",
