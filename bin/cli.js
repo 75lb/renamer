@@ -53,6 +53,7 @@ if (options.files.length) {
     }
   }
 } else {
+  dope.red.error('No input files supplied')
   dope.log(cli.usage)
 }
 
