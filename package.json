@@ -17,7 +17,8 @@
     "console-dope": "~0.3.6",
     "file-set": "^1.1.1",
     "string-tools": "^1.0.0",
-    "test-value": "^2.1.0"
+    "test-value": "^2.1.0",
+    "typical": "^2.6.0"
   },
   "devDependencies": {
     "core-assert": "^0.2.1",
