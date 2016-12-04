@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "app-usage-stats": "^0.4.0",
-    "array-back": "^1.0.3",
+    "array-back": "^1.0.4",
     "command-line-tool": "^0.6.4",
     "console-dope": "~0.3.6",
     "file-set": "^1.1.1",
