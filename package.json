@@ -16,6 +16,7 @@
     "command-line-tool": "^0.6.4",
     "console-dope": "~0.3.6",
     "file-set": "^1.1.1",
+    "printj": "^1.0.0",
     "string-tools": "^1.0.0",
     "test-value": "^2.1.0",
     "typical": "^2.6.0"

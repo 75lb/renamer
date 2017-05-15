@@ -42,7 +42,7 @@ if (options.files.length) {
   })
 
   var results = renamer.replace(options)
-  results = renamer.replaceIndexToken(results)
+  results = renamer.replaceIndexToken(results, options)
   if (results.list.length) {
     if (options['dry-run']) {
       dope.bold.underline.log('Dry run')
