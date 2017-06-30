@@ -11,18 +11,17 @@
     "test": "test-runner test/cli.js test/renamer.*.js"
   },
   "dependencies": {
-    "app-usage-stats": "^0.4.0",
-    "array-back": "^1.0.4",
-    "command-line-tool": "^0.6.4",
-    "console-dope": "~0.3.6",
+    "ansi-escape-sequences": "^3.0.0",
+    "array-back": "^2.0.0",
+    "command-line-args": "^4.0.6",
+    "command-line-usage": "^4.0.0",
     "file-set": "^1.1.1",
-    "string-tools": "^1.0.0",
     "test-value": "^2.1.0",
-    "typical": "^2.6.0"
+    "typical": "^2.6.1",
+    "usage-stats": "^0.9.3"
   },
   "devDependencies": {
-    "core-assert": "^0.2.1",
     "more-fs": "~0.5.0",
-    "test-runner": "^0.3.0"
+    "test-runner": "^0.4.0"
   }
 }

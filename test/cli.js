@@ -3,7 +3,7 @@ var fs = require('fs')
 var path = require('path')
 var mfs = require('more-fs')
 var exec = require('child_process').exec
-var a = require('core-assert')
+var a = require('assert')
 
 var runner = new TestRunner()
 

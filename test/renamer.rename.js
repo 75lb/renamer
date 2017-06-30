@@ -4,7 +4,7 @@ var Results = renamer.Results
 var mfs = require('more-fs')
 var fs = require('fs')
 var path = require('path')
-var a = require('core-assert')
+var a = require('assert')
 
 var runner = new TestRunner()
 

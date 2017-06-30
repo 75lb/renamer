@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 'use strict'
-var tool = require('command-line-tool')
-var cliOptions = require('../lib/cliOptions')
-var dope = require('console-dope')
-var renamer = require('../lib/renamer')
-var s = require('string-tools')
+const commandLineArgs = require('command-line-args')
+const commandLineUsage = require('command-line-usage')
+const cliOptions = require('../lib/cliOptions')
+const renamer = require('../lib/renamer')
+const ansi = require('ansi-escape-sequences')
 
-var usageSections = [
+const usageSections = [
   {
     header: 'renamer',
     content: 'Batch rename files and folders.'
@@ -25,44 +25,49 @@ var usageSections = [
   }
 ]
 
+let options
 try {
-  var cli = tool.getCli(cliOptions, usageSections)
+  options = commandLineArgs(cliOptions)
 } catch (err) {
-  tool.halt(err)
+  halt(err)
 }
 
-var options = cli.options
-
-if (options.files.length) {
-  var fileStats = renamer.expand(options.files)
+if (options.help) {
+  console.log(commandLineUsage(usageSections))
+} else if (options.files.length) {
+  const fileStats = renamer.expand(options.files)
   options.files = fileStats.filesAndDirs
 
   fileStats.notExisting.forEach(function (file) {
     log(options.verbose, { before: file, error: 'does not exist' })
   })
 
-  var results = renamer.replace(options)
+  let results = renamer.replace(options)
   results = renamer.replaceIndexToken(results)
   if (results.list.length) {
     if (options['dry-run']) {
-      dope.bold.underline.log('Dry run')
+      console.log(ansi.format('Dry run', ['bold', 'underline']))
       renamer.dryRun(results).list.forEach(log.bind(null, options.verbose))
     } else {
       renamer.rename(results).list.forEach(log.bind(null, options.verbose))
     }
   }
 } else {
-  dope.red.error('No input files supplied')
-  dope.log(cli.usage)
+  console.error(ansi.format('No input files supplied', 'red'))
+  console.log(commandLineUsage(usageSections))
 }
 
 function log (verbose, result) {
   if (!verbose && !result.renamed) return
-  dope.log(
-    '%%%s{%s} %s %s',
-    result.renamed ? 'green' : 'red',
-    result.renamed ? s.symbol.tick : s.symbol.cross,
-    result.before + (result.after ? ' -> ' + result.after : ''),
-    result.error ? '(%red{' + result.error + '})' : ''
-  )
+  const tick = process.platform === 'win32' ? '√' : '✔︎'
+  const cross = process.platform === 'win32' ? '×': '✖'
+  const symbol = `[${result.renamed ? 'green' : 'red'}]{${result.renamed ? tick : cross}}`
+  const desc = result.before + (result.after ? ' -> ' + result.after : '')
+  const errDesc = result.error ? `([red]{${result.error}})` : ''
+  console.log(ansi.format(`${symbol} ${desc} ${errDesc}`))
+}
+
+function halt (err) {
+  console.error(ansi.format(err.stack, 'red'))
+  process.exit(1)
 }

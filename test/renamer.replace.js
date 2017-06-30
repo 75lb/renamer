@@ -1,7 +1,7 @@
 var TestRunner = require('test-runner')
 var renamer = require('../lib/renamer')
 var path = require('path')
-var a = require('core-assert')
+var a = require('assert')
 
 var runner = new TestRunner()
 
