@@ -10,7 +10,7 @@ Batch rename files and folders.
 
 Install
 -------
-Install [node](http://nodejs.org) then:
+Install [node](https://nodejs.org) then:
 ```sh
 $ npm install -g renamer
 ```
@@ -29,7 +29,7 @@ Usage
   -r, --replace <string>   The replace string. With --regex set, --replace can reference parenthesised substrings from --find with $1, $2, $3
                            etc. If omitted, defaults to a blank string. The special token '{{index}}' will insert an incrementing number per
                            file processed.
-  -e, --regex              When set, --find is intepreted as a regular expression.
+  -e, --regex              When set, --find is interpreted as a regular expression.
   -d, --dry-run            Used for test runs. Set this to do everything but rename the file.
   -i, --insensitive        Enable case-insensitive finds.
   -v, --verbose            Use to print additional information.
@@ -40,21 +40,21 @@ Usage
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
-**Don't forget to test your rename first using `--dry-run`!**
+**Don't forget to test your rename procedure first using `--dry-run`!**
 
 Recursing
 ---------
-Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob)), enabling recursive operations. To recurse, use the `**` wildcard where a directory name would appear to apply the meaning "any directory, including this one".
+Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob), enabling recursive operations. To recurse, use the `**` wildcard where a directory name would appear to apply the meaning "any directory, including this one".
 
-For example, this command operates on all js files in the current directory:
+For example, this command operates on all `js` files in the current directory:
 
     $ renamer --find this --replace that '*.js'
 
-this command operates on all js files, recursively:
+this command operates on all `js` files, recursively:
 
     $ renamer --find this --replace that '**/*.js'
 
-this command operates on all js files from the `lib` directory downward:
+this command operates on all `js files from the `lib` directory downward:
 
     $ renamer --find this --replace that 'lib/**/*.js'
 
