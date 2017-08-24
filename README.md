@@ -54,7 +54,7 @@ this command operates on all `js` files, recursively:
 
     $ renamer --find this --replace that '**/*.js'
 
-this command operates on all `js files from the `lib` directory downward:
+this command operates on all `js` files from the `lib` directory downward:
 
     $ renamer --find this --replace that 'lib/**/*.js'
 
