@@ -124,6 +124,19 @@ runner.test('--replace: replace whole string', function () {
   ])
 })
 
+runner.test('--replace: replace whole string with indexZeroPrefixed', function () {
+  var options = {
+    files: preset.one,
+    replace: '{{indexZeroPrefixed}}.txt'
+  }
+
+  a.deepEqual(renamer.replace(options).list, [
+    { before: 'file1.txt', after: '{{indexZeroPrefixed}}.txt' },
+    { before: 'file2.txt', after: '{{indexZeroPrefixed}}.txt' },
+    { before: path.join('folder', 'file3.txt'), after: path.join('folder', '{{indexZeroPrefixed}}.txt') }
+  ])
+})
+
 /* WITH REGEX */
 runner.test('--find, --replace, --regex: find string not found, nothing replaced', function () {
   var options = {

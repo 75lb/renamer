@@ -3,3 +3,4 @@ test/fixture
 out
 tmp
 test/sandbox
+package-lock.json

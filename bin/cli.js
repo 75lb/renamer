@@ -44,6 +44,7 @@ if (options.help) {
 
   let results = renamer.replace(options)
   results = renamer.replaceIndexToken(results)
+  results = renamer.replaceIndexTokenZeroPrefixed(results)
   if (results.list.length) {
     if (options['dry-run']) {
       console.log(ansi.format('Dry run', ['bold', 'underline']))
