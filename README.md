@@ -28,7 +28,8 @@ Usage
   -f, --find <string>      The find string, or regular expression when --regex is set. If not set, the whole filename will be replaced.
   -r, --replace <string>   The replace string. With --regex set, --replace can reference parenthesised substrings from --find with $1, $2, $3
                            etc. If omitted, defaults to a blank string. The special token '{{index}}' will insert an incrementing number per
-                           file processed.
+                           file processed. The special token '{{indexZeroPrefixed}}' will insert an
+                           incrementing number prefixed by zeros.
   -e, --regex              When set, --find is interpreted as a regular expression.
   -d, --dry-run            Used for test runs. Set this to do everything but rename the file.
   -i, --insensitive        Enable case-insensitive finds.
@@ -178,6 +179,35 @@ $ renamer --replace 'Image{{index}}.jpg' *
         </tr>
     </tbody>
 </table>
+
+### Give your images a new numbering scheme prefixed with zeros
+
+Currently index `0001` from `9999` supported.
+
+```sh
+$ renamer --replace 'Image{{indexZeroPrefixed}}.jpg' *
+```
+
+<table>
+    <thead>
+        <tr><th>Before</th><th>After</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><pre><code>.
+├── IMG_5776.JPG
+├── IMG_5777.JPG
+...
+├── IMG_5788.JPG</code></pre></td>
+            <td><pre><code>.
+├── Image0001.jpg
+├── Image0002.jpg
+...
+├── Image0012.jpg</code></pre></td>
+        </tr>
+    </tbody>
+</table>
+
 
 ### do something about all those full stops
 
