@@ -3,7 +3,7 @@
 const commandLineArgs = require('command-line-args')
 const commandLineUsage = require('command-line-usage')
 const cliOptions = require('../lib/cliOptions')
-const renamer = require('../lib/renamer')
+const renamer = require('../')
 const ansi = require('ansi-escape-sequences')
 
 const usageSections = [

@@ -1,5 +1,5 @@
 var TestRunner = require('test-runner')
-var renamer = require('../lib/renamer')
+var renamer = require('../')
 var path = require('path')
 var a = require('assert')
 
