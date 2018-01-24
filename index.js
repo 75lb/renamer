@@ -4,35 +4,12 @@ const path = require('path')
 const fs = require('fs')
 const Result = require('./lib/Result')
 const Results = require('./lib/Results')
-const Usage = require('usage-stats')
 const os = require('os')
 const t = require('typical')
 
-// const usage = new Usage('UA-70853320-5', {
-//   an: 'renamer',
-//   av: require('../package').version,
-//   sendInterval: 1000 * 60 * 60 * 24,
-//   metricMap: {
-//     invocation: 1,
-//     find: 2,
-//     replace: 3,
-//     regex: 4,
-//     'dry-run': 5,
-//     insensitive: 6,
-//     verbose: 7,
-//     help: 8
-//   }
-// })
-// usage.defaults
-//   .set('cd1', process.version)
-//   .set('cd2', os.type())
-//   .set('cd3', os.release())
-// usage.loadSync()
-// process.on('exit', function () { usage.saveSync() })
-
 /**
-@module renamer
-*/
+ * @module renamer
+ */
 exports.Result = Result
 exports.Results = Results
 exports.replace = replace
@@ -49,11 +26,6 @@ exports.replaceIndexToken = replaceIndexToken
  */
 function replace (options) {
   if (!t.isPlainObject(options)) throw new Error('Invalid options supplied')
-  const metrics = { invocation: 1 }
-  for (const option in options) {
-    metrics[option] = 1
-  }
-  // usage.hit({ name: 'replace' }, metrics)
   const findRegex = regExBuilder(options)
   const results = new Results()
   results.list = options.files.map(replaceSingle.bind(null, findRegex, options.replace))
