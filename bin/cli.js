@@ -21,7 +21,7 @@ const usageSections = [
     hide: 'files'
   },
   {
-    content: 'for more detailed instructions, visit [underline]{https://github.com/75lb/renamer}'
+    content: 'for more detailed instructions, visit {underline https://github.com/75lb/renamer}'
   }
 ]
 
@@ -61,9 +61,9 @@ function log (verbose, result) {
   if (!verbose && !result.renamed) return
   const tick = process.platform === 'win32' ? '√' : '✔︎'
   const cross = process.platform === 'win32' ? '×': '✖'
-  const symbol = `[${result.renamed ? 'green' : 'red'}]{${result.renamed ? tick : cross}}`
+  const symbol = `{${result.renamed ? 'green' : 'red'} ${result.renamed ? tick : cross}}`
   const desc = result.before + (result.after ? ' -> ' + result.after : '')
-  const errDesc = result.error ? `([red]{${result.error}})` : ''
+  const errDesc = result.error ? `({red ${result.error}})` : ''
   console.log(ansi.format(`${symbol} ${desc} ${errDesc}`))
 }
 

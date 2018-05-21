@@ -9,15 +9,16 @@
     "node": ">=4.0.0"
   },
   "repository": "https://github.com/75lb/renamer",
+  "keywords": [ "rename", "move", "mv", "file", "files", "bulk", "batch" ],
   "scripts": {
     "test": "test-runner test/cli.js test/renamer.*.js"
   },
   "dependencies": {
     "ansi-escape-sequences": "^4.0.0",
     "array-back": "^2.0.0",
-    "command-line-args": "^5.0.1",
-    "command-line-usage": "^4.1.0",
-    "file-set": "^1.1.1",
+    "command-line-args": "^5.0.2",
+    "command-line-usage": "^5.0.5",
+    "file-set": "^2.0.0",
     "test-value": "^3.0.0",
     "typical": "^2.6.1"
   },
