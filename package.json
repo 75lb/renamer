@@ -9,7 +9,15 @@
     "node": ">=4.0.0"
   },
   "repository": "https://github.com/75lb/renamer",
-  "keywords": [ "rename", "move", "mv", "file", "files", "bulk", "batch" ],
+  "keywords": [
+    "rename",
+    "move",
+    "mv",
+    "file",
+    "files",
+    "bulk",
+    "batch"
+  ],
   "scripts": {
     "test": "test-runner test/cli.js test/renamer.*.js"
   },
