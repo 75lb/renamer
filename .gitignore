@@ -1,5 +1,2 @@
-node_modules
-test/fixture
-out
-tmp
-test/sandbox
+script/sandbox
+.editorconfig

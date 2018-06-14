@@ -4,43 +4,61 @@
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
-renamer
-=======
-Batch rename files and folders.
+# renamer
+Rename files in bulk. Renamer is a command-line tool intended to introduce naming systems to collections of related files. It is flexible and extensible via plugins.
 
-Install
--------
-Install [node](https://nodejs.org) then:
-```sh
-$ npm install -g renamer
+## Disclaimer
+
+Always run this tool with the `--dry-run` option until you are 100% certain the results will be correct.
+
+## Synopsis
+
+Syntax forms.
+
 ```
-*Linux/Mac users may need to run the above with `sudo`*
-
-Usage
------
+$ renamer [options] <files>
+$ cat filenames.txt | renamer [options]
 ```
-  renamer
-  Batch rename files and folders.
 
-  Usage
-  $ renamer <options> <files>
+Trivial example. It will replace the text `jpeg` with `jpg` in all files or folders in the current directory.
 
-  -f, --find <string>      The find string, or regular expression when --regex is set. If not set, the whole filename will be replaced.
-  -r, --replace <string>   The replace string. With --regex set, --replace can reference parenthesised substrings from --find with $1, $2, $3
-                           etc. If omitted, defaults to a blank string. The special token '{{index}}' will insert an incrementing number per
+```
+$ renamer --find jpeg --replace jpg *
+```
+
+As above but operates on all files and folders recursively.
+
+```
+$ renamer --find jpeg --replace jpg "**"
+```
+
+Same operation but on a filename list supplied via stdin. This approach is useful for supplying specific file lists crafted by hand or using tools like `find`. This example operates on files modified less than 20 minutes ago.
+
+```
+$ find . -mtime -20m | renamer --find jpeg --replace jpg
+```
+
+The full set of command-line options.
+
+```
+  -f, --find string        Optional find string (or regular expression when --regexp is set). If not
+                           set, the whole filename will be replaced.
+  -r, --replace string     The replace string. With --regexp set, --replace can reference parenthesised
+                           substrings from --find with $1, $2, $3 etc. If omitted, defaults to a blank
+                           string. The special token '{{index}}' will insert an incrementing number per
                            file processed.
-  -e, --regex              When set, --find is interpreted as a regular expression.
+  -e, --regexp             When set, --find is intepreted as a regular expression.
   -d, --dry-run            Used for test runs. Set this to do everything but rename the file.
   -i, --insensitive        Enable case-insensitive finds.
+  --force                  If the target path already exists, overwrite it. Use with caution.
+  -p, --plugin module-id   Replacer function to use
   -v, --verbose            Use to print additional information.
   -h, --help               Print usage instructions.
-
-  for more detailed instructions, visit https://github.com/75lb/renamer
 ```
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
-**Don't forget to test your rename procedure first using `--dry-run`!**
+**Don't forget to test your rename operation first using `--dry-run`!**
 
 Recursing
 ---------
@@ -68,7 +86,7 @@ Some real-world examples.
 
 ### Simple replace
 
-```sh
+```
 $ renamer --find '[bad]' --replace '[good]' *
 ```
 
@@ -90,7 +108,7 @@ $ renamer --find '[bad]' --replace '[good]' *
 
 ### Case insenstive finds
 
-```sh
+```
 $ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
 ```
 <table>
@@ -111,7 +129,9 @@ $ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
 
 ### Strip out unwanted text
 
-```sh
+If omitted, `--replace` defaults to an empty string.
+
+```
 $ renamer --find 'Season 1 - ' *
 ```
 
@@ -122,19 +142,21 @@ $ renamer --find 'Season 1 - ' *
     <tbody>
         <tr>
             <td><pre><code>.
-├── Season 1 - Some crappy episode.mp4
-├── Season 1 - Load of bollocks.mp4</code></pre></td>
+├── Season 1 - A boring episode.mp4
+├── Season 1 - Not boring episode.mp4</code></pre></td>
             <td><pre><code>.
-├── Some crappy episode.mp4
-├── Load of bollocks.mp4</code></pre></td>
+├── A boring episode.mp4
+├── Not boring episode.mp4</code></pre></td>
         </tr>
     </tbody>
 </table>
 
 ### Simple filename cleanup
 
-```sh
-$ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
+This example uses `--regexp` to enable pattern matching. The value passed to `--find` will be interpreted as a [Javascript regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
+
+```
+$ renamer --regexp --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
 ```
 
 <table>
@@ -157,7 +179,9 @@ $ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
 
 ### Give your images a new numbering scheme
 
-```sh
+The special `{{index}}` token in the `--replace` string will be replaced with the position of the file in the input file list.
+
+```
 $ renamer --replace 'Image{{index}}.jpg' *
 ```
 
@@ -181,8 +205,8 @@ $ renamer --replace 'Image{{index}}.jpg' *
 
 ### do something about all those full stops
 
-```sh
-$ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
+```
+$ renamer --regexp --find '\.(?!\w+$)' --replace ' ' *
 ```
 
 <table>
@@ -202,8 +226,8 @@ $ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
 </table>
 
 ### if not already done, add your name to a load of files
-```sh
-$ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
+```
+$ renamer --regexp --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
 ```
 
 <table>
@@ -227,7 +251,7 @@ $ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
 
 ### rename files and folders, recursively
 
-```sh
+```
 $ renamer --find 'pic' --replace 'photo' '**'
 ```
 
@@ -256,8 +280,8 @@ $ renamer --find 'pic' --replace 'photo' '**'
 
 ### prefix files and folders, recursively
 
-```sh
-$ renamer --regex --find '^' --replace 'good-' '**'
+```
+$ renamer --regexp --find '^' --replace 'good-' '**'
 ```
 
 <table>
@@ -282,6 +306,13 @@ $ renamer --regex --find '^' --replace 'good-' '**'
         </tr>
     </tbody>
 </table>
+
+Install
+-------
+Install [node](https://nodejs.org) then:
+```
+$ npm install -g renamer
+```
 
 * * *
 
