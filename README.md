@@ -4,12 +4,14 @@
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
+***renamer v1.0.0 and this documentation is a WIP***
+
 # renamer
-Rename files in bulk. Renamer is a command-line tool intended to introduce naming systems to collections of related files. It is flexible and extensible via plugins.
+Renamer is a command-line utility intended to help rename files and folders in bulk. It is flexible and extensible via plugins.
 
 ## Disclaimer
 
-Always run this tool with the `--dry-run` option first until you are 100% certain the result looks correct.
+Always run this tool with the `--dry-run` option until you are confident the results look correct.
 
 ## Synopsis
 
@@ -61,13 +63,10 @@ The full set of command-line options.
 ```
 -f, --find string        Optional find string (e.g. "one") or regular expression literal (e.g.
                          "/one/i"). If omitted, the whole filename will be matched and replaced.
--r, --replace string     The replace string. With --regexp set, --replace can reference parenthesised
-                         substrings from --find with $1, $2, $3 etc. If omitted, defaults to a blank
-                         string. The special token '{{index}}' will insert an incrementing number per
-                         file processed.
+-r, --replace string     The replace string. If omitted, defaults to a empty string. The special token
+                         '{{index}}' will insert a number, incremented each time a file is replaced.
 -d, --dry-run            Used for test runs. Set this to do everything but rename the file.
 --force                  If the target path already exists, overwrite it. Use with caution.
--p, --plugin module-id   Replacer function to use
 -v, --verbose            In the output, also include names of files that were not renamed.
 -h, --help               Print usage instructions.
 ```
