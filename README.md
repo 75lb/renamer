@@ -4,6 +4,8 @@
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
+***[Try the renamer v1.0.0 prerelease](https://github.com/75lb/renamer/tree/next)***
+
 renamer
 =======
 Batch rename files and folders.
