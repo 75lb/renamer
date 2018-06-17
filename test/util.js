@@ -3,7 +3,6 @@ const TestRunner = require('test-runner')
 const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const rimraf = require('rimraf')
-const fs = require('fs')
 
 const runner = new TestRunner()
 

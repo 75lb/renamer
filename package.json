@@ -1,6 +1,6 @@
 {
   "name": "renamer",
-  "description": "Batch rename files and folders",
+  "description": "Rename files in bulk",
   "version": "0.7.0",
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "bin": "bin/cli.js",
@@ -24,7 +24,8 @@
     "batch"
   ],
   "scripts": {
-    "test": "test-runner test/*.js"
+    "test": "test-runner test/*.js",
+    "docs": "jsdoc2md index.js > docs/API.md"
   },
   "dependencies": {
     "chalk": "^2.4.1",

@@ -48,19 +48,19 @@ runner.test('cli: simple, find string not found', function () {
 runner.test('cli: simple regexp', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'o.e', '--replace', 'yeah', fixturePath, '--regexp' ]
+  process.argv = [ 'node', 'test', '--find', '/o.e/', '--replace', 'yeah', fixturePath ]
   const cliApp = new CliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
+  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
   a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 runner.test('cli: simple regexp, case sensitive', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath ]
+  process.argv = [ 'node', 'test', '--find', '/one/', '--replace', 'yeah', fixturePath ]
   const cliApp = new CliApp()
   a.deepStrictEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
@@ -72,7 +72,7 @@ runner.test('cli: simple regexp, case sensitive', function () {
 runner.test('cli: simple regexp, insensitive', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--insensitive' ]
+  process.argv = [ 'node', 'test', '--find', '/one/i', '--replace', 'yeah', fixturePath ]
   const cliApp = new CliApp()
   a.deepStrictEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
@@ -81,19 +81,7 @@ runner.test('cli: simple regexp, insensitive', function () {
   a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
-runner.test('cli: simple regexp, insensitive, regexp', function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
-  const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--insensitive', '--regexp' ]
-  const cliApp = new CliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
-  cliApp.start()
-  process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
-})
-
-runner.skip('cli: no args, stdin files', function () {
+runner.skip('cli: input file list on stdin', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
   process.argv = [ 'node', 'test', '-f', 'one', '-r', 'two' ]
@@ -117,5 +105,44 @@ runner.test('cli: --help', function () {
   }
   cliApp.start()
   a.strictEqual(output.match(/Synopsis/g).length, 1)
+  process.argv = origArgv
+})
+
+runner.test('renamer: --regexp, append extention', function () {
+  const testDir = `${testRoot}/${this.index}`
+  createFixture(`${testDir}/one1`)
+  createFixture(`${testDir}/one2`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '-f', '/(.+)/', '-r', '$1.log', `${testDir}/*` ]
+  const cliApp = new CliApp()
+  cliApp.start()
+  a.strictEqual(fs.existsSync(`${testDir}/one1.log`), true)
+  a.strictEqual(fs.existsSync(`${testDir}/one1`), false)
+  a.strictEqual(fs.existsSync(`${testDir}/one2.log`), true)
+  a.strictEqual(fs.existsSync(`${testDir}/one2`), false)
+  process.argv = origArgv
+})
+
+runner.test('renamer: --regexp, single replace', function () {
+  const testDir = `${testRoot}/${this.index}`
+  createFixture(`${testDir}/ooo`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '-f', '/o/', '-r', 'a', `${testDir}/*` ]
+  const cliApp = new CliApp()
+  cliApp.start()
+  a.strictEqual(fs.existsSync(`${testDir}/aoo`), true)
+  a.strictEqual(fs.existsSync(`${testDir}/ooo`), false)
+  process.argv = origArgv
+})
+
+runner.test('renamer: --regexp, global replace', function () {
+  const testDir = `${testRoot}/${this.index}`
+  createFixture(`${testDir}/ooo`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '-f', '/o/g', '-r', 'a', `${testDir}/*` ]
+  const cliApp = new CliApp()
+  cliApp.start()
+  a.strictEqual(fs.existsSync(`${testDir}/aaa`), true)
+  a.strictEqual(fs.existsSync(`${testDir}/ooo`), false)
   process.argv = origArgv
 })

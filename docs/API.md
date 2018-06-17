@@ -21,11 +21,9 @@
 | --- | --- | --- |
 | options | <code>object</code> | The renamer options |
 | [options.files] | <code>Array.&lt;string&gt;</code> | One or more glob patterns or names of files to rename. |
-| [options.find] | <code>sting</code> |  |
+| [options.find] | <code>sting</code> \| <code>RegExp</code> | Find expression. |
 | [options.replace] | <code>string</code> |  |
-| [options.insensitive] | <code>boolean</code> |  |
 | [options.dryRun] | <code>boolean</code> |  |
-| [options.regexp] | <code>boolean</code> |  |
 | [options.force] | <code>boolean</code> |  |
 | [options.plugin] | <code>Array.&lt;string&gt;</code> |  |
 

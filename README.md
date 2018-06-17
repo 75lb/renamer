@@ -9,16 +9,14 @@ Rename files in bulk. Renamer is a command-line tool intended to introduce namin
 
 ## Disclaimer
 
-Always run this tool with the `--dry-run` option until you are 100% certain the result will be exactly what you expect.
+Always run this tool with the `--dry-run` option first until you are 100% certain the result looks correct.
 
 ## Synopsis
 
-Syntax forms.
+As input, renamer takes a list of filenames or glob patterns plus some options describing how you would like the files to be renamed. If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input.
 
-```
-$ renamer [options] <files>
-$ cat filenames.txt | renamer [options]
-```
+<pre><code>$ renamer [options] [<u>file</u> <u>...</u>]
+</pre></code>
 
 Trivial example. It will replace the text `jpeg` with `jpg` in all files or folders in the current directory.
 
@@ -32,28 +30,46 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
-Same operation but on a filename list supplied via stdin. This approach is useful for supplying specific file lists crafted by hand or using tools like `find`. This example operates on files modified less than 20 minutes ago.
+Same operation but on a filename list supplied via stdin. This approach is useful for crafting a more specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
 ```
 $ find . -mtime -20m | renamer --find jpeg --replace jpg
 ```
 
+Same again but with a hand-rolled input of filenames and glob patterns. Create an input text file, e.g. `files.txt`:
+
+```
+house.jpeg
+garden.jpeg
+img/*
+```
+
+Then pipe it into renamer.
+
+```
+$ cat files.txt | renamer --find jpeg --replace jpg
+```
+
+Simple example using a [regular expression literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). The case-insensitive pattern `/one/i` matches the input file `ONE.jpg`, renaming it to `two.jpg`.
+
+```
+$ renamer --find '/one/i' --replace 'two' ONE.jpg
+```
+
 The full set of command-line options.
 
 ```
-  -f, --find string        Optional find string (or regular expression when --regexp is set). If not
-                           set, the whole filename will be replaced.
-  -r, --replace string     The replace string. With --regexp set, --replace can reference parenthesised
-                           substrings from --find with $1, $2, $3 etc. If omitted, defaults to a blank
-                           string. The special token '{{index}}' will insert an incrementing number per
-                           file processed.
-  -e, --regexp             When set, --find is intepreted as a regular expression.
-  -d, --dry-run            Used for test runs. Set this to do everything but rename the file.
-  -i, --insensitive        Enable case-insensitive finds.
-  --force                  If the target path already exists, overwrite it. Use with caution.
-  -p, --plugin module-id   Replacer function to use
-  -v, --verbose            Use to print additional information.
-  -h, --help               Print usage instructions.
+-f, --find string        Optional find string (e.g. "one") or regular expression literal (e.g.
+                         "/one/i"). If omitted, the whole filename will be matched and replaced.
+-r, --replace string     The replace string. With --regexp set, --replace can reference parenthesised
+                         substrings from --find with $1, $2, $3 etc. If omitted, defaults to a blank
+                         string. The special token '{{index}}' will insert an incrementing number per
+                         file processed.
+-d, --dry-run            Used for test runs. Set this to do everything but rename the file.
+--force                  If the target path already exists, overwrite it. Use with caution.
+-p, --plugin module-id   Replacer function to use
+-v, --verbose            In the output, also include names of files that were not renamed.
+-h, --help               Print usage instructions.
 ```
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
@@ -89,7 +105,7 @@ Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentati
 ## Install
 
 ```
-$ npm install -g renamer
+$ npm install -g renamer@next
 ```
 
 * * *
