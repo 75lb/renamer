@@ -108,7 +108,7 @@ runner.test('cli: --help', function () {
   process.argv = origArgv
 })
 
-runner.test('renamer: --regexp, append extention', function () {
+runner.test('cli: --regexp, append extention', function () {
   const testDir = `${testRoot}/${this.index}`
   createFixture(`${testDir}/one1`)
   createFixture(`${testDir}/one2`)
@@ -123,7 +123,7 @@ runner.test('renamer: --regexp, append extention', function () {
   process.argv = origArgv
 })
 
-runner.test('renamer: --regexp, single replace', function () {
+runner.test('cli: --regexp, single replace', function () {
   const testDir = `${testRoot}/${this.index}`
   createFixture(`${testDir}/ooo`)
   const origArgv = process.argv
@@ -135,7 +135,7 @@ runner.test('renamer: --regexp, single replace', function () {
   process.argv = origArgv
 })
 
-runner.test('renamer: --regexp, global replace', function () {
+runner.test('cli: --regexp, global replace', function () {
   const testDir = `${testRoot}/${this.index}`
   createFixture(`${testDir}/ooo`)
   const origArgv = process.argv
@@ -144,5 +144,20 @@ runner.test('renamer: --regexp, global replace', function () {
   cliApp.start()
   a.strictEqual(fs.existsSync(`${testDir}/aaa`), true)
   a.strictEqual(fs.existsSync(`${testDir}/ooo`), false)
+  process.argv = origArgv
+})
+
+runner.test('cli: failed replace', function () {
+  const testDir = `${testRoot}/${this.index}`
+  createFixture(`${testDir}/one`)
+  createFixture(`${testDir}/two`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '-f', 'one', '-r', 'two', `${testDir}/one` ]
+  const cliApp = new CliApp()
+  cliApp.start()
+  a.strictEqual(fs.existsSync(`${testDir}/one`), true)
+  a.strictEqual(fs.existsSync(`${testDir}/two`), true)
+  a.strictEqual(process.exitCode, 1)
+  process.exitCode = 0
   process.argv = origArgv
 })

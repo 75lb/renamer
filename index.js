@@ -1,6 +1,7 @@
 const EventEmitter = require('events').EventEmitter
 
 /**
+ * Rename files in bulk.
  * @module renamer
  */
 
@@ -15,6 +16,7 @@ class Renamer extends EventEmitter {
    * @param {string} [options.replace]
    * @param {boolean} [options.dryRun]
    * @param {boolean} [options.force]
+   * @param {string} [options.view] - The default view outputs one line per rename. Set `--view detail` to see more info including a diff.
    * @param {string[]} [options.plugin]
    * @emits module:renamer#rename-start
    */
@@ -33,13 +35,13 @@ class Renamer extends EventEmitter {
        * Rename start
        * @event module:renamer#rename-start
        * @type {object}
-       * @property {string} from
-       * @property {string} to
+       * @property {string} from - The filename before rename.
+       * @property {string} to - The filename after rename.
+       * @property {boolean} renamed - True if the file was renamed.
        */
       this.emit('rename-start', replaceResult)
       if (replaceResult.renamed) {
         renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })
-        this.emit('rename-end', replaceResult)
       }
     }
   }

@@ -1,6 +1,8 @@
 <a name="module_renamer"></a>
 
 ## renamer
+Rename files in bulk.
+
 
 * [renamer](#module_renamer)
     * [Renamer](#exp_module_renamer--Renamer) ⏏
@@ -25,6 +27,7 @@
 | [options.replace] | <code>string</code> |  |
 | [options.dryRun] | <code>boolean</code> |  |
 | [options.force] | <code>boolean</code> |  |
+| [options.view] | <code>string</code> | The default view outputs one line per rename. Set `--view detail` to see more info including a diff. |
 | [options.plugin] | <code>Array.&lt;string&gt;</code> |  |
 
 <a name="module_renamer--Renamer+event_rename-start"></a>
@@ -35,8 +38,9 @@ Rename start
 **Kind**: event emitted by [<code>Renamer</code>](#exp_module_renamer--Renamer)  
 **Properties**
 
-| Name | Type |
-| --- | --- |
-| from | <code>string</code> | 
-| to | <code>string</code> | 
+| Name | Type | Description |
+| --- | --- | --- |
+| from | <code>string</code> | The filename before rename. |
+| to | <code>string</code> | The filename after rename. |
+| renamed | <code>boolean</code> | True if the file was renamed. |
 

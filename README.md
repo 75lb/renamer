@@ -8,7 +8,7 @@
 ***renamer v1.0.0 and this documentation is a WIP***
 
 # renamer
-Renamer is a command-line utility intended to help rename files and folders in bulk. It is flexible and extensible via plugins.
+Renamer is a command-line utility to help rename files and folders in bulk. It is flexible and extensible via plugins.
 
 ## Disclaimer
 
@@ -21,7 +21,7 @@ As input, renamer takes a list of filenames or glob patterns plus some options d
 <pre><code>$ renamer [options] [<u>file</u> <u>...</u>]
 </pre></code>
 
-Trivial example. It will replace the text `jpeg` with `jpg` in all files or folders in the current directory.
+Trivial example. It will replace the text `jpeg` with `jpg` in all file or folder names in the current directory.
 
 ```
 $ renamer --find jpeg --replace jpg *
@@ -62,14 +62,16 @@ $ renamer --find '/one/i' --replace 'two' ONE.jpg
 The full set of command-line options.
 
 ```
--f, --find string        Optional find string (e.g. "one") or regular expression literal (e.g.
-                         "/one/i"). If omitted, the whole filename will be matched and replaced.
--r, --replace string     The replace string. If omitted, defaults to a empty string. The special token
-                         '{{index}}' will insert a number, incremented each time a file is replaced.
--d, --dry-run            Used for test runs. Set this to do everything but rename the file.
---force                  If the target path already exists, overwrite it. Use with caution.
--v, --verbose            In the output, also include names of files that were not renamed.
--h, --help               Print usage instructions.
+-f, --find string      Optional find string (e.g. "one") or regular expression literal (e.g.
+                       "/one/i"). If omitted, the whole filename will be matched and replaced.
+-r, --replace string   The replace string. If omitted, defaults to a empty string. The special token
+                       '{{index}}' will insert a number, incremented each time a file is replaced.
+-d, --dry-run          Used for test runs. Set this to do everything but rename the file.
+--force                If the target path already exists, overwrite it. Use with caution.
+--view string          The default view outputs one line per rename. Set `--view detail` to see more
+                       info including a diff.
+-v, --verbose          In the output, also include names of files that were not renamed.
+-h, --help             Print usage instructions.
 ```
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
