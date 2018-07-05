@@ -50,17 +50,17 @@ Renamer comes with globbing support built in (provided by [node-glob](https://gi
 
 For example, this command operates on all `js` files in the current directory:
 
-    $ renamer --find this --replace that '*.js'
+    $ renamer --find this --replace that "*.js"
 
 this command operates on all `js` files, recursively:
 
-    $ renamer --find this --replace that '**/*.js'
+    $ renamer --find this --replace that "**/*.js"
 
 this command operates on all `js` files from the `lib` directory downward:
 
-    $ renamer --find this --replace that 'lib/**/*.js'
+    $ renamer --find this --replace that "lib/**/*.js"
 
-**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `'**/*.js'`
+**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `"**/*.js"`
 
 Examples
 --------
@@ -71,7 +71,7 @@ Some real-world examples.
 ### Simple replace
 
 ```sh
-$ renamer --find '[bad]' --replace '[good]' *
+$ renamer --find "[bad]" --replace "[good]" *
 ```
 
 <table>
@@ -93,7 +93,7 @@ $ renamer --find '[bad]' --replace '[good]' *
 ### Case insenstive finds
 
 ```sh
-$ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
+$ renamer --insensitive --find "mpeg4" --replace "mp4" *
 ```
 <table>
     <thead>
@@ -114,7 +114,7 @@ $ renamer --insensitive --find 'mpeg4' --replace 'mp4' *
 ### Strip out unwanted text
 
 ```sh
-$ renamer --find 'Season 1 - ' *
+$ renamer --find "Season 1 - " *
 ```
 
 <table>
@@ -136,7 +136,7 @@ $ renamer --find 'Season 1 - ' *
 ### Simple filename cleanup
 
 ```sh
-$ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
+$ renamer --regex --find ".*_(\d+)_.*" --replace "Video $1.mp4" *
 ```
 
 <table>
@@ -160,7 +160,7 @@ $ renamer --regex --find '.*_(\d+)_.*' --replace 'Video $1.mp4' *
 ### Give your images a new numbering scheme
 
 ```sh
-$ renamer --replace 'Image{{index}}.jpg' *
+$ renamer --replace "Image{{index}}.jpg" *
 ```
 
 <table>
@@ -184,7 +184,7 @@ $ renamer --replace 'Image{{index}}.jpg' *
 ### do something about all those full stops
 
 ```sh
-$ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
+$ renamer --regex --find "\.(?!\w+$)" --replace " " *
 ```
 
 <table>
@@ -205,7 +205,7 @@ $ renamer --regex --find '\.(?!\w+$)' --replace ' ' *
 
 ### if not already done, add your name to a load of files
 ```sh
-$ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
+$ renamer --regex --find "(data\d)(\.\w+)" --replace "$1 (checked by Lloyd)$2" *
 ```
 
 <table>
@@ -230,7 +230,7 @@ $ renamer --regex --find '(data\d)(\.\w+)' --replace '$1 (checked by Lloyd)$2' *
 ### rename files and folders, recursively
 
 ```sh
-$ renamer --find 'pic' --replace 'photo' '**'
+$ renamer --find "pic" --replace "photo" "**"
 ```
 
 <table>
@@ -259,7 +259,7 @@ $ renamer --find 'pic' --replace 'photo' '**'
 ### prefix files and folders, recursively
 
 ```sh
-$ renamer --regex --find '^' --replace 'good-' '**'
+$ renamer --regex --find "^" --replace "good-" "**"
 ```
 
 <table>
