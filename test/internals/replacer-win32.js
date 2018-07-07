@@ -1,5 +1,5 @@
 'use strict'
-const replacer = require('../lib/replacer')
+const replacer = require('../../lib/replacer')
 const TestRunner = require('test-runner')
 const a = require('assert')
 const os = require('os')

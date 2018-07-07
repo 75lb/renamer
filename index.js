@@ -24,7 +24,6 @@ class Renamer extends EventEmitter {
     const renameFile = require('./lib/rename-file')
     const Replacer = require('./lib/replacer')
     const util = require('./lib/util')
-
     const files = util.expandGlobPatterns(options.files)
     const replacer = new Replacer(options.plugin)
     const replaceResults = files

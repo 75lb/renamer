@@ -1,9 +1,9 @@
 'use strict'
-const renameFile = require('../lib/rename-file')
+const renameFile = require('../../lib/rename-file')
 const TestRunner = require('test-runner')
 const a = require('assert')
 const fs = require('fs')
-const createFixture = require('./lib/util').createFixture
+const createFixture = require('../lib/util').createFixture
 const rimraf = require('rimraf')
 
 const runner = new TestRunner()

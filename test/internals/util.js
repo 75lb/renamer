@@ -1,7 +1,7 @@
-const util = require('../lib/util')
+const util = require('../../lib/util')
 const TestRunner = require('test-runner')
 const a = require('assert')
-const createFixture = require('./lib/util').createFixture
+const createFixture = require('../lib/util').createFixture
 const rimraf = require('rimraf')
 
 const runner = new TestRunner()

@@ -24,14 +24,15 @@
     "batch"
   ],
   "scripts": {
-    "test": "test-runner test/*.js",
+    "test": "test-runner test/*.js test/internals/*.js",
     "docs": "jsdoc2md index.js > docs/API.md",
     "cover": "nyc --reporter=text-lcov test-runner test/*.js | coveralls"
   },
   "dependencies": {
+    "array-back": "^2.0.0",
     "chalk": "^2.4.1",
     "command-line-args": "^5.0.2",
-    "command-line-plugin": "^0.1.0",
+    "command-line-plugin": "^0.1.1",
     "command-line-usage": "^5.0.5",
     "fast-diff": "^1.1.2",
     "glob": "^7.1.2",
