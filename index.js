@@ -28,7 +28,7 @@ class Renamer extends EventEmitter {
     const files = util.expandGlobPatterns(options.files)
     const replacer = new Replacer(options.plugin)
     const replaceResults = files
-      .map((file, index) => replacer.replace(file, options.find, options.replace, options.plugin, index, files))
+      .map((file, index) => replacer.replace(file, options, index, files))
       .sort((a, b) => util.depthFirstCompare(a.from, b.from))
     for (const replaceResult of replaceResults) {
       /**
