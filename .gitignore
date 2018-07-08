@@ -1,2 +1,4 @@
 script/sandbox
 .editorconfig
+node_modules
+tmp
