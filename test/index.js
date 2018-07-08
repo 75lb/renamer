@@ -112,6 +112,8 @@ runner.test('renamer: depth-first renaming', function () {
   const renamer = new Renamer()
   createFixture(`${testDir}/one/two`)
   renamer.rename({ files: [ `${testDir}/one`, `${testDir}/one/two` ], find: 'o', replace: 'a' })
+  a.strictEqual(fs.existsSync(`${testDir}/one`), false)
+  a.strictEqual(fs.existsSync(`${testDir}/one/two`), false)
   a.strictEqual(fs.existsSync(`${testDir}/ane`), true)
   a.strictEqual(fs.existsSync(`${testDir}/ane/twa`), true)
 })

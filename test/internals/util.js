@@ -49,3 +49,9 @@ runner.test('util.depthFirstSort(files)', function () {
   const result = util.depthFirstSort(files)
   a.deepStrictEqual(result, [ 'one/two/five', 'one/two', 'one/three', 'one', 'four' ])
 })
+
+runner.test('util.depthFirstCompare(pathA, pathB)', function () {
+  a.deepStrictEqual(util.depthFirstCompare('/one/two', '/one'), -1)
+  a.deepStrictEqual(util.depthFirstCompare('/one', '/one/two'), 1)
+  a.deepStrictEqual(util.depthFirstCompare('/one', '/one'), 0)
+})

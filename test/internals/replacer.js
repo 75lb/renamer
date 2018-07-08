@@ -62,9 +62,12 @@ runner.test('replacer: replace function', function () {
 runner.test('replacer: regexp, replace function', function () {
   const file = 'one-two'
   const replacer = new Replacer()
-  const result = replacer.replace(file, { find: /(\w+)-(\w+)/,  replace: function (match, p1, p2) {
-    return `${p1}__${p2}`
-  }})
+  const result = replacer.replace(file, {
+    find: /(\w+)-(\w+)/,
+    replace: function (match, p1, p2) {
+      return `${p1}__${p2}`
+    }
+  })
   a.deepStrictEqual(result.from, 'one-two')
   a.deepStrictEqual(result.to, 'one__two')
   a.deepStrictEqual(result.renamed, true)
