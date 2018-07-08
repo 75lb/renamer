@@ -1,7 +1,7 @@
 {
   "name": "renamer",
   "description": "Rename files in bulk",
-  "version": "1.0.0-1",
+  "version": "1.0.0-2",
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "bin": "bin/cli.js",
   "license": "MIT",
