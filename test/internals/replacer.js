@@ -2,6 +2,7 @@
 const Replacer = require('../../lib/replacer')
 const TestRunner = require('test-runner')
 const a = require('assert')
+const path = require('path')
 
 const runner = new TestRunner()
 
@@ -15,29 +16,29 @@ runner.test('replacer: string find', function () {
 })
 
 runner.test('replacer: string find, sub-dir', function () {
-  const file = 'dir/one'
+  const file = path.join('dir', 'one')
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: 'one', replace: 'yeah' })
-  a.deepStrictEqual(result.from, 'dir/one')
-  a.deepStrictEqual(result.to, 'dir/yeah')
+  a.deepStrictEqual(result.from, path.join('dir', 'one'))
+  a.deepStrictEqual(result.to, path.join('dir', 'yeah'))
   a.deepStrictEqual(result.renamed, true)
 })
 
 runner.test('replacer: regexp, sub-dir, unchanged', function () {
-  const file = 'one/two'
+  const file = path.join('one', 'two')
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: /one/g, replace: 'yeah' })
-  a.deepStrictEqual(result.from, 'one/two')
+  a.deepStrictEqual(result.from, path.join('one', 'two'))
   a.deepStrictEqual(result.to, null)
   a.deepStrictEqual(result.renamed, false)
 })
 
 runner.test('replacer: regexp, sub-dir', function () {
-  const file = 'two/one one'
+  const file = path.join('two', '/one one')
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: /one/g, replace: 'yeah' })
-  a.deepStrictEqual(result.from, 'two/one one')
-  a.deepStrictEqual(result.to, 'two/yeah yeah')
+  a.deepStrictEqual(result.from, path.join('two', '/one one'))
+  a.deepStrictEqual(result.to, path.join('two', 'yeah yeah'))
   a.deepStrictEqual(result.renamed, true)
 })
 
@@ -83,11 +84,11 @@ runner.test('replacer: empty find', function () {
 })
 
 runner.test('replacer: empty find, sub-directory', function () {
-  const file = 'one/one'
+  const file = path.join('one', 'one')
   const replacer = new Replacer()
   const result = replacer.replace(file, { replace: 'yeah' })
-  a.deepStrictEqual(result.from, 'one/one')
-  a.deepStrictEqual(result.to, 'one/yeah')
+  a.deepStrictEqual(result.from, path.join('one', 'one'))
+  a.deepStrictEqual(result.to, path.join('one', 'yeah'))
   a.deepStrictEqual(result.renamed, true)
 })
 
