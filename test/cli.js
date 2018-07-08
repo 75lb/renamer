@@ -80,18 +80,18 @@ runner.test('cli: simple regexp, insensitive', function () {
   a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
-runner.skip('cli: input file list on stdin', function () {
+runner.test('cli: input file list on stdin', function () {
+  const spawn = require('child_process').spawn
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  const origArgv = process.argv
-  process.argv = [ 'node', 'test', '-f', 'one', '-r', 'two' ]
-  const cliApp = new CliApp()
-  cliApp.start()
-  setTimeout(() => {
-    process.stdin.write(fixturePath)
-    a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-    a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/two`), true)
-  }, 1000)
-  process.argv = origArgv
+  const renamer = spawn('bin/cli.js', [ '-f', 'one', '-r', 'two' ])
+  return new Promise((resolve, reject) => {
+    renamer.on('close', () => {
+      a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
+      a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/two`), true)
+      resolve()
+    })
+    renamer.stdin.end(fixturePath)
+  })
 })
 
 runner.test('cli: --help', function () {

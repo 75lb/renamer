@@ -2,3 +2,5 @@ script/sandbox
 .editorconfig
 node_modules
 tmp
+coverage
+.nyc_output

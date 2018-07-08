@@ -78,6 +78,8 @@ The full set of command-line options.
                        `/one/i`). If omitted, the whole filename will be matched and replaced.
 -r, --replace string   The replace string. If omitted, defaults to a empty string. The special token
                        `{{index}}` will insert a number, incremented each time a file is replaced.
+--index-format         The format of the number to replace `{{index}}` with. Specify a standard
+                       printf format string, e.g `%03d`. Defaults to `%d`.
 ```
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
