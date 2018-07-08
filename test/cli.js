@@ -82,6 +82,7 @@ runner.test('cli: simple regexp, insensitive', function () {
 
 runner.test('cli: input file list on stdin', function () {
   const spawn = require('child_process').spawn
+  const path = require('path')
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = spawn('node', [ path.join('bin', 'cli.js'), '-f', 'one', '-r', 'two' ])
   return new Promise((resolve, reject) => {
