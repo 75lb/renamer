@@ -56,22 +56,28 @@ $ cat files.txt | renamer --find jpeg --replace jpg
 Simple example using a [regular expression literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). The case-insensitive pattern `/one/i` matches the input file `ONE.jpg`, renaming it to `two.jpg`.
 
 ```
-$ renamer --find '/one/i' --replace 'two' ONE.jpg
+$ renamer --find "/one/i" --replace "two" ONE.jpg
 ```
 
 The full set of command-line options.
 
 ```
--f, --find string      Optional find string (e.g. "one") or regular expression literal (e.g.
-                       "/one/i"). If omitted, the whole filename will be matched and replaced.
--r, --replace string   The replace string. If omitted, defaults to a empty string. The special token
-                       '{{index}}' will insert a number, incremented each time a file is replaced.
 -d, --dry-run          Used for test runs. Set this to do everything but rename the file.
 --force                If the target path already exists, overwrite it. Use with caution.
---view string          The default view outputs one line per rename. Set `--view detail` to see more
-                       info including a diff.
+--view detail|diff     The default view outputs one line per rename. Set `--view detail` to see a
+                       longer, less condensed view and `--view diff` to include a diff.
+-p, --plugin string    One or more replacer plugins to use, set the `--plugin` option multiple times
+                       to build a chain. For each value, supply either a) a path to a plugin file
+                       b) a path to a plugin package c) the name of a plugin package installed in
+                       the current working directory or above. The default plugin chain is `default`
+                       then `index`, be sure to set `-p default -p index` before your plugin if you
+                       wish to extend default behaviour.
 -v, --verbose          In the output, also include names of files that were not renamed.
 -h, --help             Print usage instructions.
+-f, --find string      Optional find string (e.g. `one`) or regular expression literal (e.g.
+                       `/one/i`). If omitted, the whole filename will be matched and replaced.
+-r, --replace string   The replace string. If omitted, defaults to a empty string. The special token
+                       `{{index}}` will insert a number, incremented each time a file is replaced.
 ```
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
@@ -83,22 +89,22 @@ Renamer comes with globbing support built in supporting all special characters [
 For example, this command operates on all `js` files in the current directory:
 
 ```
-$ renamer --find this --replace that '*.js'
+$ renamer --find this --replace that "*.js"
 ```
 
 This command operates on all `js` files, recursively:
 
 ```
-$ renamer --find this --replace that '**/*.js'
+$ renamer --find this --replace that "**/*.js"
 ```
 
 this command operates on all `js` files from the `lib` directory downward:
 
 ```
-$ renamer --find this --replace that 'lib/**/*.js'
+$ renamer --find this --replace that "lib/**/*.js"
 ```
 
-**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `'**/*.js'`
+**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `"**/*.js"`
 
 ## Further reading
 
