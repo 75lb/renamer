@@ -1,4 +1,3 @@
-'use strict'
 const CliApp = require('../lib/cli-app')
 const TestRunner = require('test-runner')
 const a = require('assert')

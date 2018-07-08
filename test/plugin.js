@@ -11,7 +11,7 @@ const runner = new TestRunner()
 const sectionFolder = 'tmp/plugin'
 rimraf.sync(sectionFolder)
 
-runner.test('plugin: default plugin, {{index}}', function () {
+runner.test('plugin: default plugins, {{index}}', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -24,23 +24,74 @@ runner.test('plugin: default plugin, {{index}}', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
 })
 
-runner.test('plugin: default plugin, {{index}}, depth', function () {
+runner.test('plugin: default plugins, {{index}} two files same depth', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
-  createFixture(`${testFolder}/dir/two`)
-  createFixture(`${testFolder}/dir/one`)
+  createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/**` ],
-    find: 'one',
-    replace: '{{index}}'
+    files: [ `${testFolder}/two`, `${testFolder}/one` ],
+    find: /(.+)/,
+    replace: '$1{{index}}'
   }
   renamer.rename(options)
   a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/2`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/two`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/2`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/two1`), true)
+  a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
+})
+
+runner.test('plugin: default plugins, {{index}} two files same depth, different order', function () {
+  const testFolder = path.join(sectionFolder, String(this.index))
+  createFixture(`${testFolder}/one`)
+  createFixture(`${testFolder}/two`)
+  const renamer = new Renamer()
+  const options = {
+    files: [ `${testFolder}/one`, `${testFolder}/two` ],
+    find: /(.+)/,
+    replace: '$1{{index}}'
+  }
+  renamer.rename(options)
+  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/one1`), true)
+  a.strictEqual(fs.existsSync(`${testFolder}/two2`), true)
+})
+
+runner.test('plugin: default plugins, {{index}} with depth', function () {
+  const testFolder = path.join(sectionFolder, String(this.index))
+  createFixture(`${testFolder}/one`)
+  createFixture(`${testFolder}/dir/one`)
+  createFixture(`${testFolder}/dir/two`)
+  const renamer = new Renamer()
+  const options = {
+    files: [ `${testFolder}/one`, `${testFolder}/dir/one`, `${testFolder}/dir/two` ],
+    find: 'e',
+    replace: 'e{{index}}'
+  }
+  renamer.rename(options)
+  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
   a.strictEqual(fs.existsSync(`${testFolder}/dir/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/3`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/dir/two`), true)
+  a.strictEqual(fs.existsSync(`${testFolder}/one1`), true)
+  a.strictEqual(fs.existsSync(`${testFolder}/dir/one2`), true)
+})
+
+runner.test('plugin: default plugins, {{index}} with depth, different order', function () {
+  const testFolder = path.join(sectionFolder, String(this.index))
+  createFixture(`${testFolder}/one`)
+  createFixture(`${testFolder}/dir/one`)
+  createFixture(`${testFolder}/dir/two`)
+  const renamer = new Renamer()
+  const options = {
+    files: [ `${testFolder}/dir/one`, `${testFolder}/one`, `${testFolder}/dir/two` ],
+    find: 'e',
+    replace: 'e{{index}}'
+  }
+  renamer.rename(options)
+  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/dir/one`), false)
+  a.strictEqual(fs.existsSync(`${testFolder}/dir/two`), true)
+  a.strictEqual(fs.existsSync(`${testFolder}/dir/one1`), true)
+  a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
 })

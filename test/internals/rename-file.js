@@ -1,4 +1,3 @@
-'use strict'
 const renameFile = require('../../lib/rename-file')
 const TestRunner = require('test-runner')
 const a = require('assert')
