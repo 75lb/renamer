@@ -8,7 +8,7 @@ const path = require('path')
 
 const runner = new TestRunner()
 
-const sectionFolder = 'tmp/plugin'
+const sectionFolder = `tmp/${path.basename(__filename)}`
 rimraf.sync(sectionFolder)
 
 runner.test('index plugin: simple', function () {

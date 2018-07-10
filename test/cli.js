@@ -4,9 +4,10 @@ const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const fs = require('fs')
 const rimraf = require('rimraf')
+const path = require('path')
 
 const runner = new TestRunner()
-const testRoot = 'tmp/cli'
+const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
 runner.test('cli: simple', function () {

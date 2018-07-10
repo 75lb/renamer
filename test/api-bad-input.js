@@ -4,10 +4,11 @@ const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const rimraf = require('rimraf')
 const fs = require('fs')
+const path = require('path')
 
 const runner = new TestRunner()
 
-const testRoot = 'tmp/api-bad-input'
+const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
 runner.test('renamer: arrayifies files', function () {
@@ -34,3 +35,5 @@ runner.test('renamer: empty plugin list defaults to [ default, index ]', functio
   renamer.rename(options)
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
+
+runner.test('renamer: no find or replace input')
