@@ -64,7 +64,7 @@ runner.test('renamer: target exists, force', function () {
   a.strictEqual(fs.existsSync(fixturePath2), true)
 })
 
-runner.test('renamer: file doesn\'t exist', function () {
+runner.test("renamer: file doesn't exist", function () {
   const renamer = new Renamer()
   const options = {
     files: [ 'asdfasfewf' ],

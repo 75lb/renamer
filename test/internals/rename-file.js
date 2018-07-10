@@ -20,7 +20,8 @@ runner.test('renameFile: must not overwrite', function () {
   const fixturePath = createFixture(`tmp/rename-file/${this.index}/one`)
   const fixturePath2 = createFixture(`tmp/rename-file/${this.index}/two`)
   a.throws(
-    () => renameFile(fixturePath, fixturePath2)
+    () => renameFile(fixturePath, fixturePath2),
+    /file exists/
   )
   a.deepStrictEqual(fs.existsSync(fixturePath), true)
   a.deepStrictEqual(fs.existsSync(fixturePath2), true)
@@ -29,7 +30,8 @@ runner.test('renameFile: must not overwrite', function () {
 runner.test('renameFile: must not overwrite, find and replace same', function () {
   const fixturePath = createFixture(`tmp/rename-file/${this.index}/one`)
   a.throws(
-    () => renameFile(fixturePath, fixturePath)
+    () => renameFile(fixturePath, fixturePath),
+    /file exists/
   )
   a.deepStrictEqual(fs.existsSync(fixturePath), true)
 })

@@ -11,7 +11,7 @@ const runner = new TestRunner()
 const sectionFolder = 'tmp/plugin'
 rimraf.sync(sectionFolder)
 
-runner.test('plugin: default plugins, {{index}}', function () {
+runner.test('index plugin: simple', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -24,7 +24,7 @@ runner.test('plugin: default plugins, {{index}}', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
 })
 
-runner.test('plugin: default plugins, {{index}} two files same depth', function () {
+runner.test('index plugin: two files same depth, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -41,7 +41,7 @@ runner.test('plugin: default plugins, {{index}} two files same depth', function 
   a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-runner.test('plugin: default plugins, {{index}} two files same depth, different order', function () {
+runner.test('index plugin: two files same depth, different order, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -58,7 +58,7 @@ runner.test('plugin: default plugins, {{index}} two files same depth, different 
   a.strictEqual(fs.existsSync(`${testFolder}/two2`), true)
 })
 
-runner.test('plugin: default plugins, {{index}} with depth', function () {
+runner.test('index plugin: with depth, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
@@ -77,7 +77,7 @@ runner.test('plugin: default plugins, {{index}} with depth', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/dir/one2`), true)
 })
 
-runner.test('plugin: default plugins, {{index}} with depth, different order', function () {
+runner.test('index plugin: with depth, different order, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
