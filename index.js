@@ -20,6 +20,7 @@ class Renamer extends EventEmitter {
    * @emits module:renamer#rename-start
    */
   rename (options) {
+    options = options || {}
     const renameFile = require('./lib/rename-file')
     const Replacer = require('./lib/replacer')
     const util = require('./lib/util')
@@ -28,7 +29,9 @@ class Renamer extends EventEmitter {
     const replacer = new Replacer(options.plugin)
     const replaceResults = files
       .map((file, index) => replacer.replace(file, options, index, files))
-      .sort((a, b) => util.depthFirstCompare(a.from, b.from))
+    if (!options.dryRun) {
+      replaceResults.sort((a, b) => util.depthFirstCompare(a.from, b.from))
+    }
     for (const replaceResult of replaceResults) {
       /**
        * Rename start
