@@ -78,3 +78,59 @@ runner.test('custom plugin: chain of two plugins', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/one1`), false)
   a.strictEqual(fs.existsSync(`${testFolder}/one12`), true)
 })
+
+runner.test('custom plugin: invalid plugin, no .replace() function', function () {
+  function plugin () {
+    return class InvalidPlugin {}
+  }
+  const renamer = new Renamer()
+  const options = {
+    files: [ 'one' ],
+    plugin: [ plugin ]
+  }
+  a.throws(
+    () => renamer.rename(options),
+    /Invalid plugin/i
+  )
+})
+
+runner.test('custom plugin: invalid plugin, no replace 2', function () {
+  function plugin (Base) {
+    return class InvalidPlugin extends Base {}
+  }
+  const renamer = new Renamer()
+  const options = {
+    files: [ 'one' ],
+    plugin: [ plugin ]
+  }
+  a.throws(
+    () => renamer.rename(options),
+    /not implemented/i
+  )
+})
+
+runner.test('custom plugin: invalid plugin, not a function', function () {
+  return class InvalidPlugin {}
+  const renamer = new Renamer()
+  const options = {
+    files: [ 'one' ],
+    plugin: [ InvalidPlugin ]
+  }
+  a.throws(
+    () => renamer.rename(options),
+    /Invalid plugin/i
+  )
+})
+
+runner.test('custom plugin: invalid plugin, function doesn\'t return class', function () {
+  function plugin () {}
+  const renamer = new Renamer()
+  const options = {
+    files: [ 'one' ],
+    plugin: [ plugin ]
+  }
+  a.throws(
+    () => renamer.rename(options),
+    /Invalid plugin/i
+  )
+})

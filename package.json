@@ -40,7 +40,8 @@
     "printj": "^1.1.2",
     "reduce-flatten": "^2.0.0",
     "reduce-unique": "^2.0.1",
-    "stream-read-all": "^1.0.1"
+    "stream-read-all": "^1.0.1",
+    "typical": "^3.0.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
