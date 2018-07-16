@@ -110,7 +110,7 @@ runner.test('custom plugin: invalid plugin, no replace 2', function () {
 })
 
 runner.test('custom plugin: invalid plugin, not a function', function () {
-  return class InvalidPlugin {}
+  class InvalidPlugin {}
   const renamer = new Renamer()
   const options = {
     files: [ 'one' ],
