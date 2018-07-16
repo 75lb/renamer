@@ -26,7 +26,7 @@
   "scripts": {
     "test": "test-runner test/*.js test/internals/*.js",
     "docs": "jsdoc2md index.js > docs/API.md",
-    "cover": "nyc --reporter=text-lcov test-runner test/*.js | coveralls"
+    "cover": "nyc test-runner test/*.js && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "array-back": "^2.0.0",

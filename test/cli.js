@@ -22,6 +22,18 @@ runner.test('cli: simple', function () {
   a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
+runner.test('cli: simple, dry run', function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--dry-run' ]
+  const cliApp = new CliApp()
+  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  cliApp.start()
+  process.argv = origArgv
+  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+})
+
 runner.test('cli: simple, using bin', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
@@ -161,4 +173,28 @@ runner.test('cli: failed replace', function () {
   a.strictEqual(process.exitCode, 1)
   process.exitCode = 0
   process.argv = origArgv
+})
+
+runner.test('cli: simple, diff view', function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'diff' ]
+  const cliApp = new CliApp()
+  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  cliApp.start()
+  process.argv = origArgv
+  a.deepStrictEqual(fs.existsSync(fixturePath), false)
+  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+})
+
+runner.test('cli: simple, long view', function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'long' ]
+  const cliApp = new CliApp()
+  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  cliApp.start()
+  process.argv = origArgv
+  a.deepStrictEqual(fs.existsSync(fixturePath), false)
+  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
