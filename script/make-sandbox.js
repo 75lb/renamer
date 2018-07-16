@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict'
 const path = require('path')
 const rimraf = require('rimraf')
 const createFixture = require('../test/lib/util').createFixture
@@ -42,6 +41,10 @@ const someFiles = [
   'sandbox/second-folder/sub-second-folder/three.txt',
   'sandbox/second-folder/sub-second-folder2/one.txt',
   'sandbox/second-folder/sub-second-folder2/two.txt',
-  'sandbox/second-folder/sub-second-folder2/three.txt'
+  'sandbox/second-folder/sub-second-folder2/three.txt',
+  'sandbox/pics/pic1.jpg',
+  'sandbox/pics/pic2.jpg',
+  'sandbox/pics/pics/pic3.jpg',
+  'sandbox/pics/pics/pic4.jpg'
 ]
 someFiles.forEach(createFixture)

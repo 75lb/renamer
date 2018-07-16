@@ -16,12 +16,13 @@ Always run this tool with the `--dry-run` option until you are confident the res
 
 ## Synopsis
 
-As input, renamer takes a list of filenames or glob patterns plus some options describing how you would like the files to be renamed. If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input.
+As input, renamer takes a list of filenames or glob patterns plus some options describing how you would like the files to be renamed.
 
-<pre><code>$ renamer [options] [<u>file</u> <u>...</u>]
-</pre></code>
+```
+$ renamer [options] [file...]
+```
 
-Trivial example. It will replace the text `jpeg` with `jpg` in all file or folder names in the current directory.
+Trivial example. It will replace the text `jpeg` with `jpg` in all file and directory names in the current directory.
 
 ```
 $ renamer --find jpeg --replace jpg *
@@ -33,7 +34,7 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
-Same operation but on a filename list supplied via stdin. This approach is useful for crafting a more specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
+If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a more specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
 ```
 $ find . -mtime -20m | renamer --find jpeg --replace jpg
@@ -76,58 +77,9 @@ Use your custom replace plugin by supplying its filename to `--plugin`.
 $ renamer --plugin my-plugin.js images/*
 ```
 
-The full set of command-line options.
-
-```
--d, --dry-run          Used for test runs. Set this to do everything but rename the file.
---force                If the target path already exists, overwrite it. Use with caution.
---view detail|diff     The default view outputs one line per rename. Set `--view detail` to see a
-                       longer, less condensed view and `--view diff` to include a diff.
--p, --plugin string    One or more replacer plugins to use, set the `--plugin` option multiple times
-                       to build a chain. For each value, supply either a) a path to a plugin file
-                       b) a path to a plugin package c) the name of a plugin package installed in
-                       the current working directory or above. The default plugin chain is `default`
-                       then `index`, be sure to set `-p default -p index` before your plugin if you
-                       wish to extend default behaviour.
--v, --verbose          In the output, also include names of files that were not renamed.
--h, --help             Print usage instructions.
--f, --find string      Optional find string (e.g. `one`) or regular expression literal (e.g.
-                       `/one/i`). If omitted, the whole filename will be matched and replaced.
--r, --replace string   The replace string. If omitted, defaults to a empty string. The special token
-                       `{{index}}` will insert a number, incremented each time a file is replaced.
---index-format         The format of the number to replace `{{index}}` with. Specify a standard
-                       printf format string, e.g `%03d`. Defaults to `%d`.
-```
-
-For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
-
-## Globbing
-
-Renamer comes with globbing support built in supporting all special characters [described here](https://github.com/isaacs/node-glob#glob-primer).
-
-For example, this command operates on all `js` files in the current directory:
-
-```
-$ renamer --find this --replace that "*.js"
-```
-
-This command operates on all `js` files, recursively:
-
-```
-$ renamer --find this --replace that "**/*.js"
-```
-
-this command operates on all `js` files from the `lib` directory downward:
-
-```
-$ renamer --find this --replace that "lib/**/*.js"
-```
-
-**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `"**/*.js"`
-
 ## Further reading
 
-Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentation and examples.
+Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentation and examples. For the full list of command-line options, see [here](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs). For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
 ## Install
 
