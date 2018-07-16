@@ -34,7 +34,7 @@ class Renamer extends EventEmitter {
     }
     for (const replaceResult of replaceResults) {
       /**
-       * Rename start
+       * Emitted just before each file is processed.
        * @event module:renamer#rename-start
        * @type {object}
        * @property {string} from - The filename before rename.

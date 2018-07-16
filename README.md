@@ -59,6 +59,23 @@ Simple example using a [regular expression literal](https://developer.mozilla.or
 $ renamer --find "/one/i" --replace "two" ONE.jpg
 ```
 
+If the built-in replace behaviour doesn't fit your needs you can supply a custom replace plugin. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
+
+```
+module.exports = PluginBase => class Jpg extends PluginBase {
+  replace (filePath) {
+    return filePath + '.jpg'
+  }
+}
+
+```
+
+Use your custom replace plugin by supplying its filename to `--plugin`.
+
+```
+$ renamer --plugin my-plugin.js images/*
+```
+
 The full set of command-line options.
 
 ```
