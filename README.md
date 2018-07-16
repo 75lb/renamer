@@ -8,7 +8,7 @@
 ***renamer v1.0.0 and this documentation is a WIP***
 
 # renamer
-Renamer is a command-line utility to help rename files and folders in bulk. It is flexible and extensible via plugins.
+Renamer is a command-line utility to help rename files and folders. It is flexible and extensible via plugins.
 
 ## Disclaimer
 
