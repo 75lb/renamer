@@ -19,15 +19,15 @@ runner.test('custom plugin: simple', function () {
   function plugin (Base) {
     return class Plugin extends Base {
       replace (filePath, options) {
-        const file = this.parse(filePath)
+        const file = path.parse(filePath)
         if (assertionCount === 0) {
           a.strictEqual(filePath, `${testFolder}/one`)
           assertionCount++
-          return `${file.dirname}/test1`
+          return `${file.dir}/test1`
         } else if (assertionCount === 1) {
           a.strictEqual(filePath, `${testFolder}/two`)
           assertionCount++
-          return `${file.dirname}/test2`
+          return `${file.dir}/test2`
         }
       }
     }

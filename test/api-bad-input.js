@@ -11,7 +11,7 @@ const runner = new TestRunner()
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
-runner.test('renamer: arrayifies files', function () {
+runner.test('api-bad-input: arrayifies files', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -23,7 +23,7 @@ runner.test('renamer: arrayifies files', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-runner.test('renamer: empty plugin list defaults to [ default, index ]', function () {
+runner.test('api-bad-input: empty plugin list defaults to [ default, index ]', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -36,4 +36,16 @@ runner.test('renamer: empty plugin list defaults to [ default, index ]', functio
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-runner.test('renamer: no find or replace input')
+runner.test('api-bad-input: no find or replace input')
+
+runner.test('api-bad-input: broken path-element', function () {
+  const renamer = new Renamer()
+  const options = {
+    files: [ 'one' ],
+    pathElement: 'broken'
+  }
+  a.throws(
+    () => renamer.rename(options),
+    /Invalid path element/i
+  )
+})

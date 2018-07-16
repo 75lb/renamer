@@ -20,6 +20,7 @@ runner.test('renamer: simple rename', function () {
     replace: 'a'
   }
   renamer.rename(options)
+  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
@@ -117,4 +118,32 @@ runner.test('renamer: depth-first renaming', function () {
   a.strictEqual(fs.existsSync(`${testDir}/one/two`), false)
   a.strictEqual(fs.existsSync(`${testDir}/ane`), true)
   a.strictEqual(fs.existsSync(`${testDir}/ane/twa`), true)
+})
+
+runner.test('renamer: path-element name', function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
+  const renamer = new Renamer()
+  const options = {
+    files: [ fixturePath ],
+    find: /$/,
+    replace: '-done',
+    pathElement: 'name'
+  }
+  renamer.rename(options)
+  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
+  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one-done.txt`), true)
+})
+
+runner.test('renamer: path-element ext', function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
+  const renamer = new Renamer()
+  const options = {
+    files: [ fixturePath ],
+    find: /^\./,
+    replace: '.done-',
+    pathElement: 'ext'
+  }
+  renamer.rename(options)
+  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
+  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.done-txt`), true)
 })
