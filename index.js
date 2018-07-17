@@ -17,7 +17,7 @@ class Renamer extends EventEmitter {
    * @param {string[]} [options.plugin] - One or more replacer plugins to use, set the `--plugin` option multiple times to build a chain. For each value, supply either: a) a path to a plugin file b) a path to a plugin package c) the name of a plugin package installed globally or in the current working directory (or above) or d) the name of a built-in plugin, either `default` or `index`. The default plugin chain is `default` then `index`, be sure to set `-p default -p index` before your plugin if you wish to extend default behaviour.
    * @param {sting|RegExp} [options.find] - Optional find string (e.g. `one`) or regular expression literal (e.g. `/one/i`). If omitted, the whole filename will be matched and replaced.
    * @param {string} [options.replace] - The replace string. If omitted, defaults to a empty string. The special token `{{index}}` will insert a number, incremented each time a file is replaced.
-   * @param {string} [options.pathElement] - The path element to rename, valid values are "base" (the default), "name" and "ext".
+   * @param {string} [options.pathElement] - The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`.
    * @emits module:renamer#rename-start
    */
   rename (options) {

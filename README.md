@@ -16,6 +16,9 @@ Always run this tool with the `--dry-run` option until you are confident the res
 
 ## Synopsis
 
+_The examples below use double quotes to suit Windows users, macOS & Linux users should use single quotes._
+
+
 As input, renamer takes a list of filenames or glob patterns plus some options describing how you would like the files to be renamed.
 
 ```
@@ -79,7 +82,7 @@ $ renamer --plugin my-plugin.js images/*
 
 ## Further reading
 
-Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentation and examples. For the full list of command-line options, see [here](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs). For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
+Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentation and [examples](https://github.com/75lb/renamer/wiki/examples). For the full list of command-line options, see [here](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs). For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
 ## Install
 
