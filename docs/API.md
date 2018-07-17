@@ -7,7 +7,7 @@ Rename files in bulk.
 * [renamer](#module_renamer)
     * [Renamer](#exp_module_renamer--Renamer) ⏏
         * [.rename(options)](#module_renamer--Renamer+rename)
-        * ["rename-start"](#module_renamer--Renamer+event_rename-start)
+        * ["replace-result"](#module_renamer--Renamer+event_replace-result)
 
 <a name="exp_module_renamer--Renamer"></a>
 
@@ -17,7 +17,7 @@ Rename files in bulk.
 
 #### renamer.rename(options)
 **Kind**: instance method of [<code>Renamer</code>](#exp_module_renamer--Renamer)  
-**Emits**: [<code>rename-start</code>](#module_renamer--Renamer+event_rename-start)  
+**Emits**: [<code>replace-result</code>](#module_renamer--Renamer+event_replace-result)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -31,9 +31,9 @@ Rename files in bulk.
 | [options.pathElement] | <code>string</code> | The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`. |
 | [options.indexFormat] | <code>string</code> | The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`. |
 
-<a name="module_renamer--Renamer+event_rename-start"></a>
+<a name="module_renamer--Renamer+event_replace-result"></a>
 
-#### "rename-start"
+#### "replace-result"
 Emitted just before each file is processed.
 
 **Kind**: event emitted by [<code>Renamer</code>](#exp_module_renamer--Renamer)  

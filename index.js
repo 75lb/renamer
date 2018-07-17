@@ -19,7 +19,7 @@ class Renamer extends EventEmitter {
    * @param {string} [options.replace] - The replace string. If omitted, defaults to a empty string.
    * @param {string} [options.pathElement] - The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`.
    * @param {string} [options.indexFormat] - The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`.
-   * @emits module:renamer#rename-start
+   * @emits module:renamer#replace-result
    */
   rename (options) {
     options = options || {}
@@ -37,13 +37,13 @@ class Renamer extends EventEmitter {
     for (const replaceResult of replaceResults) {
       /**
        * Emitted just before each file is processed.
-       * @event module:renamer#rename-start
+       * @event module:renamer#replace-result
        * @type {object}
        * @property {string} from - The filename before rename.
        * @property {string} to - The filename after rename.
        * @property {boolean} renamed - True if the file was renamed.
        */
-      this.emit('rename-start', replaceResult)
+      this.emit('replace-result', replaceResult)
       if (replaceResult.renamed) {
         renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })
       }

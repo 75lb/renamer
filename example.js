@@ -1,6 +1,6 @@
 const Renamer = require('./')
 const renamer = new Renamer()
-renamer.on('rename-start', replaceResult => {
+renamer.on('replace-result', replaceResult => {
   console.log(replaceResult)
 })
 renamer.rename({

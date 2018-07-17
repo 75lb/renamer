@@ -5,7 +5,7 @@
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
-***renamer v1.0.0 and this documentation is a WIP***
+***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases)***
 
 # renamer
 Renamer is a command-line utility to help rename files and folders. It is flexible and extensible via plugins.
