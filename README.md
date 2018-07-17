@@ -1,7 +1,7 @@
-[![view on npm](http://img.shields.io/npm/v/renamer/next.svg)](https://www.npmjs.org/package/renamer)
+[![view on npm](http://img.shields.io/npm/v/renamer.svg)](https://www.npmjs.org/package/renamer)
 [![npm module downloads](http://img.shields.io/npm/dt/renamer.svg)](https://www.npmjs.org/package/renamer)
-[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=next)](https://travis-ci.org/75lb/renamer?branch=next)
-[![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg?branch=next)](https://coveralls.io/github/75lb/renamer?branch=next)
+[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg?branch=master)](https://coveralls.io/github/75lb/renamer?branch=master)
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
@@ -84,11 +84,15 @@ Use your custom replace plugin by supplying its filename to the `--plugin` optio
 $ renamer --plugin my-plugin.js images/*
 ```
 
-More on using plugins [here](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins) and writing plugins [here](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
-
 ## Further reading
 
-Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentation and [examples](https://github.com/75lb/renamer/wiki/examples). For the full list of command-line options, see [here](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs). For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
+Please see [the wiki](https://github.com/75lb/renamer/wiki) for
+
+* [Usage examples](https://github.com/75lb/renamer/wiki/examples).
+*  More information about [using plugins](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins) and [writing plugins](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
+* The [full list of command-line options](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs).
+
+For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
 ## Install
 
