@@ -1,140 +1,54 @@
-'use strict'
-const fileSet = require('file-set')
-const path = require('path')
-const fs = require('fs')
-const Result = require('./lib/Result')
-const Results = require('./lib/Results')
-const os = require('os')
-const t = require('typical')
+const EventEmitter = require('events').EventEmitter
 
 /**
+ * Rename files in bulk.
  * @module renamer
  */
-exports.Result = Result
-exports.Results = Results
-exports.replace = replace
-exports.expand = expand
-exports.rename = rename
-exports.dryRun = dryRun
-exports.replaceIndexToken = replaceIndexToken
 
 /**
- * Perform the replace. If no `options.find` is supplied, the entire basename is replaced by `options.replace`.
- *
- * @param {Object} options - Contains the file list and renaming options
- * @returns {Array} An array of ResultObject instances containing `before` and `after` info
+ * @alias module:renamer
  */
-function replace (options) {
-  if (!t.isPlainObject(options)) throw new Error('Invalid options supplied')
-  const findRegex = regExBuilder(options)
-  const results = new Results()
-  results.list = options.files.map(replaceSingle.bind(null, findRegex, options.replace))
-  return results
-}
-
-function replaceSingle (findRegex, replace, file) {
-  const result = new Result({ before: path.normalize(file) })
-  const dirname = path.dirname(file)
-  let basename = path.basename(file)
-
-  if (findRegex) {
-    if (basename.search(findRegex) > -1) {
-      basename = basename.replace(findRegex, replace)
-      result.after = path.join(dirname, basename)
-    } else {
-      /* leave result.after blank, signifying no replace was performed */
+class Renamer extends EventEmitter {
+  /**
+   * @param {object} options - The renamer options
+   * @param {string[]} [options.files] - One or more glob patterns or filenames to process.
+   * @param {boolean} [options.dryRun] - Set this to do everything but rename the file. You should always set this flag until certain the output looks correct.
+   * @param {boolean} [options.force] - If a target path exists, renamer will stop. With this flag set the target path will be overwritten. The main use-case for this flag is to enable changing the case of files on case-insensitive systems. Use with caution.
+   * @param {string[]} [options.plugin] - One or more replacer plugins to use, set the `--plugin` option multiple times to build a chain. For each value, supply either: a) a path to a plugin file b) a path to a plugin package c) the name of a plugin package installed globally or in the current working directory (or above) or d) the name of a built-in plugin, either `default` or `index`. The default plugin chain is `default` then `index`, be sure to set `-p default -p index` before your plugin if you wish to extend default behaviour.
+   * @param {sting|RegExp} [options.find] - Optional find string (e.g. `one`) or regular expression literal (e.g. `/one/i`). If omitted, the whole filename will be matched and replaced.
+   * @param {string} [options.replace] - The replace string. If omitted, defaults to a empty string.
+   * @param {string} [options.pathElement] - The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`.
+   * @param {string} [options.indexFormat] - The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`.
+   * @emits module:renamer#replace-result
+   */
+  rename (options) {
+    options = options || {}
+    const renameFile = require('./lib/rename-file')
+    const Replacer = require('./lib/replacer')
+    const util = require('./lib/util')
+    const arrayify = require('array-back')
+    const files = util.expandGlobPatterns(arrayify(options.files))
+    const replacer = new Replacer(options.plugin)
+    const replaceResults = files
+      .map((file, index) => replacer.replace(file, options, index, files))
+    if (!options.dryRun) {
+      replaceResults.sort((a, b) => util.depthFirstCompare(a.from, b.from))
     }
-  } else {
-    result.after = path.join(dirname, replace)
-  }
-
-  return result
-}
-
-function expand (files) {
-  const fileStats = fileSet(files)
-  fileStats.filesAndDirs = fileStats.files.concat(fileStats.dirs.reverse())
-  return fileStats
-}
-
-/**
-Takes a Results collection in, sets `renamed` and/or `error` on each with the expected values
-@param {Results} results - the Results collection to operate on
-@returns {Results} results
-*/
-function dryRun (results) {
-  results.list = results.list.map(function (result, index, resultsSoFar) {
-    const existing = resultsSoFar.filter(function (prevResult, prevIndex) {
-      return prevIndex < index && (prevResult.before !== result.before) && (prevResult.after === result.after)
-    })
-
-    if (result.before === result.after || !result.after) {
-      result.renamed = false
-      result.error = 'no change'
-    } else if (existing.length) {
-      result.renamed = false
-      result.error = 'file exists'
-    } else {
-      result.renamed = true
-    }
-
-    return result
-  })
-  return results
-}
-
-/**
-Takes a Results collection in, performs the rename on disk setting `renamer` and `error` as appropriate
-@param {Results} results - the Results collection to operate on
-@returns {Results} results
-*/
-function rename (results) {
-  results.list = results.list.map(function (result) {
-    if (!result.after) {
-      result.renamed = false
-      result.error = 'no change'
-      return result
-    }
-    try {
-      if (fs.existsSync(result.after)) {
-        result.renamed = false
-        result.error = 'file exists'
-      } else {
-        fs.renameSync(result.before, result.after)
-        result.renamed = true
+    for (const replaceResult of replaceResults) {
+      /**
+       * Emitted just before each file is processed.
+       * @event module:renamer#replace-result
+       * @type {object}
+       * @property {string} from - The filename before rename.
+       * @property {string} to - The filename after rename.
+       * @property {boolean} renamed - True if the file was renamed.
+       */
+      this.emit('replace-result', replaceResult)
+      if (replaceResult.renamed) {
+        renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })
       }
-    } catch (e) {
-      result.renamed = false
-      result.error = e.message
     }
-    return result
-  })
-  return results
-}
-
-function replaceIndexToken (results) {
-  results.list = results.list.map(function (result, index) {
-    if (result.after) {
-      result.after = result.after.replace(/{{index}}/g, index + 1)
-    }
-    return result
-  })
-  return results
-}
-
-/**
-Search globally by default. If `options.regex` is not set then ensure any special regex characters in `options.find` are escaped. Do nothing if `options.find` is not set.
-*/
-function regExBuilder (options) {
-  if (options.find) {
-    const re = options.regex ? options.find : escapeRegExp(options.find)
-    const reOptions = 'g' + (options.insensitive ? 'i' : '')
-    return new RegExp(re, reOptions)
   }
 }
 
-function escapeRegExp(string){
-  return string
-    ? string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
-    : ''
-}
+module.exports = Renamer

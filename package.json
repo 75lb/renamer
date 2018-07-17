@@ -1,14 +1,19 @@
 {
   "name": "renamer",
-  "description": "Batch rename files and folders",
-  "version": "0.7.3",
+  "description": "Rename files in bulk",
+  "version": "1.0.0-6",
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "bin": "bin/cli.js",
   "license": "MIT",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.0.0"
   },
   "repository": "https://github.com/75lb/renamer",
+  "files": [
+    "index.js",
+    "bin",
+    "lib"
+  ],
   "keywords": [
     "rename",
     "move",
@@ -19,24 +24,32 @@
     "batch"
   ],
   "scripts": {
-    "test": "test-runner test/cli.js test/renamer.*.js"
+    "test": "test-runner test/*.js test/internals/*.js",
+    "docs": "jsdoc2md index.js > docs/API.md",
+    "cover": "nyc test-runner test/*.js && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "ansi-escape-sequences": "^4.0.0",
     "array-back": "^2.0.0",
+    "chalk": "^2.4.1",
     "command-line-args": "^5.0.2",
+    "command-line-plugin": "^0.1.2",
     "command-line-usage": "^5.0.5",
-    "file-set": "^2.0.0",
-    "test-value": "^3.0.0",
-    "typical": "^2.6.1"
+    "fast-diff": "^1.1.2",
+    "glob": "^7.1.2",
+    "global-modules": "^1.0.0",
+    "load-module": "^1.0.0",
+    "node-version-matches": "^1.0.0",
+    "printj": "^1.1.2",
+    "reduce-flatten": "^2.0.0",
+    "reduce-unique": "^2.0.1",
+    "stream-read-all": "^1.0.1",
+    "typical": "^3.0.0"
   },
   "devDependencies": {
-    "more-fs": "~0.5.0",
+    "coveralls": "^3.0.2",
+    "jsdoc-to-markdown": "^4.0.1",
+    "mkdirp2": "^1.0.4",
+    "rimraf": "^2.6.2",
     "test-runner": "^0.5.0"
-  },
-  "files": [
-    "index.js",
-    "bin",
-    "lib"
-  ]
+  }
 }

@@ -1,5 +1,6 @@
+script/sandbox
+.editorconfig
 node_modules
-test/fixture
-out
 tmp
-test/sandbox
+coverage
+.nyc_output

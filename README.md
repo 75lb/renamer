@@ -1,289 +1,103 @@
 [![view on npm](http://img.shields.io/npm/v/renamer.svg)](https://www.npmjs.org/package/renamer)
 [![npm module downloads](http://img.shields.io/npm/dt/renamer.svg)](https://www.npmjs.org/package/renamer)
-[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer)
+[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg?branch=master)](https://coveralls.io/github/75lb/renamer?branch=master)
 [![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
-***[Try the renamer v1.0.0 prerelease](https://github.com/75lb/renamer/tree/next)***
+***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases)***
 
-renamer
-=======
-Batch rename files and folders.
+# renamer
+Renamer is a command-line utility to help rename files and folders. It is flexible and extensible via plugins.
 
-Install
--------
-Install [node](https://nodejs.org) then:
-```sh
-$ npm install -g renamer
+## Disclaimer
+
+Always run this tool with the `--dry-run` option until you are confident the results look correct.
+
+## Synopsis
+
+_The examples below use double quotes to suit Windows users, macOS & Linux users should use single quotes._
+
+
+As input, renamer takes a list of filenames or glob patterns plus some options describing how you would like the files to be renamed.
+
 ```
-*Linux/Mac users may need to run the above with `sudo`*
-
-Usage
------
+$ renamer [options] [file...]
 ```
-  renamer
-  Batch rename files and folders.
 
-  Usage
-  $ renamer <options> <files>
+This trivial example will replace the text `jpeg` with `jpg` in all file and directory names in the current directory.
 
-  -f, --find <string>      The find string, or regular expression when --regex is set. If not set, the whole filename will be replaced.
-  -r, --replace <string>   The replace string. With --regex set, --replace can reference parenthesised substrings from --find with $1, $2, $3
-                           etc. If omitted, defaults to a blank string. The special token '{{index}}' will insert an incrementing number per
-                           file processed.
-  -e, --regex              When set, --find is interpreted as a regular expression.
-  -d, --dry-run            Used for test runs. Set this to do everything but rename the file.
-  -i, --insensitive        Enable case-insensitive finds.
-  -v, --verbose            Use to print additional information.
-  -h, --help               Print usage instructions.
-
-  for more detailed instructions, visit https://github.com/75lb/renamer
 ```
+$ renamer --find jpeg --replace jpg *
+```
+
+As above but operates on all files and folders recursively.
+
+```
+$ renamer --find jpeg --replace jpg "**"
+```
+
+If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
+
+```
+$ find . -mtime -20m | renamer --find jpeg --replace jpg
+```
+
+Same again but with a hand-rolled input of filenames and glob patterns. Create an input text file, e.g. `files.txt`:
+
+```
+house.jpeg
+garden.jpeg
+img/*
+```
+
+Then pipe it into renamer.
+
+```
+$ cat files.txt | renamer --find jpeg --replace jpg
+```
+
+Simple example using a [regular expression literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). The case-insensitive pattern `/one/i` matches the input file `ONE.jpg`, renaming it to `two.jpg`.
+
+```
+$ renamer --find "/one/i" --replace "two" ONE.jpg
+```
+
+## Plugins
+
+If the built-in behaviour doesn't fit your needs, take a look through the [list of available plugins](https://npms.io/search?q=keywords%3Arenamer-plugin).
+
+If you can't find an appropriate plugin you can write your own. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
+
+```
+module.exports = PluginBase => class Jpg extends PluginBase {
+  replace (filePath) {
+    return filePath + '.jpg'
+  }
+}
+```
+
+Use your custom replace plugin by supplying its filename to the `--plugin` option.
+
+```
+$ renamer --plugin my-plugin.js images/*
+```
+
+## Further reading
+
+Please see [the wiki](https://github.com/75lb/renamer/wiki) for
+
+* [Usage examples](https://github.com/75lb/renamer/wiki/examples).
+*  More information about [using plugins](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins) and [writing plugins](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
+* The [full list of command-line options](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs).
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
 
-**Don't forget to test your rename procedure first using `--dry-run`!**
+## Install
 
-Recursing
----------
-Renamer comes with globbing support built in (provided by [node-glob](https://github.com/isaacs/node-glob), enabling recursive operations. To recurse, use the `**` wildcard where a directory name would appear to apply the meaning "any directory, including this one".
-
-For example, this command operates on all `js` files in the current directory:
-
-    $ renamer --find this --replace that "*.js"
-
-this command operates on all `js` files, recursively:
-
-    $ renamer --find this --replace that "**/*.js"
-
-this command operates on all `js` files from the `lib` directory downward:
-
-    $ renamer --find this --replace that "lib/**/*.js"
-
-**Bash users without globstar will need to enclose the glob expression in quotes to prevent native file expansion**, i.e. `"**/*.js"`
-
-Examples
---------
-Some real-world examples.
-
-**Windows users**: the single-quotation marks used in the example commands below are for bash (Mac/Linux) users, please replace these with double-quotation marks on Windows.
-
-### Simple replace
-
-```sh
-$ renamer --find "[bad]" --replace "[good]" *
 ```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── A poem [bad].txt
-├── A story [bad].txt</code></pre></td>
-            <td><pre><code>.
-├── A poem [good].txt
-├── A story [good].txt</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### Case insenstive finds
-
-```sh
-$ renamer --insensitive --find "mpeg4" --replace "mp4" *
+$ npm install -g renamer
 ```
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── A video.MPEG4
-├── Another video.Mpeg4</code></pre></td>
-            <td><pre><code>.
-├── A video.mp4
-├── Another video.mp4</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### Strip out unwanted text
-
-```sh
-$ renamer --find "Season 1 - " *
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── Season 1 - Some crappy episode.mp4
-├── Season 1 - Load of bollocks.mp4</code></pre></td>
-            <td><pre><code>.
-├── Some crappy episode.mp4
-├── Load of bollocks.mp4</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### Simple filename cleanup
-
-```sh
-$ renamer --regex --find ".*_(\d+)_.*" --replace "Video $1.mp4" *
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── [ag]_Annoying_filename_-_3_[38881CD1].mp4
-├── [ag]_Annoying_filename_-_34_[38881CD1].mp4
-├── [ag]_Annoying_filename_-_53_[38881CD1].mp4</code></pre></td>
-            <td><pre><code>.
-├── Video 3.mp4
-├── Video 34.mp4
-├── Video 53.mp4</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### Give your images a new numbering scheme
-
-```sh
-$ renamer --replace "Image{{index}}.jpg" *
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── IMG_5776.JPG
-├── IMG_5777.JPG
-├── IMG_5778.JPG</code></pre></td>
-            <td><pre><code>.
-├── Image1.jpg
-├── Image2.jpg
-├── Image3.jpg</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### do something about all those full stops
-
-```sh
-$ renamer --regex --find "\.(?!\w+$)" --replace " " *
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── loads.of.full.stops.every.where.jpeg
-├── loads.of.full.stops.every.where.mp4</code></pre></td>
-            <td><pre><code>.
-├── loads of full stops every where.jpeg
-├── loads of full stops every where.mp4</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### if not already done, add your name to a load of files
-```sh
-$ renamer --regex --find "(data\d)(\.\w+)" --replace "$1 (checked by Lloyd)$2" *
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── data1.csv
-├── data2 (checked by Lloyd).csv
-├── data3.xls</code></pre></td>
-            <td><pre><code>.
-├── data1 (checked by Lloyd).csv
-├── data2 (checked by Lloyd).csv
-├── data3 (checked by Lloyd).xls</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-
-### rename files and folders, recursively
-
-```sh
-$ renamer --find "pic" --replace "photo" "**"
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── pic1.jpg
-├── pic2.jpg
-└── pics
-    ├── pic3.jpg
-    └── pic4.jpg
-</code></pre></td>
-            <td><pre><code>.
-├── photo1.jpg
-├── photo2.jpg
-└── photos
-    ├── photo3.jpg
-    └── photo4.jpg</code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### prefix files and folders, recursively
-
-```sh
-$ renamer --regex --find "^" --replace "good-" "**"
-```
-
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── pic1.jpg
-├── pic2.jpg
-└── pics
-    ├── pic3.jpg
-    └── pic4.jpg
-</code></pre></td>
-            <td><pre><code>.
-├── good-pic1.jpg
-├── good-pic2.jpg
-└── good-pics
-    ├── good-pic3.jpg
-    └── good-pic4.jpg</code></pre></td>
-        </tr>
-    </tbody>
-</table>
 
 * * *
 
