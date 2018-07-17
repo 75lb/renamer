@@ -25,7 +25,7 @@ As input, renamer takes a list of filenames or glob patterns plus some options d
 $ renamer [options] [file...]
 ```
 
-Trivial example. It will replace the text `jpeg` with `jpg` in all file and directory names in the current directory.
+This trivial example will replace the text `jpeg` with `jpg` in all file and directory names in the current directory.
 
 ```
 $ renamer --find jpeg --replace jpg *
@@ -37,7 +37,7 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
-If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a more specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
+If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
 ```
 $ find . -mtime -20m | renamer --find jpeg --replace jpg
@@ -63,7 +63,9 @@ Simple example using a [regular expression literal](https://developer.mozilla.or
 $ renamer --find "/one/i" --replace "two" ONE.jpg
 ```
 
-If the built-in behaviour doesn't fit your needs, take a look through the [list of available plugins](https://www.npmjs.com/search?q=keywords%3Arenamer-plugin). [More on using plugins](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins).
+## Plugins
+
+If the built-in behaviour doesn't fit your needs, take a look through the [list of available plugins](https://npms.io/search?q=keywords%3Arenamer-plugin).
 
 If you can't find an appropriate plugin you can write your own. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
 
@@ -76,11 +78,13 @@ module.exports = PluginBase => class Jpg extends PluginBase {
 
 ```
 
-Use your custom replace plugin by supplying its filename to the `--plugin` option. [More on writing plugins](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
+Use your custom replace plugin by supplying its filename to the `--plugin` option.
 
 ```
 $ renamer --plugin my-plugin.js images/*
 ```
+
+More on using plugins [here](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins) and writing plugins [here](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
 
 ## Further reading
 
@@ -89,7 +93,7 @@ Please see [the wiki](https://github.com/75lb/renamer/wiki) for more documentati
 ## Install
 
 ```
-$ npm install -g renamer@next
+$ npm install -g renamer
 ```
 
 * * *
