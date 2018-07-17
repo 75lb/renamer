@@ -63,7 +63,9 @@ Simple example using a [regular expression literal](https://developer.mozilla.or
 $ renamer --find "/one/i" --replace "two" ONE.jpg
 ```
 
-If the built-in replace behaviour doesn't fit your needs you can supply a custom replace plugin. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
+If the built-in behaviour doesn't fit your needs, take a look through the [list of available plugins](https://www.npmjs.com/search?q=keywords%3Arenamer-plugin). [More on using plugins](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins).
+
+If you can't find an appropriate plugin you can write your own. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
 
 ```
 module.exports = PluginBase => class Jpg extends PluginBase {
@@ -74,7 +76,7 @@ module.exports = PluginBase => class Jpg extends PluginBase {
 
 ```
 
-Use your custom replace plugin by supplying its filename to `--plugin`.
+Use your custom replace plugin by supplying its filename to the `--plugin` option. [More on writing plugins](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
 
 ```
 $ renamer --plugin my-plugin.js images/*
