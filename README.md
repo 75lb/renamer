@@ -16,7 +16,7 @@ Always run this tool with the `--dry-run` option until you are confident the res
 
 ## Synopsis
 
-_The examples below use double quotes to suit Windows users, macOS & Linux users should use single quotes._
+_The examples below use double quotes to suit Windows users. MacOS & Linux users should use single quotes._
 
 
 As input, renamer takes a list of filenames or glob patterns plus some options describing how you would like the files to be renamed.
