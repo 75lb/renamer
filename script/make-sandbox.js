@@ -45,6 +45,14 @@ const someFiles = [
   'sandbox/pics/pic1.jpg',
   'sandbox/pics/pic2.jpg',
   'sandbox/pics/pics/pic3.jpg',
-  'sandbox/pics/pics/pic4.jpg'
+  'sandbox/pics/pics/pic4.jpg',
+  'sandbox/spaces/a file.txt',
+  'sandbox/spaces/file b here .txt',
+  'sandbox/spaces/a  spacey - file .txt',
+  'sandbox/data1.csv',
+  'sandbox/data2 (checked by Lloyd).csv',
+  'sandbox/data3.xls',
+  'sandbox/dates/20180716_180000.jpg',
+  'sandbox/dates/20180717_210000.jpg',
 ]
 someFiles.forEach(createFixture)
