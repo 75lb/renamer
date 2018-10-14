@@ -24,9 +24,9 @@
     "batch"
   ],
   "scripts": {
-    "test": "glob-run test-runner test/**/*.js",
+    "test": "test-runner test/*.js test/internals/*.js",
     "docs": "jsdoc2md index.js > docs/API.md",
-    "cover": "glob-run nyc test-runner test/*.js && nyc report --reporter=text-lcov | coveralls"
+    "cover": "nyc test-runner test/*.js && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "array-back": "^2.0.0",
@@ -34,12 +34,12 @@
     "command-line-args": "^5.0.2",
     "command-line-plugin": "^0.1.2",
     "command-line-usage": "^5.0.5",
-    "fast-diff": "^1.1.2",
-    "glob": "^7.1.2",
+    "fast-diff": "^1.2.0",
+    "glob": "^7.1.3",
     "global-modules": "^1.0.0",
     "load-module": "^1.0.0",
     "node-version-matches": "^1.0.0",
-    "printj": "^1.1.2",
+    "printj": "^1.2.0",
     "reduce-flatten": "^2.0.0",
     "reduce-unique": "^2.0.1",
     "stream-read-all": "^1.0.1",
@@ -47,11 +47,10 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
-    "glob-run": "^0.1.6",
     "jsdoc-to-markdown": "^4.0.1",
     "mkdirp2": "^1.0.4",
-    "nyc": "^13.0.1",
+    "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
-    "test-runner": "^0.5.0"
+    "test-runner": "^0.5.1"
   }
 }
