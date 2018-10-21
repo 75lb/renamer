@@ -30,6 +30,7 @@ Rename files in bulk.
 | [options.replace] | <code>string</code> | The replace string. If omitted, defaults to a empty string. |
 | [options.pathElement] | <code>string</code> | The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`. |
 | [options.indexFormat] | <code>string</code> | The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`. |
+| [options.indexRoot] | <code>string</code> | The number that `{{index}}` begins counting from. Defaults to 1. |
 
 <a name="module_renamer--Renamer+event_replace-result"></a>
 
