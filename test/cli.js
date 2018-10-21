@@ -198,3 +198,15 @@ runner.test('cli: simple, long view', function () {
   a.deepStrictEqual(fs.existsSync(fixturePath), false)
   a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
+
+runner.test('cli: --index-root', function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const origArgv = process.argv
+  process.argv = [ 'node', 'test', '--index-root', '10', '--find', 'one', '--replace', 'yeah{{index}}', fixturePath ]
+  const cliApp = new CliApp()
+  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  cliApp.start()
+  process.argv = origArgv
+  a.deepStrictEqual(fs.existsSync(fixturePath), false)
+  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah10`), true)
+})
