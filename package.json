@@ -39,7 +39,7 @@
     "global-modules": "^1.0.0",
     "load-module": "^1.0.0",
     "node-version-matches": "^1.0.0",
-    "printj": "^1.2.0",
+    "printj": "^1.2.1",
     "reduce-flatten": "^2.0.0",
     "reduce-unique": "^2.0.1",
     "stream-read-all": "^1.0.1",
