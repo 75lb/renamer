@@ -19,7 +19,7 @@ class Renamer extends EventEmitter {
    * @param {string} [options.replace] - The replace string. If omitted, defaults to a empty string.
    * @param {string} [options.pathElement] - The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`.
    * @param {string} [options.indexFormat] - The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`.
-   * @param {string} [options.indexRoot] - The root number `{{index}}` begins counting from. Defaults to 1.
+   * @param {string} [options.indexRoot] - The initial value for `{{index}}`. Defaults to 1.
    * @emits module:renamer#replace-result
    */
   rename (options) {
