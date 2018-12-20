@@ -1,3 +1,10 @@
+const nodeVersionMatches = require('node-version-matches')
+if (!nodeVersionMatches('>=8.9.0')) {
+  const chalk = require('chalk')
+  console.error(chalk.red('Renamer requires node v8.9.0 or above. Visit the website to upgrade: https://nodejs.org/'))
+  process.exit(1)
+}
+
 const EventEmitter = require('events').EventEmitter
 
 /**
