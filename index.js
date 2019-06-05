@@ -17,6 +17,8 @@ const EventEmitter = require('events').EventEmitter
  */
 class Renamer extends EventEmitter {
   /**
+   * A synchronous method to rename files in bulk.
+   * 
    * @param {object} options - The renamer options
    * @param {string[]} [options.files] - One or more glob patterns or filenames to process.
    * @param {boolean} [options.dryRun] - Set this to do everything but rename the file. You should always set this flag until certain the output looks correct.

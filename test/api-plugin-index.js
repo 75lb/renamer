@@ -1,17 +1,17 @@
 const Renamer = require('../')
-const TestRunner = require('test-runner')
 const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const rimraf = require('rimraf')
 const fs = require('fs')
 const path = require('path')
+const Tom = require('test-runner').Tom
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('api-plugin-index')
 
 const sectionFolder = `tmp/${path.basename(__filename)}`
 rimraf.sync(sectionFolder)
 
-runner.test('index plugin: simple', function () {
+tom.test('simple', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -24,7 +24,7 @@ runner.test('index plugin: simple', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
 })
 
-runner.test('index plugin: two files same depth, check index order matches input order', function () {
+tom.test('two files same depth, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -41,7 +41,7 @@ runner.test('index plugin: two files same depth, check index order matches input
   a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-runner.test('index plugin: two files same depth, different order, check index order matches input order', function () {
+tom.test('two files same depth, different order, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -58,7 +58,7 @@ runner.test('index plugin: two files same depth, different order, check index or
   a.strictEqual(fs.existsSync(`${testFolder}/two2`), true)
 })
 
-runner.test('index plugin: with depth, check index order matches input order', function () {
+tom.test('with depth, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
@@ -77,7 +77,7 @@ runner.test('index plugin: with depth, check index order matches input order', f
   a.strictEqual(fs.existsSync(`${testFolder}/dir/one2`), true)
 })
 
-runner.test('index plugin: with depth, different order, check index order matches input order', function () {
+tom.test('with depth, different order, check index order matches input order', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
@@ -96,7 +96,7 @@ runner.test('index plugin: with depth, different order, check index order matche
   a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-runner.test('index plugin: --index-root 10', function () {
+tom.test('--index-root 10', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -110,7 +110,7 @@ runner.test('index plugin: --index-root 10', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/10`), true)
 })
 
-runner.test('index plugin: --index-root 10, two input files', function () {
+tom.test('--index-root 10, two input files', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -127,7 +127,7 @@ runner.test('index plugin: --index-root 10, two input files', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/11`), true)
 })
 
-runner.test('index plugin: --index-root 0', function () {
+tom.test('--index-root 0', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -141,7 +141,7 @@ runner.test('index plugin: --index-root 0', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
 })
 
-runner.test('index plugin: --index-root 0 (type number)', function () {
+tom.test('--index-root 0 (type number)', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -155,7 +155,7 @@ runner.test('index plugin: --index-root 0 (type number)', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
 })
 
-runner.test('index plugin: --index-root 0, two input files', function () {
+tom.test('--index-root 0, two input files', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -172,7 +172,7 @@ runner.test('index plugin: --index-root 0, two input files', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
 })
 
-runner.test('index plugin: --index-root 0 (type number), two input files', function () {
+tom.test('--index-root 0 (type number), two input files', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -189,7 +189,7 @@ runner.test('index plugin: --index-root 0 (type number), two input files', funct
   a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
 })
 
-runner.test('index plugin: --index-root -10', function () {
+tom.test('--index-root -10', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -206,7 +206,7 @@ runner.test('index plugin: --index-root -10', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/-9`), true)
 })
 
-runner.test('index plugin: --index-root -1, three input files', function () {
+tom.test('--index-root -1, three input files', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -226,7 +226,7 @@ runner.test('index plugin: --index-root -1, three input files', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
 })
 
-runner.test('index plugin: --index-root -1 (type number), three input files', function () {
+tom.test('--index-root -1 (type number), three input files', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)

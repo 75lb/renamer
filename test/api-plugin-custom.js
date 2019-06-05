@@ -1,17 +1,17 @@
 const Renamer = require('../')
-const TestRunner = require('test-runner')
 const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const rimraf = require('rimraf')
 const fs = require('fs')
 const path = require('path')
+const Tom = require('test-runner').Tom
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('api-plugin-custom')
 
 const sectionFolder = `tmp/${path.basename(__filename)}`
 rimraf.sync(sectionFolder)
 
-runner.test('custom plugin: simple', function () {
+tom.test('simple', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -45,7 +45,7 @@ runner.test('custom plugin: simple', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/test2`), true)
 })
 
-runner.test('custom plugin: chain of two plugins', function () {
+tom.test('chain of two plugins', function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   let assertionCount = 0
@@ -79,7 +79,7 @@ runner.test('custom plugin: chain of two plugins', function () {
   a.strictEqual(fs.existsSync(`${testFolder}/one12`), true)
 })
 
-runner.test('custom plugin: invalid plugin, no .replace() function', function () {
+tom.test('invalid plugin, no .replace() function', function () {
   function plugin () {
     return class InvalidPlugin {}
   }
@@ -94,7 +94,7 @@ runner.test('custom plugin: invalid plugin, no .replace() function', function ()
   )
 })
 
-runner.test('custom plugin: invalid plugin, no replace 2', function () {
+tom.test('invalid plugin, no replace 2', function () {
   function plugin (Base) {
     return class InvalidPlugin extends Base {}
   }
@@ -109,7 +109,7 @@ runner.test('custom plugin: invalid plugin, no replace 2', function () {
   )
 })
 
-runner.test('custom plugin: invalid plugin, not a function', function () {
+tom.test('invalid plugin, not a function', function () {
   class InvalidPlugin {}
   const renamer = new Renamer()
   const options = {
@@ -122,7 +122,7 @@ runner.test('custom plugin: invalid plugin, not a function', function () {
   )
 })
 
-runner.test('custom plugin: invalid plugin, function doesn\'t return class', function () {
+tom.test('invalid plugin, function doesn\'t return class', function () {
   function plugin () {}
   const renamer = new Renamer()
   const options = {

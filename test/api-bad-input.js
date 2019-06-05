@@ -1,17 +1,17 @@
 const Renamer = require('../')
-const TestRunner = require('test-runner')
 const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const rimraf = require('rimraf')
 const fs = require('fs')
 const path = require('path')
+const Tom = require('test-runner').Tom
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('api-bad-input')
 
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
-runner.test('api-bad-input: arrayifies files', function () {
+tom.test('arrayifies files', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -23,7 +23,7 @@ runner.test('api-bad-input: arrayifies files', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-runner.test('api-bad-input: empty plugin list defaults to [ default, index ]', function () {
+tom.test('empty plugin list defaults to [ default, index ]', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -36,9 +36,9 @@ runner.test('api-bad-input: empty plugin list defaults to [ default, index ]', f
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-runner.test('api-bad-input: no find or replace input')
+tom.test('no find or replace input')
 
-runner.test('api-bad-input: broken path-element', function () {
+tom.test('broken path-element', function () {
   const renamer = new Renamer()
   const options = {
     files: [ 'one' ],

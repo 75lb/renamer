@@ -16,6 +16,8 @@ Rename files in bulk.
 <a name="module_renamer--Renamer+rename"></a>
 
 #### renamer.rename(options)
+A synchronous method to rename files in bulk.
+
 **Kind**: instance method of [<code>Renamer</code>](#exp_module_renamer--Renamer)  
 **Emits**: [<code>replace-result</code>](#module_renamer--Renamer+event_replace-result)  
 

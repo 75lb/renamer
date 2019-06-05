@@ -1,11 +1,11 @@
 const Replacer = require('../../lib/replacer')
-const TestRunner = require('test-runner')
 const a = require('assert')
 const path = require('path')
+const Tom = require('test-runner').Tom
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('replacer')
 
-runner.test('replacer: string find', function () {
+tom.test('string find', function () {
   const file = 'one'
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: 'one', replace: 'yeah' })
@@ -14,7 +14,7 @@ runner.test('replacer: string find', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: string find, sub-dir', function () {
+tom.test('string find, sub-dir', function () {
   const file = path.join('dir', 'one')
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: 'one', replace: 'yeah' })
@@ -23,7 +23,7 @@ runner.test('replacer: string find, sub-dir', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: regexp, sub-dir, unchanged', function () {
+tom.test('regexp, sub-dir, unchanged', function () {
   const file = path.join('one', 'two')
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: /one/g, replace: 'yeah' })
@@ -32,7 +32,7 @@ runner.test('replacer: regexp, sub-dir, unchanged', function () {
   a.deepStrictEqual(result.renamed, false)
 })
 
-runner.test('replacer: regexp, sub-dir', function () {
+tom.test('regexp, sub-dir', function () {
   const file = path.join('two', '/one one')
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: /one/g, replace: 'yeah' })
@@ -41,7 +41,7 @@ runner.test('replacer: regexp, sub-dir', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: regexp', function () {
+tom.test('regexp', function () {
   const file = 'one'
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: /one/g, replace: 'yeah' })
@@ -50,7 +50,7 @@ runner.test('replacer: regexp', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: replace function', function () {
+tom.test('replace function', function () {
   const file = 'one'
   const replacer = new Replacer()
   const result = replacer.replace(file, { find: /one/g, replace: () => 'yeah' })
@@ -59,7 +59,7 @@ runner.test('replacer: replace function', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: regexp, replace function', function () {
+tom.test('regexp, replace function', function () {
   const file = 'one-two'
   const replacer = new Replacer()
   const result = replacer.replace(file, {
@@ -73,7 +73,7 @@ runner.test('replacer: regexp, replace function', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: empty find', function () {
+tom.test('empty find', function () {
   const file = 'one'
   const replacer = new Replacer()
   const result = replacer.replace(file, { replace: 'yeah' })
@@ -82,7 +82,7 @@ runner.test('replacer: empty find', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: empty find, sub-directory', function () {
+tom.test('empty find, sub-directory', function () {
   const file = path.join('one', 'one')
   const replacer = new Replacer()
   const result = replacer.replace(file, { replace: 'yeah' })
@@ -91,7 +91,7 @@ runner.test('replacer: empty find, sub-directory', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: custom plugins', function () {
+tom.test('custom plugins', function () {
   function pluginOne (PluginBase) {
     return class extends PluginBase {
       replace (file) {
@@ -114,7 +114,7 @@ runner.test('replacer: custom plugins', function () {
   a.deepStrictEqual(result.renamed, true)
 })
 
-runner.test('replacer: plugins plus a built-in', function () {
+tom.test('plugins plus a built-in', function () {
   function pluginOne (PluginBase) {
     return class extends PluginBase {
       replace (file) {

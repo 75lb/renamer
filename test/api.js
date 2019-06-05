@@ -1,17 +1,17 @@
 const Renamer = require('../')
-const TestRunner = require('test-runner')
 const a = require('assert')
 const createFixture = require('./lib/util').createFixture
 const rimraf = require('rimraf')
 const fs = require('fs')
 const path = require('path')
+const Tom = require('test-runner').Tom
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('api')
 
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
-runner.test('renamer: simple rename', function () {
+tom.test('simple rename', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -24,7 +24,7 @@ runner.test('renamer: simple rename', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-runner.test('renamer: nothing found', function () {
+tom.test('nothing found', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -36,7 +36,7 @@ runner.test('renamer: nothing found', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
 })
 
-runner.test('renamer: target exists', function () {
+tom.test('target exists', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   createFixture(`${testRoot}/${this.index}/two`)
   const renamer = new Renamer()
@@ -51,7 +51,7 @@ runner.test('renamer: target exists', function () {
   )
 })
 
-runner.test('renamer: target exists, force', function () {
+tom.test('target exists, force', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const fixturePath2 = createFixture(`${testRoot}/${this.index}/two`)
   const renamer = new Renamer()
@@ -66,7 +66,7 @@ runner.test('renamer: target exists, force', function () {
   a.strictEqual(fs.existsSync(fixturePath2), true)
 })
 
-runner.test("renamer: file doesn't exist", function () {
+tom.test("file doesn't exist", function () {
   const renamer = new Renamer()
   const options = {
     files: [ 'asdfasfewf' ],
@@ -79,7 +79,7 @@ runner.test("renamer: file doesn't exist", function () {
   )
 })
 
-runner.test('renamer: simple rename, dry-run', function () {
+tom.test('simple rename, dry-run', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -93,7 +93,7 @@ runner.test('renamer: simple rename, dry-run', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
 })
 
-runner.test('renamer: empty result throws', function () {
+tom.test('empty result throws', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -107,9 +107,9 @@ runner.test('renamer: empty result throws', function () {
   )
 })
 
-runner.test('rename symlink')
+tom.test('rename symlink')
 
-runner.test('renamer: depth-first renaming', function () {
+tom.test('depth-first renaming', function () {
   const testDir = `${testRoot}/${this.index}`
   const renamer = new Renamer()
   createFixture(`${testDir}/one/two`)
@@ -120,7 +120,7 @@ runner.test('renamer: depth-first renaming', function () {
   a.strictEqual(fs.existsSync(`${testDir}/ane/twa`), true)
 })
 
-runner.test('renamer: path-element name', function () {
+tom.test('path-element name', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
   const renamer = new Renamer()
   const options = {
@@ -134,7 +134,7 @@ runner.test('renamer: path-element name', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one-done.txt`), true)
 })
 
-runner.test('renamer: path-element ext', function () {
+tom.test('path-element ext', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
   const renamer = new Renamer()
   const options = {
