@@ -6,7 +6,7 @@
   "bin": "bin/cli.js",
   "license": "MIT",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.9.0"
   },
   "repository": "https://github.com/75lb/renamer",
   "files": [
@@ -26,7 +26,7 @@
   "scripts": {
     "test": "test-runner test/*.js test/internals/*.js",
     "docs": "jsdoc2md index.js > docs/API.md",
-    "cover": "nyc test-runner test/*.js && nyc report --reporter=text-lcov | coveralls"
+    "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "array-back": "^3.1.0",
