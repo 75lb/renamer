@@ -2,7 +2,7 @@
 [![npm module downloads](http://img.shields.io/npm/dt/renamer.svg)](https://www.npmjs.org/package/renamer)
 [![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg?branch=master)](https://coveralls.io/github/75lb/renamer?branch=master)
-[![Dependency Status](https://david-dm.org/75lb/renamer.svg)](https://david-dm.org/75lb/renamer)
+[![Dependency Status](https://badgen.net/david/dep/75lb/renamer)](https://david-dm.org/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 ***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases)***
@@ -37,7 +37,7 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
-If no filesnames/patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
+If no filenames or patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
 ```
 $ find . -mtime -20m | renamer --find jpeg --replace jpg
