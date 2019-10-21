@@ -29,25 +29,25 @@
     "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "array-back": "^3.1.0",
+    "array-back": "^4.0.0",
     "chalk": "^2.4.2",
     "command-line-args": "^5.1.1",
     "command-line-plugin": "^0.2.0",
     "command-line-usage": "^6.0.2",
     "fast-diff": "^1.2.0",
-    "glob": "^7.1.4",
+    "glob": "^7.1.5",
     "global-modules": "^2.0.0",
-    "load-module": "^2.0.1",
+    "load-module": "^2.0.2",
     "node-version-matches": "^1.0.1",
     "printj": "^1.2.2",
-    "reduce-flatten": "^2.0.0",
+    "reduce-flatten": "^3.0.0",
     "reduce-unique": "^2.0.1",
     "stream-read-all": "^2.0.0",
-    "typical": "^5.1.0"
+    "typical": "^5.2.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.6",
-    "jsdoc-to-markdown": "^5.0.0",
+    "coveralls": "^3.0.7",
+    "jsdoc-to-markdown": "^5.0.2",
     "mkdirp2": "^1.0.4",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.0",
