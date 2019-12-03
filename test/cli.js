@@ -46,7 +46,7 @@ tom.test('simple, using bin', function () {
   const origArgv = process.argv
   process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath]
   a.deepEqual(fs.existsSync(fixturePath), true)
-  require('../bin/cli')
+  require('../bin/cli') // prints '✔︎ tmp/cli.js/3/one → tmp/cli.js/3/yeah'
   process.argv = origArgv
   a.deepEqual(fs.existsSync(fixturePath), false)
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)

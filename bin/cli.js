@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const nodeVersionMatches = require('node-version-matches')
+/* v8.9.0 required for passing custom paths to require.resolve() */
 if (nodeVersionMatches('>=8.9.0')) {
   const CliApp = require('../lib/cli-app')
   const cliApp = new CliApp()

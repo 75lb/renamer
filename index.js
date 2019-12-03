@@ -1,4 +1,5 @@
 const nodeVersionMatches = require('node-version-matches')
+/* v8.9.0 required for passing custom paths to require.resolve() */
 if (!nodeVersionMatches('>=8.9.0')) {
   const chalk = require('chalk')
   console.error(chalk.red('Renamer requires node v8.9.0 or above. Visit the website to upgrade: https://nodejs.org/'))
