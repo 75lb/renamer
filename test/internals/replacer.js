@@ -107,7 +107,7 @@ tom.test('custom plugins', function () {
     }
   }
   const file = 'a-one-two'
-  const replacer = new Replacer([ pluginOne, pluginTwo ])
+  const replacer = new Replacer([pluginOne, pluginTwo])
   const result = replacer.replace(file, { find: 'a', replace: 'b' })
   a.deepStrictEqual(result.from, file)
   a.deepStrictEqual(result.to, 'a-{{one}}-2')
@@ -130,7 +130,7 @@ tom.test('plugins plus a built-in', function () {
     }
   }
   const file = 'a-one-two'
-  const replacer = new Replacer([ 'default', pluginOne, pluginTwo ])
+  const replacer = new Replacer(['default', pluginOne, pluginTwo])
   const result = replacer.replace(file, { find: 'a', replace: 'b' })
   a.deepStrictEqual(result.from, file)
   a.deepStrictEqual(result.to, 'b-{{one}}-2')

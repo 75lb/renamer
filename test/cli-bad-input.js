@@ -6,7 +6,7 @@ const rimraf = require('rimraf')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('cli-bad-input')
+const tom = module.exports = new Tom()
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
@@ -14,7 +14,7 @@ tom.test('invalid option: exit code set to 1, usage guide displayed, no file ren
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
   const origCode = process.exitCode
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--broken' ]
+  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--broken']
   const cliApp = new CliApp()
   const logs = []
   cliApp.log = function (...args) {

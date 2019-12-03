@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('api')
+const tom = module.exports = new Tom()
 
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
@@ -15,7 +15,7 @@ tom.test('simple rename', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: 'o',
     replace: 'a'
   }
@@ -28,7 +28,7 @@ tom.test('nothing found', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: 'qqqq',
     replace: 'a'
   }
@@ -41,7 +41,7 @@ tom.test('target exists', function () {
   createFixture(`${testRoot}/${this.index}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: 'one',
     replace: 'two'
   }
@@ -56,7 +56,7 @@ tom.test('target exists, force', function () {
   const fixturePath2 = createFixture(`${testRoot}/${this.index}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: 'one',
     replace: 'two',
     force: true
@@ -69,7 +69,7 @@ tom.test('target exists, force', function () {
 tom.test("file doesn't exist", function () {
   const renamer = new Renamer()
   const options = {
-    files: [ 'asdfasfewf' ],
+    files: ['asdfasfewf'],
     find: 'a',
     replace: 'e'
   }
@@ -83,7 +83,7 @@ tom.test('simple rename, dry-run', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: 'o',
     replace: 'a',
     dryRun: true
@@ -97,7 +97,7 @@ tom.test('empty result throws', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: 'one',
     replace: ''
   }
@@ -113,7 +113,7 @@ tom.test('depth-first renaming', function () {
   const testDir = `${testRoot}/${this.index}`
   const renamer = new Renamer()
   createFixture(`${testDir}/one/two`)
-  renamer.rename({ files: [ `${testDir}/one`, `${testDir}/one/two` ], find: 'o', replace: 'a' })
+  renamer.rename({ files: [`${testDir}/one`, `${testDir}/one/two`], find: 'o', replace: 'a' })
   a.strictEqual(fs.existsSync(`${testDir}/one`), false)
   a.strictEqual(fs.existsSync(`${testDir}/one/two`), false)
   a.strictEqual(fs.existsSync(`${testDir}/ane`), true)
@@ -124,7 +124,7 @@ tom.test('path-element name', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: /$/,
     replace: '-done',
     pathElement: 'name'
@@ -138,7 +138,7 @@ tom.test('path-element ext', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     find: /^\./,
     replace: '.done-',
     pathElement: 'ext'

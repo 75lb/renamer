@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('api-bad-input')
+const tom = module.exports = new Tom()
 
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
@@ -27,7 +27,7 @@ tom.test('empty plugin list defaults to [ default, index ]', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     plugin: [],
     find: 'o',
     replace: 'a'
@@ -41,7 +41,7 @@ tom.test('no find or replace input')
 tom.test('broken path-element', function () {
   const renamer = new Renamer()
   const options = {
-    files: [ 'one' ],
+    files: ['one'],
     pathElement: 'broken'
   }
   a.throws(

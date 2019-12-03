@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('api-plugin-custom')
+const tom = module.exports = new Tom()
 
 const sectionFolder = `tmp/${path.basename(__filename)}`
 rimraf.sync(sectionFolder)
@@ -34,8 +34,8 @@ tom.test('simple', function () {
   }
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/one`, `${testFolder}/two` ],
-    plugin: [ plugin ]
+    files: [`${testFolder}/one`, `${testFolder}/two`],
+    plugin: [plugin]
   }
   renamer.rename(options)
   a.strictEqual(assertionCount, 2)
@@ -69,8 +69,8 @@ tom.test('chain of two plugins', function () {
   }
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/one` ],
-    plugin: [ plugin1, plugin2 ]
+    files: [`${testFolder}/one`],
+    plugin: [plugin1, plugin2]
   }
   renamer.rename(options)
   a.strictEqual(assertionCount, 2)
@@ -85,8 +85,8 @@ tom.test('invalid plugin, no .replace() function', function () {
   }
   const renamer = new Renamer()
   const options = {
-    files: [ 'one' ],
-    plugin: [ plugin ]
+    files: ['one'],
+    plugin: [plugin]
   }
   a.throws(
     () => renamer.rename(options),
@@ -100,8 +100,8 @@ tom.test('invalid plugin, no replace 2', function () {
   }
   const renamer = new Renamer()
   const options = {
-    files: [ 'one' ],
-    plugin: [ plugin ]
+    files: ['one'],
+    plugin: [plugin]
   }
   a.throws(
     () => renamer.rename(options),
@@ -113,8 +113,8 @@ tom.test('invalid plugin, not a function', function () {
   class InvalidPlugin {}
   const renamer = new Renamer()
   const options = {
-    files: [ 'one' ],
-    plugin: [ InvalidPlugin ]
+    files: ['one'],
+    plugin: [InvalidPlugin]
   }
   a.throws(
     () => renamer.rename(options),
@@ -126,8 +126,8 @@ tom.test('invalid plugin, function doesn\'t return class', function () {
   function plugin () {}
   const renamer = new Renamer()
   const options = {
-    files: [ 'one' ],
-    plugin: [ plugin ]
+    files: ['one'],
+    plugin: [plugin]
   }
   a.throws(
     () => renamer.rename(options),

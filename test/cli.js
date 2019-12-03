@@ -1,12 +1,12 @@
 const CliApp = require('../lib/cli-app')
-const a = require('assert')
+const a = require('assert').strict
 const createFixture = require('./lib/util').createFixture
 const fs = require('fs')
 const rimraf = require('rimraf')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('cli')
+const tom = module.exports = new Tom()
 const testRoot = `tmp/${path.basename(__filename)}`
 rimraf.sync(testRoot)
 
@@ -20,95 +20,95 @@ class TestCliApp extends CliApp {
 tom.test('simple', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath ]
+  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath]
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 tom.test('simple, dry run', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--dry-run' ]
+  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--dry-run']
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
 })
 
 tom.test('simple, using bin', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath ]
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath]
+  a.deepEqual(fs.existsSync(fixturePath), true)
   require('../bin/cli')
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 tom.test('simple, find string not found', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'o.e', '--replace', 'yeah', fixturePath ]
+  process.argv = ['node', 'test', '--find', 'o.e', '--replace', 'yeah', fixturePath]
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
 })
 
 tom.test('simple regexp', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', '/o.e/', '--replace', 'yeah', fixturePath ]
+  process.argv = ['node', 'test', '--find', '/o.e/', '--replace', 'yeah', fixturePath]
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 tom.test('simple regexp, case sensitive', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', '/one/', '--replace', 'yeah', fixturePath ]
+  process.argv = ['node', 'test', '--find', '/one/', '--replace', 'yeah', fixturePath]
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
 })
 
 tom.test('simple regexp, insensitive', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', '/one/i', '--replace', 'yeah', fixturePath ]
+  process.argv = ['node', 'test', '--find', '/one/i', '--replace', 'yeah', fixturePath]
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 tom.test('input file list on stdin', function () {
   const spawn = require('child_process').spawn
   const path = require('path')
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  const renamer = spawn('node', [ path.join('bin', 'cli.js'), '-f', 'one', '-r', 'two' ])
+  const renamer = spawn('node', [path.join('bin', 'cli.js'), '-f', 'one', '-r', 'two'])
   return new Promise((resolve, reject) => {
     renamer.on('close', () => {
-      a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-      a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/two`), true)
+      a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
+      a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/two`), true)
       resolve()
     })
     renamer.stdin.end(fixturePath)
@@ -117,7 +117,7 @@ tom.test('input file list on stdin', function () {
 
 tom.test('--help', function () {
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--help' ]
+  process.argv = ['node', 'test', '--help']
   const cliApp = new TestCliApp()
   let output = ''
   cliApp.log = function (msg) {
@@ -133,7 +133,7 @@ tom.test('--regexp, append extention', function () {
   createFixture(`${testDir}/one1`)
   createFixture(`${testDir}/one2`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '-f', '/(.+)/', '-r', '$1.log', `${testDir}/*` ]
+  process.argv = ['node', 'test', '-f', '/(.+)/', '-r', '$1.log', `${testDir}/*`]
   const cliApp = new TestCliApp()
   cliApp.start()
   a.strictEqual(fs.existsSync(`${testDir}/one1.log`), true)
@@ -147,7 +147,7 @@ tom.test('--regexp, single replace', function () {
   const testDir = `${testRoot}/${this.index}`
   createFixture(`${testDir}/ooo`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '-f', '/o/', '-r', 'a', `${testDir}/*` ]
+  process.argv = ['node', 'test', '-f', '/o/', '-r', 'a', `${testDir}/*`]
   const cliApp = new TestCliApp()
   cliApp.start()
   a.strictEqual(fs.existsSync(`${testDir}/aoo`), true)
@@ -159,7 +159,7 @@ tom.test('--regexp, global replace', function () {
   const testDir = `${testRoot}/${this.index}`
   createFixture(`${testDir}/ooo`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '-f', '/o/g', '-r', 'a', `${testDir}/*` ]
+  process.argv = ['node', 'test', '-f', '/o/g', '-r', 'a', `${testDir}/*`]
   const cliApp = new TestCliApp()
   cliApp.start()
   a.strictEqual(fs.existsSync(`${testDir}/aaa`), true)
@@ -172,7 +172,7 @@ tom.test('failed replace', function () {
   createFixture(`${testDir}/one`)
   createFixture(`${testDir}/two`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '-f', 'one', '-r', 'two', `${testDir}/one` ]
+  process.argv = ['node', 'test', '-f', 'one', '-r', 'two', `${testDir}/one`]
   const cliApp = new TestCliApp()
   cliApp.start()
   a.strictEqual(fs.existsSync(`${testDir}/one`), true)
@@ -185,35 +185,35 @@ tom.test('failed replace', function () {
 tom.test('simple, diff view', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'diff' ]
+  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'diff']
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 tom.test('simple, long view', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'long' ]
+  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'long']
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
 tom.test('--index-root', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
-  process.argv = [ 'node', 'test', '--index-root', '10', '--find', 'one', '--replace', 'yeah{{index}}', fixturePath ]
+  process.argv = ['node', 'test', '--index-root', '10', '--find', 'one', '--replace', 'yeah{{index}}', fixturePath]
   const cliApp = new TestCliApp()
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   cliApp.start()
   process.argv = origArgv
-  a.deepStrictEqual(fs.existsSync(fixturePath), false)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah10`), true)
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah10`), true)
 })

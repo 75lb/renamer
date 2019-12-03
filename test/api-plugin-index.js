@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('api-plugin-index')
+const tom = module.exports = new Tom()
 
 const sectionFolder = `tmp/${path.basename(__filename)}`
 rimraf.sync(sectionFolder)
@@ -16,7 +16,7 @@ tom.test('simple', function () {
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     replace: '{{index}}'
   }
   renamer.rename(options)
@@ -30,7 +30,7 @@ tom.test('two files same depth, check index order matches input order', function
   createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/two`, `${testFolder}/one` ],
+    files: [`${testFolder}/two`, `${testFolder}/one`],
     find: /(.+)/,
     replace: '$1{{index}}'
   }
@@ -47,7 +47,7 @@ tom.test('two files same depth, different order, check index order matches input
   createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/one`, `${testFolder}/two` ],
+    files: [`${testFolder}/one`, `${testFolder}/two`],
     find: /(.+)/,
     replace: '$1{{index}}'
   }
@@ -65,7 +65,7 @@ tom.test('with depth, check index order matches input order', function () {
   createFixture(`${testFolder}/dir/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/one`, `${testFolder}/dir/one`, `${testFolder}/dir/two` ],
+    files: [`${testFolder}/one`, `${testFolder}/dir/one`, `${testFolder}/dir/two`],
     find: 'e',
     replace: 'e{{index}}'
   }
@@ -84,7 +84,7 @@ tom.test('with depth, different order, check index order matches input order', f
   createFixture(`${testFolder}/dir/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ `${testFolder}/dir/one`, `${testFolder}/one`, `${testFolder}/dir/two` ],
+    files: [`${testFolder}/dir/one`, `${testFolder}/one`, `${testFolder}/dir/two`],
     find: 'e',
     replace: 'e{{index}}'
   }
@@ -101,7 +101,7 @@ tom.test('--index-root 10', function () {
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     replace: '{{index}}',
     indexRoot: 10
   }
@@ -116,7 +116,7 @@ tom.test('--index-root 10, two input files', function () {
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath, fixturePath2 ],
+    files: [fixturePath, fixturePath2],
     replace: '{{index}}',
     indexRoot: 10
   }
@@ -132,7 +132,7 @@ tom.test('--index-root 0', function () {
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     replace: '{{index}}',
     indexRoot: '0'
   }
@@ -146,7 +146,7 @@ tom.test('--index-root 0 (type number)', function () {
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath ],
+    files: [fixturePath],
     replace: '{{index}}',
     indexRoot: 0
   }
@@ -161,7 +161,7 @@ tom.test('--index-root 0, two input files', function () {
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath, fixturePath2 ],
+    files: [fixturePath, fixturePath2],
     replace: '{{index}}',
     indexRoot: '0'
   }
@@ -178,7 +178,7 @@ tom.test('--index-root 0 (type number), two input files', function () {
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath, fixturePath2 ],
+    files: [fixturePath, fixturePath2],
     replace: '{{index}}',
     indexRoot: 0
   }
@@ -195,7 +195,7 @@ tom.test('--index-root -10', function () {
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath, fixturePath2 ],
+    files: [fixturePath, fixturePath2],
     replace: '{{index}}',
     indexRoot: -10
   }
@@ -213,7 +213,7 @@ tom.test('--index-root -1, three input files', function () {
   const fixturePath3 = createFixture(`${testFolder}/three`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath, fixturePath2, fixturePath3 ],
+    files: [fixturePath, fixturePath2, fixturePath3],
     replace: '{{index}}',
     indexRoot: '-1'
   }
@@ -233,7 +233,7 @@ tom.test('--index-root -1 (type number), three input files', function () {
   const fixturePath3 = createFixture(`${testFolder}/three`)
   const renamer = new Renamer()
   const options = {
-    files: [ fixturePath, fixturePath2, fixturePath3 ],
+    files: [fixturePath, fixturePath2, fixturePath3],
     replace: '{{index}}',
     indexRoot: -1
   }
