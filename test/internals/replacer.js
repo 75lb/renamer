@@ -3,7 +3,7 @@ const a = require('assert')
 const path = require('path')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('replacer')
+const tom = module.exports = new Tom()
 
 tom.test('string find', function () {
   const file = 'one'

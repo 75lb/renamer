@@ -5,7 +5,7 @@ const createFixture = require('../lib/util').createFixture
 const rimraf = require('rimraf')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('rename-file')
+const tom = module.exports = new Tom()
 
 rimraf.sync('tmp/rename-file')
 

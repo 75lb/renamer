@@ -107,7 +107,7 @@ tom.test('empty result throws', function () {
   )
 })
 
-tom.test('rename symlink')
+tom.todo('rename symlink')
 
 tom.test('depth-first renaming', function () {
   const testDir = `${testRoot}/${this.index}`

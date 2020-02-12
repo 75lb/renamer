@@ -36,9 +36,9 @@ tom.test('empty plugin list defaults to [ default, index ]', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-tom.test('no find or replace input')
+tom.todo('no find or replace input')
 
-tom.test('broken path-element', function () {
+tom.skip('broken path-element', function () {
   const renamer = new Renamer()
   const options = {
     files: ['one'],

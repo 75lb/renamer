@@ -4,7 +4,7 @@ const createFixture = require('../lib/util').createFixture
 const rimraf = require('rimraf')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('util')
+const tom = module.exports = new Tom()
 
 const testRoot = 'tmp/util'
 rimraf.sync(testRoot)

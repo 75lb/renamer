@@ -3,7 +3,7 @@ const a = require('assert')
 const os = require('os')
 const Tom = require('test-runner').Tom
 
-const tom = module.exports = new Tom('util-win32')
+const tom = module.exports = new Tom()
 
 if (os.platform() === 'win32') {
   tom.test('util.depthFirstCompare(pathA, pathB) windows 1', function () {

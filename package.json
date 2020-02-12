@@ -6,7 +6,7 @@
   "bin": "bin/cli.js",
   "license": "MIT",
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=10"
   },
   "repository": "https://github.com/75lb/renamer",
   "files": [
@@ -37,7 +37,7 @@
     "fast-diff": "^1.2.0",
     "glob": "^7.1.6",
     "global-modules": "^2.0.0",
-    "load-module": "^2.0.2",
+    "load-module": "^3.0.0",
     "node-version-matches": "^2.0.1",
     "printj": "^1.2.2",
     "reduce-flatten": "^3.0.0",
@@ -49,8 +49,8 @@
     "coveralls": "^3.0.9",
     "jsdoc-to-markdown": "^5.0.3",
     "mkdirp2": "^1.0.4",
-    "nyc": "^14.1.1",
-    "rimraf": "^3.0.0",
-    "test-runner": "^0.8.7"
+    "nyc": "^15.0.0",
+    "rimraf": "^3.0.2",
+    "test-runner": "^0.8.13"
   }
 }
