@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "array-back": "^4.0.1",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "command-line-args": "^5.1.1",
     "command-line-plugin": "^0.2.0",
     "command-line-usage": "^6.1.0",
@@ -42,14 +42,14 @@
     "printj": "^1.2.2",
     "reduce-flatten": "^3.0.0",
     "reduce-unique": "^2.0.1",
-    "stream-read-all": "^2.0.0",
+    "stream-read-all": "^3.0.0",
     "typical": "^6.0.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.9",
+    "coveralls": "^3.0.11",
     "jsdoc-to-markdown": "^5.0.3",
     "mkdirp2": "^1.0.4",
-    "nyc": "^15.0.0",
+    "nyc": "^15.0.1",
     "rimraf": "^3.0.2",
     "test-runner": "^0.8.13"
   }
