@@ -7,7 +7,7 @@ import path from 'path'
 import TestRunner from 'test-runner'
 import { spawn } from 'child_process'
 
-const tom = new TestRunner.Tom()
+const tom = new TestRunner.Tom({ maxConcurrency: 1 })
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(testRoot)
@@ -104,7 +104,7 @@ tom.test('simple regexp, insensitive', function () {
 
 tom.test('input file list on stdin', function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  const renamer = spawn('node', [path.join('bin', 'cli.mjs'), '-f', 'one', '-r', 'two'])
+  const renamer = spawn('node', ['--experimental-modules', path.join('bin', 'cli.mjs'), '-f', 'one', '-r', 'two'])
   return new Promise((resolve, reject) => {
     renamer.on('close', () => {
       a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)

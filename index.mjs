@@ -25,7 +25,7 @@ class Renamer extends EventEmitter {
                                               the target path will be overwritten. The main use-case for this flag is to enable changing the case of files on case-insensitive systems. Use with caution.
     • [options.plugin]      :string[]       - One or more replacer plugins to use, set the `--plugin` option
                                               multiple times to build a chain. For each value, supply either: a) a path to a plugin file b) a path to a plugin package c) the name of a plugin package installed globally or in the current working directory (or above) or d) the name of a built-in plugin, either `default` or `index`. The default plugin chain is `default` then `index`, be sure to set `-p default -p index` before your plugin if you wish to extend default behaviour.
-    • [options.find]        :{string|RegExp}- Optional find string (e.g. `one`) or regular expression literal (
+    • [options.find]        :string|RegExp  - Optional find string (e.g. `one`) or regular expression literal (
                                               e.g. `/one/i`). If omitted, the whole filename will be matched and replaced.
     • [options.replace]     :string         - The replace string. If omitted, defaults to a empty string.
     • [options.pathElement] :string         - The path element to rename, valid values are `base` (the
