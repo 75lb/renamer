@@ -1,14 +1,14 @@
-const Renamer = require('../')
-const a = require('assert')
-const createFixture = require('./lib/util').createFixture
-const rimraf = require('rimraf')
-const fs = require('fs')
-const path = require('path')
-const Tom = require('test-runner').Tom
+import Renamer from '../index.mjs'
+import a from 'assert'
+import { createFixture } from './lib/util.mjs'
+import rimraf from 'rimraf'
+import fs from 'fs'
+import path from 'path'
+import TestRunner from 'test-runner'
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
-const testRoot = `tmp/${path.basename(__filename)}`
+const testRoot = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(testRoot)
 
 tom.test('simple rename', function () {
@@ -147,3 +147,5 @@ tom.test('path-element ext', function () {
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
   a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.done-txt`), true)
 })
+
+export default tom

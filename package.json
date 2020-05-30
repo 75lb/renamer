@@ -3,14 +3,14 @@
   "description": "Rename files in bulk",
   "version": "2.0.0",
   "author": "Lloyd Brookes <75pound@gmail.com>",
-  "bin": "bin/cli.js",
+  "bin": "bin/cli.mjs",
   "license": "MIT",
   "engines": {
     "node": ">=10"
   },
   "repository": "https://github.com/75lb/renamer",
   "files": [
-    "index.js",
+    "index.mjs",
     "bin",
     "lib"
   ],
@@ -24,8 +24,9 @@
     "batch"
   ],
   "scripts": {
-    "test": "test-runner test/*.js test/internals/*.js",
-    "docs": "jsdoc2md index.js > docs/API.md",
+    "test1": "test-runner test/*.mjs test/internals/*.mjs",
+    "test": "test-runner test/*.mjs",
+    "docs": "jsdoc2md index.mjs > docs/API.md",
     "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {

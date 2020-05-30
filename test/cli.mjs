@@ -1,13 +1,15 @@
-const CliApp = require('../lib/cli-app')
-const a = require('assert').strict
-const createFixture = require('./lib/util').createFixture
-const fs = require('fs')
-const rimraf = require('rimraf')
-const path = require('path')
-const Tom = require('test-runner').Tom
+import CliApp from '../lib/cli-app.mjs'
+import a from 'assert'
+import { createFixture } from './lib/util.mjs'
+import rimraf from 'rimraf'
+import fs from 'fs'
+import path from 'path'
+import TestRunner from 'test-runner'
+import { spawn } from 'child_process'
 
-const tom = module.exports = new Tom()
-const testRoot = `tmp/${path.basename(__filename)}`
+const tom = new TestRunner.Tom()
+
+const testRoot = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(testRoot)
 
 class TestCliApp extends CliApp {
@@ -41,12 +43,12 @@ tom.test('simple, dry run', function () {
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
 })
 
-tom.test('simple, using bin', function () {
+tom.test('simple, using bin', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origArgv = process.argv
   process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath]
   a.deepEqual(fs.existsSync(fixturePath), true)
-  require('../bin/cli') // prints '✔︎ tmp/cli.js/3/one → tmp/cli.js/3/yeah'
+  await import('../bin/cli.mjs') // prints '✔︎ tmp/cli.js/3/one → tmp/cli.js/3/yeah'
   process.argv = origArgv
   a.deepEqual(fs.existsSync(fixturePath), false)
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
@@ -101,10 +103,8 @@ tom.test('simple regexp, insensitive', function () {
 })
 
 tom.test('input file list on stdin', function () {
-  const spawn = require('child_process').spawn
-  const path = require('path')
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  const renamer = spawn('node', [path.join('bin', 'cli.js'), '-f', 'one', '-r', 'two'])
+  const renamer = spawn('node', [path.join('bin', 'cli.mjs'), '-f', 'one', '-r', 'two'])
   return new Promise((resolve, reject) => {
     renamer.on('close', () => {
       a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
@@ -217,3 +217,5 @@ tom.test('--index-root', function () {
   a.deepEqual(fs.existsSync(fixturePath), false)
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah10`), true)
 })
+
+export default tom

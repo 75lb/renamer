@@ -1,8 +1,9 @@
-[![view on npm](http://img.shields.io/npm/v/renamer.svg)](https://www.npmjs.org/package/renamer)
-[![npm module downloads](http://img.shields.io/npm/dt/renamer.svg)](https://www.npmjs.org/package/renamer)
-[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg?branch=master)](https://coveralls.io/github/75lb/renamer?branch=master)
-[![Dependency Status](https://badgen.net/david/dep/75lb/renamer)](https://david-dm.org/75lb/renamer)
+[![view on npm](https://badgen.net/npm/v/renamer)](https://www.npmjs.org/package/renamer)
+[![npm module downloads](https://badgen.net/npm/dt/renamer)](https://www.npmjs.org/package/renamer)
+[![Gihub repo dependents](https://badgen.net/github/dependents-repo/75lb/renamer)](https://github.com/75lb/renamer/network/dependents?dependent_type=REPOSITORY)
+[![Gihub package dependents](https://badgen.net/github/dependents-pkg/75lb/renamer)](https://github.com/75lb/renamer/network/dependents?dependent_type=PACKAGE)
+[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer)
+[![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg)](https://coveralls.io/github/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 ***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases)***

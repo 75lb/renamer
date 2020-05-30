@@ -1,13 +1,14 @@
-const CliApp = require('../lib/cli-app')
-const a = require('assert')
-const createFixture = require('./lib/util').createFixture
-const fs = require('fs')
-const rimraf = require('rimraf')
-const path = require('path')
-const Tom = require('test-runner').Tom
+import CliApp from '../lib/cli-app.mjs'
+import a from 'assert'
+import { createFixture } from './lib/util.mjs'
+import rimraf from 'rimraf'
+import fs from 'fs'
+import path from 'path'
+import TestRunner from 'test-runner'
 
-const tom = module.exports = new Tom()
-const testRoot = `tmp/${path.basename(__filename)}`
+const tom = new TestRunner.Tom()
+
+const testRoot = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(testRoot)
 
 tom.test('invalid option: exit code set to 1, usage guide displayed, no file renamed', async function () {
@@ -31,3 +32,5 @@ tom.test('invalid option: exit code set to 1, usage guide displayed, no file ren
   a.strictEqual(/Unknown option: --broken/.test(logs[0]), true)
   a.strictEqual(/For detailed instructions/.test(logs[1]), true)
 })
+
+export default tom

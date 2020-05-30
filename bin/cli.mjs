@@ -1,12 +1,13 @@
 #!/usr/bin/env node
-const nodeVersionMatches = require('node-version-matches')
+import nodeVersionMatches from 'node-version-matches'
+import CliApp from '../lib/cli-app.mjs'
+import chalk from 'chalk'
+
 /* v8.9.0 required for passing custom paths to require.resolve() */
 if (nodeVersionMatches('>=8.9.0')) {
-  const CliApp = require('../lib/cli-app')
   const cliApp = new CliApp()
-  module.exports = cliApp.start()
+  cliApp.start()
 } else {
-  const chalk = require('chalk')
   console.error(chalk.red('Renamer requires node v8.9.0 or above. Visit the website to upgrade: https://nodejs.org/'))
   process.exitCode = 1
 }

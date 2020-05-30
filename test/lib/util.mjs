@@ -1,6 +1,6 @@
-const mkdirp = require('mkdirp2')
-const path = require('path')
-const fs = require('fs')
+import mkdirp from 'mkdirp2'
+import path from 'path'
+import fs from 'fs'
 
 function createFixture (filePath) {
   const dirname = path.dirname(filePath)
@@ -9,4 +9,4 @@ function createFixture (filePath) {
   return filePath
 }
 
-exports.createFixture = createFixture
+export { createFixture }

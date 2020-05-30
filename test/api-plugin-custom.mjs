@@ -1,14 +1,14 @@
-const Renamer = require('../')
-const a = require('assert')
-const createFixture = require('./lib/util').createFixture
-const rimraf = require('rimraf')
-const fs = require('fs')
-const path = require('path')
-const Tom = require('test-runner').Tom
+import Renamer from '../index.mjs'
+import a from 'assert'
+import { createFixture } from './lib/util.mjs'
+import rimraf from 'rimraf'
+import fs from 'fs'
+import path from 'path'
+import TestRunner from 'test-runner'
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
-const sectionFolder = `tmp/${path.basename(__filename)}`
+const sectionFolder = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(sectionFolder)
 
 tom.test('simple', function () {
@@ -134,3 +134,5 @@ tom.test('invalid plugin, function doesn\'t return class', function () {
     /Invalid plugin/i
   )
 })
+
+export default tom
