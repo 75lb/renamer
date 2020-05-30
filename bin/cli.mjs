@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-modules
 import nodeVersionMatches from 'node-version-matches'
 import CliApp from '../lib/cli-app.mjs'
 import chalk from 'chalk'
