@@ -33,7 +33,6 @@
     "array-back": "^4.0.1",
     "chalk": "^4.0.0",
     "command-line-args": "^5.1.1",
-    "command-line-plugin": "^0.2.0",
     "command-line-usage": "^6.1.0",
     "fast-diff": "^1.2.0",
     "glob": "^7.1.6",
