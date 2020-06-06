@@ -48,9 +48,9 @@
   "devDependencies": {
     "coveralls": "^3.1.0",
     "esm-runner": "^0.3.4",
-    "jsdoc-to-markdown": "^5.0.3",
+    "jsdoc-to-markdown": "^6.0.1",
     "mkdirp2": "^1.0.4",
-    "nyc": "^15.0.1",
+    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "test-runner": "^0.8.13"
   }

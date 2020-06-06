@@ -9,6 +9,7 @@
 ***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases)***
 
 # renamer
+
 Renamer is a command-line utility to help rename files and folders. It is flexible and extensible via plugins.
 
 ## Disclaimer
