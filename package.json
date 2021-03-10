@@ -1,9 +1,11 @@
 {
   "name": "renamer",
   "description": "Rename files in bulk",
-  "version": "3.0.0-0",
+  "version": "3.0.0-1",
   "author": "Lloyd Brookes <75pound@gmail.com>",
-  "bin": "bin/cli.mjs",
+  "bin": {
+    "renamer": "bin/cli.mjs"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=14"
