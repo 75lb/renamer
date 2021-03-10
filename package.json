@@ -6,7 +6,7 @@
   "bin": "bin/cli.mjs",
   "license": "MIT",
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "repository": "https://github.com/75lb/renamer",
   "files": [
@@ -24,8 +24,7 @@
     "batch"
   ],
   "scripts": {
-    "test1": "test-runner test/*.mjs test/internals/*.mjs",
-    "test": "esm-runner test/*.mjs",
+    "test": "test-runner test/*.mjs test/internals/*.mjs",
     "docs": "jsdoc2md index.mjs > docs/API.md",
     "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
@@ -38,7 +37,6 @@
     "glob": "^7.1.6",
     "global-modules": "^2.0.0",
     "load-module": "^3.0.0",
-    "node-version-matches": "^2.0.1",
     "printj": "^1.2.2",
     "reduce-flatten": "^3.0.0",
     "reduce-unique": "^2.0.1",

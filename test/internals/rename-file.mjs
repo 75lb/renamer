@@ -1,11 +1,11 @@
-const renameFile = require('../../lib/rename-file')
-const a = require('assert')
-const fs = require('fs')
-const createFixture = require('../lib/util').createFixture
-const rimraf = require('rimraf')
-const Tom = require('test-runner').Tom
+import renameFile from '../../lib/rename-file.mjs'
+import a from 'assert'
+import fs from 'fs'
+import { createFixture } from '../lib/util.mjs'
+import rimraf from 'rimraf'
+import TestRunner from 'test-runner'
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 rimraf.sync('tmp/rename-file')
 
@@ -35,3 +35,5 @@ tom.test('must not overwrite, find and replace same', function () {
   )
   a.deepStrictEqual(fs.existsSync(fixturePath), true)
 })
+
+export default tom

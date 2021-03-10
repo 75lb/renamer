@@ -1,16 +1,9 @@
-import nodeVersionMatches from 'node-version-matches'
 import chalk from 'chalk'
 import { EventEmitter } from 'events'
 import renameFile from './lib/rename-file.mjs'
 import Replacer from './lib/replacer.mjs'
 import { expandGlobPatterns, depthFirstCompare } from './lib/util.mjs'
 import arrayify from 'array-back/index.mjs'
-
-/* v8.9.0 required for passing custom paths to require.resolve() */
-if (!nodeVersionMatches('>=8.9.0')) {
-  console.error(chalk.red('Renamer requires node v8.9.0 or above. Visit the website to upgrade: https://nodejs.org/'))
-  process.exit(1)
-}
 
 class Renamer extends EventEmitter {
   rename (options) {

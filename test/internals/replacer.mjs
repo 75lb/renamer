@@ -1,9 +1,9 @@
-const Replacer = require('../../lib/replacer')
-const a = require('assert')
-const path = require('path')
-const Tom = require('test-runner').Tom
+import Replacer from '../../lib/replacer.mjs'
+import a from 'assert'
+import path from 'path'
+import TestRunner from 'test-runner'
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 tom.test('string find', function () {
   const file = 'one'
@@ -136,3 +136,5 @@ tom.test('plugins plus a built-in', function () {
   a.deepStrictEqual(result.to, 'b-{{one}}-2')
   a.deepStrictEqual(result.renamed, true)
 })
+
+export default tom
