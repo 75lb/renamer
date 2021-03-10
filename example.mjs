@@ -1,4 +1,4 @@
-const Renamer = require('./')
+import Renamer from './index.mjs'
 const renamer = new Renamer()
 renamer.on('replace-result', replaceResult => {
   console.log(replaceResult)

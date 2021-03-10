@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const path = require('path')
-const rimraf = require('rimraf')
-const createFixture = require('../test/lib/util').createFixture
+import path from 'path'
+import rimraf from 'rimraf'
+import {createFixture} from '../test/lib/util.mjs'
 
 rimraf.sync('sandbox')
 
