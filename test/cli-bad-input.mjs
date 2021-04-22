@@ -1,10 +1,11 @@
 import CliApp from '../lib/cli-app.mjs'
-import a from 'assert'
+import assert from 'assert'
 import { createFixture } from './lib/util.mjs'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
+const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
@@ -21,16 +22,16 @@ tom.test('invalid option: exit code set to 1, usage guide displayed, no file ren
   cliApp.log = function (...args) {
     logs.push(args)
   }
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start()
-  a.strictEqual(process.exitCode, 1)
+  a.equal(process.exitCode, 1)
   process.argv = origArgv
   process.exitCode = origCode
-  a.deepStrictEqual(fs.existsSync(fixturePath), true)
-  a.deepStrictEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
-  a.strictEqual(logs.length, 2)
-  a.strictEqual(/Unknown option: --broken/.test(logs[0]), true)
-  a.strictEqual(/For detailed instructions/.test(logs[1]), true)
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.equal(logs.length, 2)
+  a.equal(/Unknown option: --broken/.test(logs[0]), true)
+  a.equal(/For detailed instructions/.test(logs[1]), true)
 })
 
 export default tom

@@ -1,10 +1,11 @@
 import Renamer from '../index.mjs'
-import a from 'assert'
+import assert from 'assert'
 import { createFixture } from './lib/util.mjs'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
+const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
@@ -20,7 +21,7 @@ tom.test('arrayifies files', function () {
     replace: 'a'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
 tom.test('empty plugin list defaults to [ default, index ]', function () {
@@ -33,7 +34,7 @@ tom.test('empty plugin list defaults to [ default, index ]', function () {
     replace: 'a'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
 tom.todo('no find or replace input')

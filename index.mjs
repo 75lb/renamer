@@ -1,20 +1,19 @@
-import chalk from 'chalk'
 import { EventEmitter } from 'events'
 import renameFile from './lib/rename-file.mjs'
 import Replacer from './lib/replacer.mjs'
 import { expandGlobPatterns, depthFirstCompare } from './lib/util.mjs'
-import arrayify from 'array-back/index.mjs'
+import arrayify from 'array-back'
 
 class Renamer extends EventEmitter {
   rename (options) {
-    /**
-    A synchronous method to rename files in bulk.
+    /** ø renamer.rename(options)
+    ≈ A synchronous method to rename files in bulk.
 
     • [options]             :object
-    • [options.files]       :Array<string>  - One or more glob patterns or filenames to process.
-    • [options.dryRun]      :boolean        - Set this to do everything but rename the file. You should always
+    • [options.files]       :Array<string>  - One or more glob patterns or filenames to process.
+    • [options.dryRun]      :boolean        - Set this to do everything but rename the file. You should always
                                               set this flag until certain the output looks correct.
-    • [options.force]       :boolean        - If a target path exists, renamer will stop. With this flag set
+    • [options.force]       :boolean        - If a target path exists, renamer will stop. With this flag set
                                               the target path will be overwritten. The main use-case for this flag is to enable changing the case of files on case-insensitive systems. Use with caution.
     • [options.plugin]      :string[]       - One or more replacer plugins to use, set the `--plugin` option
                                               multiple times to build a chain. For each value, supply either: a) a path to a plugin file b) a path to a plugin package c) the name of a plugin package installed globally or in the current working directory (or above) or d) the name of a built-in plugin, either `default` or `index`. The default plugin chain is `default` then `index`, be sure to set `-p default -p index` before your plugin if you wish to extend default behaviour.
@@ -37,15 +36,13 @@ class Renamer extends EventEmitter {
       replaceResults.sort((a, b) => depthFirstCompare(a.from, b.from))
     }
     for (const replaceResult of replaceResults) {
-      /**
-      æ replace-result(:result)
-      Emitted just before each file is processed.
+      /** æ replace-result(replaceResult)
+      ≈ Emitted just before each file is processed.
 
-      † Result {
-        from:string     - The filename before rename,
-        to:string       - The filename after rename.
-        renamed:boolean - True if the file was renamed.
-      }
+      † ReplaceResult
+      • from :string     - The filename before rename,
+      • to :string       - The filename after rename.
+      • renamed :boolean - True if the file was renamed.
       */
       this.emit('replace-result', replaceResult)
       if (replaceResult.renamed) {

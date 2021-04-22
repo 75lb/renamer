@@ -7,6 +7,7 @@
     "renamer": "bin/cli.mjs"
   },
   "license": "MIT",
+  "main": "index.mjs",
   "engines": {
     "node": ">=14"
   },
@@ -31,9 +32,8 @@
     "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "array-back": "^5.0.0",
-    "chalk": "^4.1.0",
-    "command-line-args": "^5.1.1",
+    "array-back": "^6.0.0",
+    "chalk": "^4.1.1",
     "command-line-usage": "^6.1.1",
     "fast-diff": "^1.2.0",
     "glob": "^7.1.6",
@@ -48,10 +48,10 @@
   "devDependencies": {
     "coveralls": "^3.1.0",
     "esm-runner": "^0.3.4",
-    "jsdoc-to-markdown": "^7.0.0",
+    "jsdoc-to-markdown": "^7.0.1",
     "mkdirp2": "^1.0.4",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "test-runner": "^0.8.13"
+    "test-runner": "^0.8.14"
   }
 }

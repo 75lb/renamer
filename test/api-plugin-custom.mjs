@@ -1,10 +1,11 @@
 import Renamer from '../index.mjs'
-import a from 'assert'
+import assert from 'assert'
 import { createFixture } from './lib/util.mjs'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
+const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
@@ -21,11 +22,11 @@ tom.test('simple', function () {
       replace (filePath, options) {
         const file = path.parse(filePath)
         if (assertionCount === 0) {
-          a.strictEqual(filePath, `${testFolder}/one`)
+          a.equal(filePath, `${testFolder}/one`)
           assertionCount++
           return `${file.dir}/test1`
         } else if (assertionCount === 1) {
-          a.strictEqual(filePath, `${testFolder}/two`)
+          a.equal(filePath, `${testFolder}/two`)
           assertionCount++
           return `${file.dir}/test2`
         }
@@ -38,11 +39,11 @@ tom.test('simple', function () {
     plugin: [plugin]
   }
   renamer.rename(options)
-  a.strictEqual(assertionCount, 2)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/test1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/test2`), true)
+  a.equal(assertionCount, 2)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/test1`), true)
+  a.equal(fs.existsSync(`${testFolder}/test2`), true)
 })
 
 tom.test('chain of two plugins', function () {
@@ -52,7 +53,7 @@ tom.test('chain of two plugins', function () {
   function plugin1 (Base) {
     return class Plugin extends Base {
       replace (filePath, options) {
-        a.strictEqual(filePath, `${testFolder}/one`)
+        a.equal(filePath, `${testFolder}/one`)
         assertionCount++
         return filePath + '1'
       }
@@ -61,7 +62,7 @@ tom.test('chain of two plugins', function () {
   function plugin2 (Base) {
     return class Plugin extends Base {
       replace (filePath, options) {
-        a.strictEqual(filePath, `${testFolder}/one1`)
+        a.equal(filePath, `${testFolder}/one1`)
         assertionCount++
         return filePath + '2'
       }
@@ -73,10 +74,10 @@ tom.test('chain of two plugins', function () {
     plugin: [plugin1, plugin2]
   }
   renamer.rename(options)
-  a.strictEqual(assertionCount, 2)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/one1`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/one12`), true)
+  a.equal(assertionCount, 2)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/one1`), false)
+  a.equal(fs.existsSync(`${testFolder}/one12`), true)
 })
 
 tom.test('invalid plugin, no .replace() function', function () {

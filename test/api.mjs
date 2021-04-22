@@ -1,10 +1,11 @@
 import Renamer from '../index.mjs'
-import a from 'assert'
+import assert from 'assert'
 import { createFixture } from './lib/util.mjs'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
+const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
@@ -20,8 +21,8 @@ tom.test('simple rename', function () {
     replace: 'a'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), false)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
 tom.test('nothing found', function () {
@@ -33,7 +34,7 @@ tom.test('nothing found', function () {
     replace: 'a'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
 })
 
 tom.test('target exists', function () {
@@ -62,8 +63,8 @@ tom.test('target exists, force', function () {
     force: true
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(fixturePath), false)
-  a.strictEqual(fs.existsSync(fixturePath2), true)
+  a.equal(fs.existsSync(fixturePath), false)
+  a.equal(fs.existsSync(fixturePath2), true)
 })
 
 tom.test("file doesn't exist", function () {
@@ -89,8 +90,8 @@ tom.test('simple rename, dry-run', function () {
     dryRun: true
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/ane`), false)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), false)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
 })
 
 tom.test('empty result throws', function () {
@@ -114,10 +115,10 @@ tom.test('depth-first renaming', function () {
   const renamer = new Renamer()
   createFixture(`${testDir}/one/two`)
   renamer.rename({ files: [`${testDir}/one`, `${testDir}/one/two`], find: 'o', replace: 'a' })
-  a.strictEqual(fs.existsSync(`${testDir}/one`), false)
-  a.strictEqual(fs.existsSync(`${testDir}/one/two`), false)
-  a.strictEqual(fs.existsSync(`${testDir}/ane`), true)
-  a.strictEqual(fs.existsSync(`${testDir}/ane/twa`), true)
+  a.equal(fs.existsSync(`${testDir}/one`), false)
+  a.equal(fs.existsSync(`${testDir}/one/two`), false)
+  a.equal(fs.existsSync(`${testDir}/ane`), true)
+  a.equal(fs.existsSync(`${testDir}/ane/twa`), true)
 })
 
 tom.test('path-element name', function () {
@@ -130,8 +131,8 @@ tom.test('path-element name', function () {
     pathElement: 'name'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one-done.txt`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one-done.txt`), true)
 })
 
 tom.test('path-element ext', function () {
@@ -144,8 +145,8 @@ tom.test('path-element ext', function () {
     pathElement: 'ext'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
-  a.strictEqual(fs.existsSync(`${testRoot}/${this.index}/one.done-txt`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one.done-txt`), true)
 })
 
 export default tom

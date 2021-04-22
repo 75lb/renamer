@@ -1,10 +1,11 @@
 import Renamer from '../index.mjs'
-import a from 'assert'
+import assert from 'assert'
 import { createFixture } from './lib/util.mjs'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
+const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
@@ -20,8 +21,8 @@ tom.test('simple', function () {
     replace: '{{index}}'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
 tom.test('two files same depth, check index order matches input order', function () {
@@ -35,10 +36,10 @@ tom.test('two files same depth, check index order matches input order', function
     replace: '$1{{index}}'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/two1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one2`), true)
 })
 
 tom.test('two files same depth, different order, check index order matches input order', function () {
@@ -52,10 +53,10 @@ tom.test('two files same depth, different order, check index order matches input
     replace: '$1{{index}}'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/one1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/two2`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/one1`), true)
+  a.equal(fs.existsSync(`${testFolder}/two2`), true)
 })
 
 tom.test('with depth, check index order matches input order', function () {
@@ -70,11 +71,11 @@ tom.test('with depth, check index order matches input order', function () {
     replace: 'e{{index}}'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/two`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/one1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/one2`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/dir/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/dir/two`), true)
+  a.equal(fs.existsSync(`${testFolder}/one1`), true)
+  a.equal(fs.existsSync(`${testFolder}/dir/one2`), true)
 })
 
 tom.test('with depth, different order, check index order matches input order', function () {
@@ -89,11 +90,11 @@ tom.test('with depth, different order, check index order matches input order', f
     replace: 'e{{index}}'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/two`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/dir/one1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/one2`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/dir/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/dir/two`), true)
+  a.equal(fs.existsSync(`${testFolder}/dir/one1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one2`), true)
 })
 
 tom.test('--index-root 10', function () {
@@ -106,8 +107,8 @@ tom.test('--index-root 10', function () {
     indexRoot: 10
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/10`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/10`), true)
 })
 
 tom.test('--index-root 10, two input files', function () {
@@ -121,10 +122,10 @@ tom.test('--index-root 10, two input files', function () {
     indexRoot: 10
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/10`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/11`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/10`), true)
+  a.equal(fs.existsSync(`${testFolder}/11`), true)
 })
 
 tom.test('--index-root 0', function () {
@@ -137,8 +138,8 @@ tom.test('--index-root 0', function () {
     indexRoot: '0'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/0`), true)
 })
 
 tom.test('--index-root 0 (type number)', function () {
@@ -151,8 +152,8 @@ tom.test('--index-root 0 (type number)', function () {
     indexRoot: 0
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/0`), true)
 })
 
 tom.test('--index-root 0, two input files', function () {
@@ -166,10 +167,10 @@ tom.test('--index-root 0, two input files', function () {
     indexRoot: '0'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/0`), true)
+  a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
 tom.test('--index-root 0 (type number), two input files', function () {
@@ -183,10 +184,10 @@ tom.test('--index-root 0 (type number), two input files', function () {
     indexRoot: 0
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/0`), true)
+  a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
 tom.test('--index-root -10', function () {
@@ -200,10 +201,10 @@ tom.test('--index-root -10', function () {
     indexRoot: -10
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/-10`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/-9`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/-10`), true)
+  a.equal(fs.existsSync(`${testFolder}/-9`), true)
 })
 
 tom.test('--index-root -1, three input files', function () {
@@ -218,12 +219,12 @@ tom.test('--index-root -1, three input files', function () {
     indexRoot: '-1'
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/three`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/-1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/three`), false)
+  a.equal(fs.existsSync(`${testFolder}/-1`), true)
+  a.equal(fs.existsSync(`${testFolder}/0`), true)
+  a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
 tom.test('--index-root -1 (type number), three input files', function () {
@@ -238,12 +239,12 @@ tom.test('--index-root -1 (type number), three input files', function () {
     indexRoot: -1
   }
   renamer.rename(options)
-  a.strictEqual(fs.existsSync(`${testFolder}/one`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/two`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/three`), false)
-  a.strictEqual(fs.existsSync(`${testFolder}/-1`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/0`), true)
-  a.strictEqual(fs.existsSync(`${testFolder}/1`), true)
+  a.equal(fs.existsSync(`${testFolder}/one`), false)
+  a.equal(fs.existsSync(`${testFolder}/two`), false)
+  a.equal(fs.existsSync(`${testFolder}/three`), false)
+  a.equal(fs.existsSync(`${testFolder}/-1`), true)
+  a.equal(fs.existsSync(`${testFolder}/0`), true)
+  a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
 export default tom
