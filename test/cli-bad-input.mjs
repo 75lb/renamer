@@ -14,18 +14,18 @@ rimraf.sync(testRoot)
 
 tom.test('invalid option: exit code set to 1, usage guide displayed, no file renamed', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  const origArgv = process.argv
   const origCode = process.exitCode
-  process.argv = ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--broken']
   const cliApp = new CliApp()
   const logs = []
   cliApp.log = function (...args) {
     logs.push(args)
   }
+  // cliApp.logError = function (...args) {
+  //   console.error('ERRO', args)
+  // }
   a.deepEqual(fs.existsSync(fixturePath), true)
-  await cliApp.start()
+  await cliApp.start({ argv: ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--broken'] })
   a.equal(process.exitCode, 1)
-  process.argv = origArgv
   process.exitCode = origCode
   a.deepEqual(fs.existsSync(fixturePath), true)
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)

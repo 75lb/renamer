@@ -12,7 +12,7 @@ const tom = new TestRunner.Tom()
 const sectionFolder = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(sectionFolder)
 
-tom.test('simple', function () {
+tom.test('simple', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -20,12 +20,12 @@ tom.test('simple', function () {
     files: [fixturePath],
     replace: '{{index}}'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('two files same depth, check index order matches input order', function () {
+tom.test('two files same depth, check index order matches input order', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -35,14 +35,14 @@ tom.test('two files same depth, check index order matches input order', function
     find: /(.+)/,
     replace: '$1{{index}}'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/two1`), true)
   a.equal(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-tom.test('two files same depth, different order, check index order matches input order', function () {
+tom.test('two files same depth, different order, check index order matches input order', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
@@ -52,14 +52,14 @@ tom.test('two files same depth, different order, check index order matches input
     find: /(.+)/,
     replace: '$1{{index}}'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/one1`), true)
   a.equal(fs.existsSync(`${testFolder}/two2`), true)
 })
 
-tom.test('with depth, check index order matches input order', function () {
+tom.test('with depth, check index order matches input order', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
@@ -70,7 +70,7 @@ tom.test('with depth, check index order matches input order', function () {
     find: 'e',
     replace: 'e{{index}}'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/dir/one`), false)
   a.equal(fs.existsSync(`${testFolder}/dir/two`), true)
@@ -78,7 +78,7 @@ tom.test('with depth, check index order matches input order', function () {
   a.equal(fs.existsSync(`${testFolder}/dir/one2`), true)
 })
 
-tom.test('with depth, different order, check index order matches input order', function () {
+tom.test('with depth, different order, check index order matches input order', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
@@ -89,7 +89,7 @@ tom.test('with depth, different order, check index order matches input order', f
     find: 'e',
     replace: 'e{{index}}'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/dir/one`), false)
   a.equal(fs.existsSync(`${testFolder}/dir/two`), true)
@@ -97,7 +97,7 @@ tom.test('with depth, different order, check index order matches input order', f
   a.equal(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-tom.test('--index-root 10', function () {
+tom.test('--index-root 10', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -106,12 +106,12 @@ tom.test('--index-root 10', function () {
     replace: '{{index}}',
     indexRoot: 10
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/10`), true)
 })
 
-tom.test('--index-root 10, two input files', function () {
+tom.test('--index-root 10, two input files', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -121,14 +121,14 @@ tom.test('--index-root 10, two input files', function () {
     replace: '{{index}}',
     indexRoot: 10
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/10`), true)
   a.equal(fs.existsSync(`${testFolder}/11`), true)
 })
 
-tom.test('--index-root 0', function () {
+tom.test('--index-root 0', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -137,12 +137,12 @@ tom.test('--index-root 0', function () {
     replace: '{{index}}',
     indexRoot: '0'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/0`), true)
 })
 
-tom.test('--index-root 0 (type number)', function () {
+tom.test('--index-root 0 (type number)', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
@@ -151,12 +151,12 @@ tom.test('--index-root 0 (type number)', function () {
     replace: '{{index}}',
     indexRoot: 0
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/0`), true)
 })
 
-tom.test('--index-root 0, two input files', function () {
+tom.test('--index-root 0, two input files', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -166,14 +166,14 @@ tom.test('--index-root 0, two input files', function () {
     replace: '{{index}}',
     indexRoot: '0'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/0`), true)
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('--index-root 0 (type number), two input files', function () {
+tom.test('--index-root 0 (type number), two input files', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -183,14 +183,14 @@ tom.test('--index-root 0 (type number), two input files', function () {
     replace: '{{index}}',
     indexRoot: 0
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/0`), true)
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('--index-root -10', function () {
+tom.test('--index-root -10', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -200,14 +200,14 @@ tom.test('--index-root -10', function () {
     replace: '{{index}}',
     indexRoot: -10
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/-10`), true)
   a.equal(fs.existsSync(`${testFolder}/-9`), true)
 })
 
-tom.test('--index-root -1, three input files', function () {
+tom.test('--index-root -1, three input files', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -218,7 +218,7 @@ tom.test('--index-root -1, three input files', function () {
     replace: '{{index}}',
     indexRoot: '-1'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/three`), false)
@@ -227,7 +227,7 @@ tom.test('--index-root -1, three input files', function () {
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('--index-root -1 (type number), three input files', function () {
+tom.test('--index-root -1 (type number), three input files', async function () {
   const testFolder = path.join(sectionFolder, String(this.index))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
@@ -238,7 +238,7 @@ tom.test('--index-root -1 (type number), three input files', function () {
     replace: '{{index}}',
     indexRoot: -1
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testFolder}/one`), false)
   a.equal(fs.existsSync(`${testFolder}/two`), false)
   a.equal(fs.existsSync(`${testFolder}/three`), false)

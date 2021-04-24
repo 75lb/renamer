@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events'
 import renameFile from './lib/rename-file.mjs'
-import Replacer from './lib/replacer.mjs'
+import ReplaceChain from './lib/replace-chain.mjs'
 import { expandGlobPatterns, depthFirstCompare } from './lib/util.mjs'
 import arrayify from 'array-back'
 
 class Renamer extends EventEmitter {
-  rename (options) {
+  async rename (options) {
     /** ø renamer.rename(options)
     ≈ A synchronous method to rename files in bulk.
 
@@ -29,9 +29,10 @@ class Renamer extends EventEmitter {
     */
     options = options || {}
     const files = expandGlobPatterns(arrayify(options.files))
-    const replacer = new Replacer(options.plugin)
+    const replaceChain = new ReplaceChain()
+    await replaceChain.loadPlugins(options.plugin)
     const replaceResults = files
-      .map((file, index) => replacer.replace(file, options, index, files))
+      .map((file, index) => replaceChain.replace(file, options, index, files))
     if (!options.dryRun) {
       replaceResults.sort((a, b) => depthFirstCompare(a.from, b.from))
     }
@@ -46,7 +47,7 @@ class Renamer extends EventEmitter {
       */
       this.emit('replace-result', replaceResult)
       if (replaceResult.renamed) {
-        renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })
+        await renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })
       }
     }
   }

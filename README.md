@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg)](https://coveralls.io/github/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
-***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases)***
+***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases). Please share your improvement ideas [here](https://github.com/75lb/renamer/discussions).***
 
 # renamer
 

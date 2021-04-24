@@ -12,7 +12,7 @@ const tom = new TestRunner.Tom()
 const testRoot = `tmp/${path.basename(import.meta.url)}`
 rimraf.sync(testRoot)
 
-tom.test('arrayifies files', function () {
+tom.test('arrayifies files', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -20,11 +20,11 @@ tom.test('arrayifies files', function () {
     find: 'o',
     replace: 'a'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-tom.test('empty plugin list defaults to [ default, index ]', function () {
+tom.test('empty plugin list defaults to [ default, index ]', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
@@ -33,19 +33,19 @@ tom.test('empty plugin list defaults to [ default, index ]', function () {
     find: 'o',
     replace: 'a'
   }
-  renamer.rename(options)
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
 tom.todo('no find or replace input')
 
-tom.skip('broken path-element', function () {
+tom.skip('broken path-element', async function () {
   const renamer = new Renamer()
   const options = {
     files: ['one'],
     pathElement: 'broken'
   }
-  a.throws(
+  await a.rejects(
     () => renamer.rename(options),
     /Invalid path element/i
   )

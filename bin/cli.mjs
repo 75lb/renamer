@@ -2,4 +2,5 @@
 import CliApp from '../lib/cli-app.mjs'
 
 const cliApp = new CliApp()
-cliApp.start()
+
+export default cliApp.start()

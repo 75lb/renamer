@@ -37,8 +37,7 @@
     "command-line-usage": "^6.1.1",
     "fast-diff": "^1.2.0",
     "glob": "^7.1.6",
-    "global-modules": "^2.0.0",
-    "load-module": "^3.0.0",
+    "load-module": "^4.0.0-0",
     "printj": "^1.2.2",
     "reduce-flatten": "^3.0.0",
     "reduce-unique": "^2.0.1",
@@ -47,7 +46,6 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "esm-runner": "^0.3.4",
     "jsdoc-to-markdown": "^7.0.1",
     "mkdirp2": "^1.0.4",
     "nyc": "^15.1.0",
