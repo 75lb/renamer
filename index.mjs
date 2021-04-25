@@ -1,11 +1,10 @@
-import { EventEmitter } from 'events'
 import renameFile from './lib/rename-file.mjs'
 import ReplaceChain from './lib/replace-chain.mjs'
 import { expandGlobPatterns, depthFirstCompare } from './lib/util.mjs'
 import arrayify from 'array-back'
 
-class Renamer extends EventEmitter {
-  /** ø renamer.rename(options):
+class Renamer {
+  /** ø renamer.rename(options):Array<ReplaceResult>
   ≈ A synchronous method to rename files in bulk.
 
   • [options]             :object
@@ -24,9 +23,21 @@ class Renamer extends EventEmitter {
   • [options.indexFormat] :string         - The format of the number to replace `{{index}}` with. Specify a
                                             standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`.
   • [options.indexRoot]   :string         - The initial value for `{{index}}`. Defaults to 1.
-  æ replace-result
+
+  † ReplaceResult
+  • from :string     - The filename before rename,
+  • to :string       - The filename after rename.
+  • renamed :boolean - True if the file was renamed.
   */
   async rename (options = {}) {
+    const results = []
+    for await (const result of this.resultIterator(options)) {
+      results.push(result)
+    }
+    return results
+  }
+
+  async * resultIterator (options = {}) {
     const files = expandGlobPatterns(arrayify(options.files))
     const replaceChain = new ReplaceChain()
     await replaceChain.loadPlugins(options.plugin)
@@ -39,17 +50,8 @@ class Renamer extends EventEmitter {
       if (replaceResult.renamed) {
         await renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })
       }
-      /** æ replace-result(:ReplaceResult)
-      ≈ Emitted just before each file is processed.
-
-      † ReplaceResult
-      • from :string     - The filename before rename,
-      • to :string       - The filename after rename.
-      • renamed :boolean - True if the file was renamed.
-      */
-      this.emit('replace-result', replaceResult)
+      yield replaceResult
     }
-    return replaceResults
   }
 }
 

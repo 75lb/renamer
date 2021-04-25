@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg)](https://coveralls.io/github/75lb/renamer)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
-***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases). Please share your improvement ideas [here](https://github.com/75lb/renamer/discussions).***
+***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases). Please share feedback and improvement ideas [here](https://github.com/75lb/renamer/discussions).***
 
 # renamer
 
@@ -65,14 +65,14 @@ Simple example using a [regular expression literal](https://developer.mozilla.or
 $ renamer --find "/one/i" --replace "two" ONE.jpg
 ```
 
-## Plugins
+## Replace chain
 
 If the built-in behaviour doesn't fit your needs, take a look through the [list of available plugins](https://npms.io/search?q=keywords%3Arenamer-plugin).
 
 If you can't find an appropriate plugin you can write your own. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
 
 ```
-module.exports = PluginBase => class Jpg extends PluginBase {
+class Jpg {
   replace (filePath) {
     return filePath + '.jpg'
   }
@@ -84,6 +84,10 @@ Use your custom replace plugin by supplying its filename to the `--chain` option
 ```
 $ renamer --chain my-plugin.js images/*
 ```
+
+## Views
+
+
 
 ## Further reading
 
