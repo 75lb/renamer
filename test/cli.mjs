@@ -185,4 +185,20 @@ tom.test('--index-root', async function () {
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah10`), true)
 })
 
+tom.test('--chain built-in', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const cliApp = new TestCliApp()
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  await cliApp.start({ argv: ['--chain', 'find-replace.mjs', '--find', 'one', '--replace', 'yeah', fixturePath] })
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+})
+
+tom.test('--chain built-in local --help', async function () {
+  const cliApp = new TestCliApp()
+  await cliApp.start({ argv: ['--chain', 'find-replace.mjs', '--chain', './test/lib/dummy-plugin.mjs', '--help'] })
+  a.ok(/FindReplace/.test(cliApp.logs[0][0]))
+  a.ok(/DummyPlugin/.test(cliApp.logs[0][0]))
+})
+
 export default tom

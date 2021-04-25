@@ -79,10 +79,10 @@ module.exports = PluginBase => class Jpg extends PluginBase {
 }
 ```
 
-Use your custom replace plugin by supplying its filename to the `--plugin` option.
+Use your custom replace plugin by supplying its filename to the `--chain` option.
 
 ```
-$ renamer --plugin my-plugin.js images/*
+$ renamer --chain my-plugin.js images/*
 ```
 
 ## Further reading

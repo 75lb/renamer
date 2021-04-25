@@ -115,7 +115,7 @@ tom.test('custom plugins', async function () {
   const file = 'a-one-two'
   const chain = new ReplaceChain()
   await chain.loadPlugins([PluginOne, PluginTwo])
-  const result = chain.replace(file, { find: 'a', replace: 'b' })
+  const result = chain.replace(file, { find: 'a', replace: 'b' }, 0, ['a-one-two'])
   a.deepEqual(result.from, file)
   a.deepEqual(result.to, 'a-{{one}}-2')
   a.deepEqual(result.renamed, true)
@@ -134,8 +134,8 @@ tom.test('custom plugins plus a built-in', async function () {
   }
   const file = 'a-one-two'
   const chain = new ReplaceChain()
-  await chain.loadPlugins(['default-replace.mjs', PluginOne, PluginTwo])
-  const result = chain.replace(file, { find: 'a', replace: 'b' })
+  await chain.loadPlugins(['find-replace.mjs', PluginOne, PluginTwo])
+  const result = chain.replace(file, { find: 'a', replace: 'b' }, 0, ['a-one-two'])
   a.deepEqual(result.from, file)
   a.deepEqual(result.to, 'b-{{one}}-2')
   a.deepEqual(result.renamed, true)
@@ -144,20 +144,14 @@ tom.test('custom plugins plus a built-in', async function () {
 tom.test('custom plugins plus a relative local path plugin', async function () {
   class PluginOne {
     replace (file) {
-      return file.replace('one', '{{one}}')
+      return file.replace('index:', 'bindex:')
     }
   }
-  class PluginTwo {
-    replace (file) {
-      return file.replace('two', '2')
-    }
-  }
-  const file = 'a-one-two'
   const chain = new ReplaceChain()
-  await chain.loadPlugins(['test/lib/dummy-plugin.mjs', PluginOne, PluginTwo])
-  const result = chain.replace(file, { find: 'a', replace: 'b' })
-  a.deepEqual(result.from, file)
-  a.deepEqual(result.to, 'ok')
+  await chain.loadPlugins(['test/lib/dummy-plugin.mjs', PluginOne])
+  const result = chain.replace('start', {}, 0, [])
+  a.deepEqual(result.from, 'start')
+  a.deepEqual(result.to, 'file: start, bindex: 0, file count: 0')
   a.deepEqual(result.renamed, true)
 })
 

@@ -1,4 +1,4 @@
-script/sandbox
+example/sandbox
 .editorconfig
 node_modules
 tmp
