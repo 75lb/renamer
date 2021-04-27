@@ -29,7 +29,7 @@
   "scripts": {
     "test": "test-runner test/*.mjs test/internals/*.mjs",
     "docs": "jsdoc2md -c jsdoc.conf index.mjs > docs/API.md",
-    "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "cover": "c8 npm test && c8 report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "array-back": "^6.0.0",
@@ -46,10 +46,10 @@
     "typical": "^6.0.1"
   },
   "devDependencies": {
+    "c8": "^7.7.1",
     "coveralls": "^3.1.0",
     "jsdoc-to-markdown": "^7.0.1",
     "mkdirp2": "^1.0.4",
-    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "test-runner": "^0.8.14"
   }

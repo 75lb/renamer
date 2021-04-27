@@ -39,7 +39,7 @@ tom.test('empty plugin list defaults to [ default, index ]', async function () {
 
 tom.todo('no find or replace input')
 
-tom.skip('broken path-element', async function () {
+tom.test('broken path-element', async function () {
   const renamer = new Renamer()
   const options = {
     files: ['one'],
@@ -48,6 +48,35 @@ tom.skip('broken path-element', async function () {
   await a.rejects(
     () => renamer.rename(options),
     /Invalid path element/i
+  )
+})
+
+tom.test('replace result is an empty string', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const renamer = new Renamer()
+  const options = {
+    files: [fixturePath],
+    find: 'one',
+    replace: ''
+  }
+  await a.rejects(
+    () => renamer.rename(options),
+    /Replace resulted in empty filename./i
+  )
+})
+
+tom.test('replace result is an empty string 2', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const renamer = new Renamer()
+  const options = {
+    files: [fixturePath],
+    find: 'one',
+    replace: '',
+    pathElement: 'name'
+  }
+  await a.rejects(
+    () => renamer.rename(options),
+    /Replace resulted in empty filename./i
   )
 })
 
