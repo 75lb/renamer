@@ -3,6 +3,9 @@ import ReplaceChain from './lib/replace-chain.mjs'
 import { expandGlobPatterns, depthFirstCompare } from './lib/util.mjs'
 import arrayify from 'array-back'
 
+/** ∆ Renamer
+≈ A tool to rename files and folders in bulk.
+*/
 class Renamer {
   /** ø renamer.rename(options):Array<ReplaceResult>
   ≈ A synchronous method to rename files in bulk.
@@ -37,6 +40,10 @@ class Renamer {
     return results
   }
 
+  /** ø renamer.resultIterator(options):iterator
+  ≈ Useful when you want process the renames one-by-one.
+  ¥ ReplaceResult
+  */
   async * resultIterator (options = {}) {
     const files = expandGlobPatterns(arrayify(options.files))
     const replaceChain = new ReplaceChain()

@@ -12,6 +12,7 @@ class DummyPlugin {
       }
     ]
   }
+
   replace (filePath, options, index, files) {
     return `file: ${filePath}, index: ${index}, file count: ${files.length}`
   }

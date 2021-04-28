@@ -5,6 +5,7 @@ import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
+import DefaultView from '../lib/view/default.mjs'
 const a = assert.strict
 
 const tom = new TestRunner.Tom()
@@ -15,14 +16,12 @@ rimraf.sync(testRoot)
 tom.test('invalid option: exit code set to 1, usage guide displayed, no file renamed', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origCode = process.exitCode
-  const cliApp = new CliApp()
   const logs = []
-  cliApp.log = function (...args) {
+  const view = new DefaultView()
+  view.log = function (...args) {
     logs.push(args)
   }
-  // cliApp.logError = function (...args) {
-  //   console.error('ERRO', args)
-  // }
+  const cliApp = new CliApp({ view })
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['node', 'test', '--find', 'one', '--replace', 'yeah', fixturePath, '--broken'] })
   a.equal(process.exitCode, 1)
