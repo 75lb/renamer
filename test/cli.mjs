@@ -223,5 +223,19 @@ tom.test('--silent, view logging is not invoked', async function () {
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
+tom.test('--verbose also shows non-renamed logs', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const cliApp = new CliApp({ view: new TestView() })
+  /* verbose not set - nothing logged */
+  await cliApp.start({
+    argv: ['--find', 'asdf', '--replace', 'yeah', fixturePath]
+  })
+  a.equal(cliApp.view.logs, undefined)
+  /* verbose set - log present */
+  await cliApp.start({
+    argv: ['--find', 'asdf', '--replace', 'yeah', fixturePath, '--verbose']
+  })
+  a.equal(cliApp.view.logs.length, 1)
+})
 
 export default tom
