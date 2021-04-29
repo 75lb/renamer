@@ -7,8 +7,12 @@ class CustomView {
     console.log('LOG')
   }
 
-  logResult (replaceResult) {
-    console.log('RESULT', replaceResult)
+  logInfo (info) {
+    console.log('INFO', info)
+  }
+
+  logResult (result) {
+    console.log('RESULT', result)
   }
 
   logError (err) {
@@ -17,6 +21,21 @@ class CustomView {
 
   complete () {
     console.log('-- DESIST --')
+  }
+
+  write (key, value, options) {
+    const methodMap = {
+      info: 'logInfo',
+      usage: 'log',
+      result: 'logResult',
+      error: 'logError',
+      start: 'start',
+      complete: 'complete',
+    }
+    const method = methodMap[key]
+    if (this[method]) {
+      this[method](value, options)
+    }
   }
 }
 
