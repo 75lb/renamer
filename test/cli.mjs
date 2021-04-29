@@ -230,12 +230,13 @@ tom.test('--verbose also shows non-renamed logs', async function () {
   await cliApp.start({
     argv: ['--find', 'asdf', '--replace', 'yeah', fixturePath]
   })
-  a.equal(cliApp.view.logs, undefined)
+  a.equal(cliApp.view.logs.length, 1)
+  cliApp.view.logs = []
   /* verbose set - log present */
   await cliApp.start({
     argv: ['--find', 'asdf', '--replace', 'yeah', fixturePath, '--verbose']
   })
-  a.equal(cliApp.view.logs.length, 1)
+  a.equal(cliApp.view.logs.length, 2)
 })
 
 export default tom

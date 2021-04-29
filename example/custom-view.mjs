@@ -19,8 +19,9 @@ class CustomView {
     console.error('ERROR', err.message)
   }
 
-  complete () {
+  complete (stats) {
     console.log('-- DESIST --')
+    console.log(stats)
   }
 
   write (key, value, options) {
