@@ -39,7 +39,7 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
-### Custom file list
+### Fine-tune which files are processed
 
 If no filenames or patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
@@ -61,7 +61,7 @@ Then pipe it into renamer.
 $ cat files.txt | renamer --find jpeg --replace jpg
 ```
 
-### Replace regular expression patterns
+### Rename using regular expressions
 
 Simple example using a [regular expression literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). The case-insensitive pattern `/one/i` matches the input file `ONE.jpg`, renaming it to `two.jpg`.
 
@@ -71,28 +71,31 @@ $ renamer --find "/one/i" --replace "two" ONE.jpg
 
 ### Rename using JavaScript
 
-For more complex renames. Define a plugin.
+For more complex renames, or if you just prefer using code, you can define a replace chain plugin. A plugin is a module exporting a class which defines a `replace` method. This trivial plugin appends the text `[DONE]` to each file name.
 
 ```js
-class AddMonth {
+import path from 'path'
+
+class Suffix {
   replace (filePath) {
-    const month = new Intl.DateTimeFormat('en-gb', { month: 'long' }).format(new Date())
-    return filePath.replace(/^/, `[${month}] `)
+    const file = path.parse(filePath)
+    const newName = file.name + ' [DONE]' + file.ext
+    return path.join(file.dir, newName)
   }
 }
 
-export default AddMonth
+export default Suffix
 ```
 
-Invoke a custom replace chain using the plugin.
+Process all files in the current directory using your plugin as the replace chain.
 
 ```
-$ renamer --chain add-month.mjs * -d
+$ renamer --dry-run --chain suffix.mjs *
 
 Dry run
 
-✔︎ pic1.jpg → [April] pic1.jpg
-✔︎ pic2.jpg → [April] pic2.jpg
+✔︎ pic1.jpg → pic1 [DONE].jpg
+✔︎ pic2.jpg → pic2 [DONE].jpg
 
 Rename complete: 2 of 6 files renamed.
 ```
