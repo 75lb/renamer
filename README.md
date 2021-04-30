@@ -99,7 +99,7 @@ Rename complete: 2 of 6 files renamed.
 
 ## Views
 
-
+<img src="https://i.imgur.com/7830Y9N.gif" width="620px" title="Renamer views demo">
 
 ## Further reading
 
