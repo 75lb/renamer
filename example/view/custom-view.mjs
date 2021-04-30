@@ -24,7 +24,7 @@ class CustomView {
       result: 'logResult',
       error: 'logError',
       start: 'start',
-      complete: 'complete',
+      complete: 'complete'
     }
     const method = methodMap[key]
     if (this[method]) {
