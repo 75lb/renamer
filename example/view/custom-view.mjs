@@ -1,18 +1,14 @@
+import chalk from 'chalk'
+
 class CustomView {
   start () {
-    console.log('-- COMMENCE --')
-  }
-
-  log () {
-    console.log('LOG')
-  }
-
-  logInfo (info) {
-    console.log('INFO', info)
+    console.log('\n🔥 START 🔥\n')
   }
 
   logResult (result) {
-    console.log('RESULT', result)
+    if (result.renamed) {
+      console.log(`${chalk.red(result.from.padEnd(25))} ${chalk.green(result.to)}`)
+    }
   }
 
   logError (err) {
@@ -20,14 +16,11 @@ class CustomView {
   }
 
   complete (stats) {
-    console.log('-- DESIST --')
-    console.log(stats)
+    console.log(`\n🏆 COMPLETE (${stats.renamed} of ${stats.total}) 🏆\n`)
   }
 
   write (key, value, options) {
     const methodMap = {
-      info: 'logInfo',
-      usage: 'log',
       result: 'logResult',
       error: 'logError',
       start: 'start',
