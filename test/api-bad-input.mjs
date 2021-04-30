@@ -37,12 +37,24 @@ tom.test('empty plugin list defaults to [ default, index ]', async function () {
   a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
-tom.todo('no find or replace input')
+tom.test('no find or replace input', async function () {
+  const renamer = new Renamer()
+  const options = {
+    files: ['one']
+  }
+  // this.data = await renamer.rename(options)
+  await a.rejects(
+    () => renamer.rename(options),
+    /Please specify a value/i
+  )
+})
 
 tom.test('broken path-element', async function () {
   const renamer = new Renamer()
   const options = {
     files: ['one'],
+    find: 'one',
+    replace: 'two',
     pathElement: 'broken'
   }
   await a.rejects(
