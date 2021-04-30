@@ -39,6 +39,8 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
+### Custom file list
+
 If no filenames or patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
 ```
@@ -59,30 +61,40 @@ Then pipe it into renamer.
 $ cat files.txt | renamer --find jpeg --replace jpg
 ```
 
+### Replace regular expression patterns
+
 Simple example using a [regular expression literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). The case-insensitive pattern `/one/i` matches the input file `ONE.jpg`, renaming it to `two.jpg`.
 
 ```
 $ renamer --find "/one/i" --replace "two" ONE.jpg
 ```
 
-## Replace chain
+### Rename using JavaScript
 
-If the built-in behaviour doesn't fit your needs, take a look through the [list of available plugins](https://npms.io/search?q=keywords%3Arenamer-plugin).
+For more complex renames. Define a plugin.
 
-If you can't find an appropriate plugin you can write your own. For example, this trivial plugin appends the extension `.jpg` to every input file. Save it as `my-plugin.js`.
-
-```
-class Jpg {
+```js
+class AddMonth {
   replace (filePath) {
-    return filePath + '.jpg'
+    const month = new Intl.DateTimeFormat('en-gb', { month: 'long' }).format(new Date())
+    return filePath.replace(/^/, `[${month}] `)
   }
 }
+
+export default AddMonth
 ```
 
-Use your custom replace plugin by supplying its filename to the `--chain` option.
+Invoke a custom replace chain using the plugin.
 
 ```
-$ renamer --chain my-plugin.js images/*
+$ renamer --chain add-month.mjs * -d
+
+Dry run
+
+✔︎ pic1.jpg → [April] pic1.jpg
+✔︎ pic2.jpg → [April] pic2.jpg
+
+Rename complete: 2 of 6 files renamed.
 ```
 
 ## Views
