@@ -7,6 +7,6 @@ const options = {
   replace: 'photo',
   dryRun: true
 }
-for await (const result of renamer.resultIterator(options)) {
+for await (const result of renamer.results(options)) {
   console.log(result)
 }

@@ -39,7 +39,7 @@ As above but operates on all files and folders recursively.
 $ renamer --find jpeg --replace jpg "**"
 ```
 
-### Fine-tune which files are processed
+### Fine-tune which files to process
 
 If no filenames or patterns are specified, renamer will look for a newline-separated list of filenames on standard input. This approach is useful for crafting a specific input list using tools like `find`. This example operates on files modified less than 20 minutes ago.
 
@@ -71,7 +71,7 @@ $ renamer --find "/one/i" --replace "two" ONE.jpg
 
 ### Rename using JavaScript
 
-For more complex renames, or if you just prefer using code, you can define a replace chain plugin. A plugin is a module exporting a class which defines a `replace` method. This trivial plugin appends the text `[DONE]` to each file name.
+For more complex renames, or if you just prefer using code, you can write a replace function. Create a module exporting a class which defines a `replace` method. This trivial example appends the text `[DONE]` to each file name.
 
 ```js
 import path from 'path'
@@ -101,6 +101,8 @@ Rename complete: 2 of 6 files renamed.
 ```
 
 ## Views
+
+Use the default view, a built-in alternative (long, diff, one-line) or a custom view.
 
 <img src="https://i.imgur.com/7830Y9N.gif" width="620px" title="Renamer views demo">
 

@@ -1,50 +1,54 @@
-<a name="module_renamer"></a>
-
 ## renamer
+
 Rename files in bulk.
 
-
 * [renamer](#module_renamer)
-    * [Renamer](#exp_module_renamer--Renamer) ⏏
+    * [Renamer](#exp_module_renamer--Renamer)
         * [.rename(options)](#module_renamer--Renamer+rename)
-        * ["replace-result"](#module_renamer--Renamer+event_replace-result)
+        * [.results(options)](#asdf)
+        * ReplaceResult
 
-<a name="exp_module_renamer--Renamer"></a>
+### Renamer
 
-### Renamer ⏏
 **Kind**: Exported class
-<a name="module_renamer--Renamer+rename"></a>
 
-#### renamer.rename(options)
-A synchronous method to rename files in bulk.
+#### [async] renamer.rename(options):`Array<ReplaceResult>`
 
-**Kind**: instance method of [<code>Renamer</code>](#exp_module_renamer--Renamer)
-**Emits**: [<code>replace-result</code>](#module_renamer--Renamer+event_replace-result)
+An asynchronous method to rename files in bulk.
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> | The renamer options |
-| [options.files] | <code>Array.&lt;string&gt;</code> | One or more glob patterns or filenames to process. |
-| [options.dryRun] | <code>boolean</code> | Set this to do everything but rename the file. You should always set this flag until certain the output looks correct. |
-| [options.force] | <code>boolean</code> | If a target path exists, renamer will stop. With this flag set the target path will be overwritten. The main use-case for this flag is to enable changing the case of files on case-insensitive systems. Use with caution. |
-| [options.chain] | <code>Array.&lt;string&gt;</code> | One or more replacer plugins to use, set the `--chain` option multiple times to build a chain. For each value, supply either: a) a path to a plugin file b) a path to a plugin package c) the name of a plugin package installed globally or in the current working directory (or above) or d) the name of a built-in plugin, either `default` or `index`. The default plugin chain is `default` then `index`, be sure to set `-p default -p index` before your plugin if you wish to extend default behaviour. |
-| [options.find] | <code>sting</code> \| <code>RegExp</code> | Optional find string (e.g. `one`) or regular expression literal (e.g. `/one/i`). If omitted, the whole filename will be matched and replaced. |
-| [options.replace] | <code>string</code> | The replace string. If omitted, defaults to a empty string. |
-| [options.pathElement] | <code>string</code> | The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`. |
-| [options.indexFormat] | <code>string</code> | The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`. |
-| [options.indexRoot] | <code>string</code> | The initial value for `{{index}}`. Defaults to 1. |
+**Kind**: Async instance method of [`Renamer`](#exp_module_renamer--Renamer)
 
-<a name="module_renamer--Renamer+event_replace-result"></a>
+#### [async] renamer.results(options):`iterator`
 
-#### "replace-result"
-Emitted just before each file is processed.
+An asynchronous generator function for iterating through the process one rename at a time. Each iteration yields a `ReplaceResult` object.
 
-**Kind**: event emitted by [<code>Renamer</code>](#exp_module_renamer--Renamer)
-**Properties**
+#### Type: ReplaceResult
+
+Contains information about the completed replace.
+
+**Kind**: Internal type  
+**Properties:**
 
 | Name | Type | Description |
 | --- | --- | --- |
-| from | <code>string</code> | The filename before rename. |
-| to | <code>string</code> | The filename after rename. |
-| renamed | <code>boolean</code> | True if the file was renamed. |
+| from | `string` | The filename before rename. |
+| to | `string` | The filename after rename. |
+| renamed | `boolean` | True if the file was renamed. |
 
+#### Type: RenamerOptions
+
+**Kind**: Internal type  
+**Properties:**
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` | The renamer options |
+| [options.files] | `Array.<string>` | One or more glob patterns or filenames to process. |
+| [options.dryRun] | `boolean` | Set this to do everything but rename the file. You should always set this flag until certain the output looks correct. |
+| [options.force] | `boolean` | If a target path exists, renamer will stop. With this flag set the target path will be overwritten. The main use-case for this flag is to enable changing the case of files on case-insensitive systems. Use with caution. |
+| [options.chain] | `Array.<string>` | One or more replace chain plugins to use, set the `--chain` option multiple times to build a chain. For each value, supply either: a) a path to a plugin file b) a path to an installed plugin package or c) the name of a built-in plugin, either `find-replace` or `index-replace`. The default plugin chain is `find-replace` then `index-replace`. |
+| [options.find] | `sting` \| `RegExp` | Optional find string (e.g. `one`) or regular expression literal (e.g. `/one/i`). If omitted, the whole filename will be matched and replaced. |
+| [options.replace] | `string` | The replace string. If omitted, defaults to a empty string. |
+| [options.pathElement] | `string` | The path element to rename, valid values are `base` (the default), `name` and `ext`. For example, in the path `pics/image.jpg`, the base is `image.jpg`, the name is `image` and the ext is `.jpg`. |
+| [options.indexFormat] | `string` | The format of the number to replace `{{index}}` with. Specify a standard printf format string, for example `%03d` would yield 001, 002, 003 etc. Defaults to `%d`. |
+| [options.indexRoot] | `string` | The initial value for `{{index}}`. Defaults to 1. |

@@ -34,17 +34,17 @@ class Renamer {
   */
   async rename (options = {}) {
     const results = []
-    for await (const result of this.resultIterator(options)) {
+    for await (const result of this.results(options)) {
       results.push(result)
     }
     return results
   }
 
-  /** ø renamer.resultIterator(options):iterator
+  /** ø renamer.results(options):iterator
   ≈ Useful when you want process the renames one-by-one.
   ¥ ReplaceResult
   */
-  async * resultIterator (options = {}) {
+  async * results (options = {}) {
     const files = expandGlobPatterns(arrayify(options.files))
     const replaceChain = new ReplaceChain()
     await replaceChain.loadPlugins(options.plugin)
