@@ -12,13 +12,13 @@ Rename files in bulk.
 
 **Kind**: Exported class
 
-#### [async] renamer.rename(options):`Array<ReplaceResult>`
+#### [async] renamer.rename(options:`RenamerOptions`):`Array<ReplaceResult>`
 
 An asynchronous method to rename files in bulk.
 
 **Kind**: Async instance method of [`Renamer`](#exp_module_renamer--Renamer)
 
-#### [async] renamer.results(options):`iterator`
+#### [async iterator] renamer.results(options:`RenamerOptions`):`ReplaceResult`
 
 An asynchronous generator function for iterating through the process one rename at a time. Each iteration yields a `ReplaceResult` object.
 

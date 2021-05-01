@@ -34,7 +34,7 @@ tom.test('simple', async function () {
   const renamer = new Renamer()
   const options = {
     files: [`${testFolder}/one`, `${testFolder}/two`],
-    plugin: [Plugin]
+    chain: [Plugin]
   }
   await renamer.rename(options)
   a.equal(assertionCount, 2)
@@ -65,7 +65,7 @@ tom.test('chain of two plugins', async function () {
   const renamer = new Renamer()
   const options = {
     files: [`${testFolder}/one`],
-    plugin: [Plugin, Plugin2]
+    chain: [Plugin, Plugin2]
   }
   await renamer.rename(options)
   a.equal(assertionCount, 2)
@@ -79,7 +79,7 @@ tom.test('invalid plugin, no .replace() function', async function () {
   const renamer = new Renamer()
   const options = {
     files: ['one'],
-    plugin: [InvalidPlugin]
+    chain: [InvalidPlugin]
   }
   await a.rejects(
     () => renamer.rename(options),
@@ -92,7 +92,7 @@ tom.test('invalid plugin, function doesn\'t return class', async function () {
   const renamer = new Renamer()
   const options = {
     files: ['one'],
-    plugin: [InvalidPlugin]
+    chain: [InvalidPlugin]
   }
   await a.rejects(
     () => renamer.rename(options),

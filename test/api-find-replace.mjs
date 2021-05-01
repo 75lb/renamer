@@ -25,6 +25,33 @@ tom.test('simple rename', async function () {
   a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
 })
 
+tom.test('simple rename, just find-replace in the chain', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const renamer = new Renamer()
+  const options = {
+    files: [fixturePath],
+    find: 'o',
+    replace: 'a',
+    chain: 'find-replace'
+  }
+  await renamer.rename(options)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), false)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+})
+
+tom.test('no find-replace in chain, not renamed', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const renamer = new Renamer()
+  const options = {
+    files: [fixturePath],
+    find: 'o',
+    replace: 'a',
+    chain: 'index-replace'
+  }
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), false)
+})
+
 tom.test('nothing found', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()

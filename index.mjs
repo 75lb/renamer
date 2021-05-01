@@ -47,7 +47,7 @@ class Renamer {
   async * results (options = {}) {
     const files = expandGlobPatterns(arrayify(options.files))
     const replaceChain = new ReplaceChain()
-    await replaceChain.loadPlugins(options.plugin)
+    await replaceChain.loadPlugins(options.chain)
     const replaceResults = files
       .map((file, index) => replaceChain.replace(file, options, index, files))
     if (!options.dryRun) {
