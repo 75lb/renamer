@@ -102,7 +102,7 @@ Rename complete: 2 of 6 files renamed.
 
 ## Views
 
-Use the default view, a built-in alternative (long, diff, one-line) or a custom view.
+The following gif demonstrates the default view (with and without `--verbose` mode), the built-in alternative views (`long`, `diff` and `one-line`) and a [custom view](https://github.com/75lb/renamer/tree/master/example/view).
 
 <img src="https://i.imgur.com/7830Y9N.gif" width="620px" title="Renamer views demo">
 
@@ -111,7 +111,7 @@ Use the default view, a built-in alternative (long, diff, one-line) or a custom 
 Please see [the wiki](https://github.com/75lb/renamer/wiki) for
 
 * [Usage examples](https://github.com/75lb/renamer/wiki/examples).
-*  More information about [using plugins](https://github.com/75lb/renamer/wiki/How-to-use-renamer-plugins) and [writing plugins](https://github.com/75lb/renamer/wiki/How-to-write-a-renamer-plugin).
+*  More information about [using plugins](https://github.com/75lb/renamer/wiki/How-to-use-replace-chain-plugins) and [writing plugins](https://github.com/75lb/renamer/wiki/How-to-write-a-replace-chain-plugin).
 * The [full list of command-line options](https://github.com/75lb/renamer/wiki/Renamer-CLI-docs).
 
 For more information on Regular Expressions, see [this useful guide](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions).
@@ -126,4 +126,4 @@ $ npm install -g renamer
 
 &copy; 2012-21 Lloyd Brookes \<75pound@gmail.com\>.
 
-Tested by [test-runner](https://github.com/test-runner-js/test-runner). Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown).
+Tested by [test-runner](https://github.com/test-runner-js/test-runner).

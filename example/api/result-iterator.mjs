@@ -1,4 +1,4 @@
-import Renamer from '../index.mjs'
+import Renamer from '../../index.mjs'
 
 const renamer = new Renamer()
 const options = {
