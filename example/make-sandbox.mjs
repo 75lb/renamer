@@ -53,6 +53,8 @@ const someFiles = [
   'sandbox/data2 (checked by Lloyd).csv',
   'sandbox/data3.xls',
   'sandbox/dates/20180716_180000.jpg',
-  'sandbox/dates/20180717_210000.jpg'
+  'sandbox/dates/20180717_210000.jpg',
+  'sandbox/alphanumeric/10002ASmith.pdf',
+  'sandbox/alphanumeric/10230CJones.pdf'
 ]
 someFiles.forEach(createFixture)

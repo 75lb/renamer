@@ -118,8 +118,18 @@ For more information on Regular Expressions, see [this useful guide](https://dev
 
 ## Install
 
+First, ensure [Node.js](https://nodejs.org/en/) v14 or above is installed.
+
+To install renamer globally as a part of your regular command-line tool kit:
+
 ```
-$ npm install -g renamer
+$ npm install --global renamer
+```
+
+To install renamer as a development dependency of your project: 
+
+```
+$ npm install --save-dev renamer
 ```
 
 * * *

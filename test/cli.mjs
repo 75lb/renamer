@@ -161,7 +161,7 @@ tom.test('failed replace', async function () {
   process.exitCode = 0
 })
 
-tom.test('simple, diff view', async function () {
+tom.test('simple, pass custom view to constructor', async function () {
   class TestDiffView extends DiffView {
     log (...args) {
       this.logs = this.logs || []
@@ -177,11 +177,42 @@ tom.test('simple, diff view', async function () {
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
 
-tom.test('simple, long view', async function () {
+tom.test('--view long', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'long'] })
+  a.equal(cliApp.view.constructor.name, 'LongView')
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+})
+
+tom.test('--view diff', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const cliApp = new CliApp()
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'diff'] })
+  a.equal(cliApp.view.constructor.name, 'DiffView')
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+})
+
+tom.test('--view one-line', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const cliApp = new CliApp()
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'one-line'] })
+  a.equal(cliApp.view.constructor.name, 'OneLineView')
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+})
+
+tom.test('--view: load plugin', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const cliApp = new CliApp()
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', './test/lib/dummy-view.mjs'] })
+  a.equal(cliApp.view.constructor.name, 'DummyView')
   a.deepEqual(fs.existsSync(fixturePath), false)
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
 })
@@ -211,6 +242,15 @@ tom.test('--chain built-in local --help', async function () {
   })
   a.ok(/FindReplace/.test(cliApp.view.logs[0][0]))
   a.ok(/DummyPlugin/.test(cliApp.view.logs[0][0]))
+})
+
+tom.test('--chain: local plugin package', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one-file`)
+  const cliApp = new CliApp()
+  a.deepEqual(fs.existsSync(fixturePath), true)
+  await cliApp.start({ argv: ['-s', '--chain', 'renamer-case', '--case', 'camel', fixturePath] })
+  a.deepEqual(fs.existsSync(fixturePath), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/oneFile`), true)
 })
 
 tom.test('--silent, view logging is not invoked', async function () {
