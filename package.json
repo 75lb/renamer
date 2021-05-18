@@ -31,13 +31,14 @@
     "cover": "c8 npm test && c8 report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "array-back": "^6.0.0",
+    "array-back": "^6.0.1",
     "chalk": "^4.1.1",
     "command-line-args": "^5.1.1",
     "command-line-usage": "^6.1.1",
     "current-module-paths": "^0.1.0",
     "fast-diff": "^1.2.0",
-    "glob": "^7.1.6",
+    "glob": "^7.1.7",
+    "global-dirs": "^3.0.0",
     "load-module": "^4.0.1",
     "printj": "^1.2.2",
     "reduce-flatten": "^3.0.0",
@@ -46,7 +47,7 @@
     "typical": "^6.0.1"
   },
   "devDependencies": {
-    "c8": "^7.7.1",
+    "c8": "^7.7.2",
     "coveralls": "^3.1.0",
     "mkdirp2": "^1.0.4",
     "renamer-case": "^2.0.1",
