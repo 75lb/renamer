@@ -87,7 +87,7 @@ class Suffix {
 export default Suffix
 ```
 
-Process all files in the current directory using your plugin as the replace chain.
+Save the above as `suffix.mjs` then process all files in the current directory using the above plugin as the replace chain.
 
 ```
 $ renamer --dry-run --chain suffix.mjs *
