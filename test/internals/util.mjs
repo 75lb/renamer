@@ -36,7 +36,7 @@ tom.test('expandGlobPatterns 2', function () {
   ])
 })
 
-tom.only('expandGlobPatterns 3', function () {
+tom.test('expandGlobPatterns 3', function () {
   const testDir = `${testRoot}/${this.index}`
   createFixture(`${testDir}/[ok]`)
   const result = expandGlobPatterns([`${testDir}/[ok]`])

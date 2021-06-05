@@ -94,7 +94,7 @@ tom.test('target exists, force', async function () {
   a.equal(fs.existsSync(fixturePath2), true)
 })
 
-tom.test("file doesn't exist", async function () {
+tom.test("file doesn't exist: ignored", async function () {
   const renamer = new Renamer()
   const options = {
     files: ['asdfasfewf'],
