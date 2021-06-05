@@ -101,10 +101,8 @@ tom.test("file doesn't exist", async function () {
     find: 'a',
     replace: 'e'
   }
-  await a.rejects(
-    () => renamer.rename(options),
-    /ENOENT/
-  )
+  const result = await renamer.rename(options)
+  a.deepEqual(result, [])
 })
 
 tom.test('simple rename, dry-run', async function () {
