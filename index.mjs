@@ -47,7 +47,7 @@ class Renamer {
     const fileSet = new FileSet()
     await fileSet.add(options.files)
     if (fileSet.notExisting.length) {
-      throw new Error(`Files do not exist: ${fileSet.notExisting.join(', ')}`)
+      throw new Error(`These paths or patterns do not exist: ${fileSet.notExisting.join(', ')}`)
     }
     const replaceChain = new ReplaceChain()
     await replaceChain.loadPlugins(options.chain)

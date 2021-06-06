@@ -26,7 +26,7 @@ class TestView extends DefaultView {
   }
 }
 
-tom.test('invalid option: exit code set to 1, usage guide displayed, no file renamed', async function () {
+tom.test('invalid option: exit code set to 1, usage guide suggested, no file renamed', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origCode = process.exitCode
   const logs = []
@@ -43,7 +43,7 @@ tom.test('invalid option: exit code set to 1, usage guide displayed, no file ren
   a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
   a.equal(logs.length, 2)
   a.equal(/Unknown option: --broken/.test(logs[0]), true)
-  a.equal(/For detailed instructions/.test(logs[1]), true)
+  a.equal(/Run `renamer --help` for usage instructions/.test(logs[1]), true)
 })
 
 tom.test('--view: broken plugin', async function () {
