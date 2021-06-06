@@ -9,11 +9,11 @@ const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
-const sectionFolder = `tmp/${path.basename(import.meta.url)}`
-rimraf.sync(sectionFolder)
+const testRoot = `tmp/${path.basename(import.meta.url)}`
+rimraf.sync(testRoot)
 
 tom.test('simple', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+  const testFolder = path.join(testRoot, String(this.index))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
   let assertionCount = 0
@@ -45,7 +45,7 @@ tom.test('simple', async function () {
 })
 
 tom.test('chain of two plugins', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+  const testFolder = path.join(testRoot, String(this.index))
   createFixture(`${testFolder}/one`)
   let assertionCount = 0
   class Plugin {
@@ -75,10 +75,11 @@ tom.test('chain of two plugins', async function () {
 })
 
 tom.test('invalid plugin, no .replace() function', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   class InvalidPlugin {}
   const renamer = new Renamer()
   const options = {
-    files: ['one'],
+    files: [fixturePath],
     chain: [InvalidPlugin]
   }
   await a.rejects(
@@ -88,10 +89,11 @@ tom.test('invalid plugin, no .replace() function', async function () {
 })
 
 tom.test('invalid plugin, function doesn\'t return class', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const InvalidPlugin = 0
   const renamer = new Renamer()
   const options = {
-    files: ['one'],
+    files: [fixturePath],
     chain: [InvalidPlugin]
   }
   await a.rejects(

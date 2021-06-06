@@ -1,7 +1,6 @@
 import renameFile from './lib/rename-file.mjs'
 import ReplaceChain from './lib/replace-chain.mjs'
-import { expandGlobPatterns, depthFirstCompare } from './lib/util.mjs'
-import arrayify from 'array-back'
+import FileSet from 'file-set'
 
 /** ∆ Renamer
 ≈ A tool to rename files and folders in bulk.
@@ -45,14 +44,16 @@ class Renamer {
   ¥ ReplaceResult
   */
   async * results (options = {}) {
-    const files = expandGlobPatterns(arrayify(options.files))
+    const fileSet = new FileSet()
+    await fileSet.add(options.files)
+    if (fileSet.notExisting.length) {
+      throw new Error(`Files do not exist: ${fileSet.notExisting.join(', ')}`)
+    }
     const replaceChain = new ReplaceChain()
     await replaceChain.loadPlugins(options.chain)
+    const files = [...fileSet.files, ...fileSet.dirs]
     const replaceResults = files
       .map((file, index) => replaceChain.replace(file, options, index, files))
-    if (!options.dryRun) {
-      replaceResults.sort((a, b) => depthFirstCompare(a.from, b.from))
-    }
     for (const replaceResult of replaceResults) {
       if (replaceResult.renamed) {
         await renameFile(replaceResult.from, replaceResult.to, { force: options.force, dryRun: options.dryRun })

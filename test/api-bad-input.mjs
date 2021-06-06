@@ -38,11 +38,11 @@ tom.test('empty plugin list defaults to [ default, index ]', async function () {
 })
 
 tom.test('no find or replace input', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: ['one']
+    files: [fixturePath]
   }
-  // this.data = await renamer.rename(options)
   await a.rejects(
     () => renamer.rename(options),
     /Please specify a value/i
@@ -50,9 +50,10 @@ tom.test('no find or replace input', async function () {
 })
 
 tom.test('broken path-element', async function () {
+  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const renamer = new Renamer()
   const options = {
-    files: ['one'],
+    files: [fixturePath],
     find: 'one',
     replace: 'two',
     pathElement: 'broken'

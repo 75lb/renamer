@@ -52,7 +52,7 @@ tom.test('--view: broken plugin', async function () {
   const view = new TestView()
   const cliApp = new CliApp({ view })
   a.deepEqual(fs.existsSync(fixturePath), true)
-  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', './test/lib/broken-view.mjs'] }),
+  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', './test/lib/broken-view.mjs'] })
   a.equal(cliApp.view.constructor.name, 'TestView')
   a.ok(/View must define a `write` method/.test(view.logs[0][0]))
   a.equal(process.exitCode, 1)

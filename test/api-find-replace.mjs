@@ -48,6 +48,7 @@ tom.test('no find-replace in chain, not renamed', async function () {
     replace: 'a',
     chain: 'index-replace'
   }
+  await renamer.rename(options)
   a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
   a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), false)
 })
@@ -94,7 +95,7 @@ tom.test('target exists, force', async function () {
   a.equal(fs.existsSync(fixturePath2), true)
 })
 
-tom.test("file doesn't exist", async function () {
+tom.test("file doesn't exist: exception thrown", async function () {
   const renamer = new Renamer()
   const options = {
     files: ['asdfasfewf'],
@@ -103,7 +104,7 @@ tom.test("file doesn't exist", async function () {
   }
   await a.rejects(
     () => renamer.rename(options),
-    /ENOENT/
+    /do not exist/
   )
 })
 
