@@ -138,11 +138,16 @@ tom.test('empty result throws', async function () {
 
 tom.todo('rename symlink')
 
-tom.test('depth-first renaming', async function () {
+tom.test('depth-first renaming: renames deepest files first regardless or order supplied', async function () {
   const testDir = `${testRoot}/${this.index}`
   const renamer = new Renamer()
   createFixture(`${testDir}/one/two`)
-  await renamer.rename({ files: [`${testDir}/one`, `${testDir}/one/two`], find: 'o', replace: 'a' })
+  createFixture(`${testDir}/one/four/two`)
+  await renamer.rename({
+    files: [`${testDir}/one`, `${testDir}/one/two`, `${testDir}/one/four`, `${testDir}/one/four/two`],
+    find: 'o',
+    replace: 'a'
+  })
   a.equal(fs.existsSync(`${testDir}/one`), false)
   a.equal(fs.existsSync(`${testDir}/one/two`), false)
   a.equal(fs.existsSync(`${testDir}/ane`), true)

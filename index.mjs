@@ -1,6 +1,7 @@
 import renameFile from './lib/rename-file.mjs'
 import ReplaceChain from './lib/replace-chain.mjs'
 import FileSet from 'file-set'
+import { depthFirstCompare } from './lib/util.mjs'
 
 /** ∆ Renamer
 ≈ A tool to rename files and folders in bulk.
@@ -51,7 +52,7 @@ class Renamer {
     }
     const replaceChain = new ReplaceChain()
     await replaceChain.loadPlugins(options.chain)
-    const files = [...fileSet.files, ...fileSet.dirs]
+    const files = [...fileSet.files, ...fileSet.dirs.sort(depthFirstCompare)]
     const replaceResults = files
       .map((file, index) => replaceChain.replace(file, options, index, files))
     for (const replaceResult of replaceResults) {
