@@ -1,7 +1,7 @@
 {
   "name": "renamer",
   "description": "Rename files in bulk",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "bin": {
     "renamer": "bin/cli.mjs"
