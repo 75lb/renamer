@@ -1,4 +1,4 @@
-import Renamer from '../index.mjs'
+import Renamer from 'renamer'
 import assert from 'assert'
 import { createFixture } from './lib/util.mjs'
 import rimraf from 'rimraf'
