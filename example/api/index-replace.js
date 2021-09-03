@@ -1,10 +1,9 @@
-import Renamer from '../../index.js'
+import Renamer from 'renamer'
 
 const renamer = new Renamer()
 const results = await renamer.rename({
   files: ['./example/sandbox/**'],
   replace: '{{index}}.file',
-  dryRun: true,
-  chain: 'find-replace'
+  dryRun: true
 })
 console.log('results', results)
