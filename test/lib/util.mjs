@@ -1,10 +1,9 @@
-import mkdirp from 'mkdirp2'
 import path from 'path'
 import fs from 'fs'
 
 function createFixture (filePath) {
   const dirname = path.dirname(filePath)
-  mkdirp.sync(dirname)
+  fs.mkdirSync(dirname, { recursive: true })
   fs.writeFileSync(filePath, 'test')
   return filePath
 }
