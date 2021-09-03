@@ -4,16 +4,17 @@
   "version": "3.2.1",
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "bin": {
-    "renamer": "bin/cli.mjs"
+    "renamer": "bin/cli.js"
   },
   "license": "MIT",
-  "exports": "./index.mjs",
+  "type": "module",
+  "exports": "./index.js",
   "engines": {
     "node": ">=12.17"
   },
   "repository": "https://github.com/75lb/renamer",
   "files": [
-    "index.mjs",
+    "index.js",
     "bin",
     "lib"
   ],
@@ -27,7 +28,7 @@
     "batch"
   ],
   "scripts": {
-    "test": "test-runner test/*.mjs test/internals/*.mjs",
+    "test": "test-runner test/*.js test/internals/*.js",
     "cover": "c8 npm test && c8 report --reporter=text-lcov | coveralls"
   },
   "dependencies": {

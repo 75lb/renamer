@@ -1,4 +1,4 @@
-import { depthFirstCompare } from '../../lib/util.mjs'
+import { depthFirstCompare } from '../../lib/util.js'
 import assert from 'assert'
 import os from 'os'
 import TestRunner from 'test-runner'

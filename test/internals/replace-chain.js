@@ -1,4 +1,4 @@
-import ReplaceChain from '../../lib/replace-chain.mjs'
+import ReplaceChain from '../../lib/replace-chain.js'
 import assert from 'assert'
 import path from 'path'
 import TestRunner from 'test-runner'
@@ -134,7 +134,7 @@ tom.test('custom plugins plus a built-in', async function () {
   }
   const file = 'a-one-two'
   const chain = new ReplaceChain()
-  await chain.loadPlugins(['find-replace.mjs', PluginOne, PluginTwo])
+  await chain.loadPlugins(['find-replace.js', PluginOne, PluginTwo])
   const result = chain.replace(file, { find: 'a', replace: 'b' }, 0, ['a-one-two'])
   a.deepEqual(result.from, file)
   a.deepEqual(result.to, 'b-{{one}}-2')
@@ -148,7 +148,7 @@ tom.test('custom plugins plus a relative local path plugin', async function () {
     }
   }
   const chain = new ReplaceChain()
-  await chain.loadPlugins(['test/lib/dummy-plugin.mjs', PluginOne])
+  await chain.loadPlugins(['test/lib/dummy-plugin.js', PluginOne])
   const result = chain.replace('start', {}, 0, [])
   a.deepEqual(result.from, 'start')
   a.deepEqual(result.to, 'file: start, bindex: 0, file count: 0')

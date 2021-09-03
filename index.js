@@ -1,7 +1,7 @@
-import renameFile from './lib/rename-file.mjs'
-import ReplaceChain from './lib/replace-chain.mjs'
+import renameFile from './lib/rename-file.js'
+import ReplaceChain from './lib/replace-chain.js'
 import FileSet from 'file-set'
-import { depthFirstCompare } from './lib/util.mjs'
+import { depthFirstCompare } from './lib/util.js'
 
 /** ∆ Renamer
 ≈ A tool to rename files and folders in bulk.

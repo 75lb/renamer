@@ -1,4 +1,4 @@
-import Renamer from '../../index.mjs'
+import Renamer from '../../index.js'
 
 const renamer = new Renamer()
 const results = await renamer.rename({

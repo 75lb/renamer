@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import path from 'path'
 import rimraf from 'rimraf'
-import { createFixture } from '../test/lib/util.mjs'
+import { createFixture } from '../test/lib/util.js'
 
 rimraf.sync('sandbox')
 

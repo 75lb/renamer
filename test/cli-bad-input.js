@@ -1,11 +1,11 @@
-import CliApp from '../lib/cli-app.mjs'
+import CliApp from '../lib/cli-app.js'
 import assert from 'assert'
-import { createFixture } from './lib/util.mjs'
+import { createFixture } from './lib/util.js'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
-import DefaultView from '../lib/view/default.mjs'
+import DefaultView from '../lib/view/default.js'
 const a = assert.strict
 
 const tom = new TestRunner.Tom()
@@ -52,7 +52,7 @@ tom.test('--view: broken plugin', async function () {
   const view = new TestView()
   const cliApp = new CliApp({ view })
   a.deepEqual(fs.existsSync(fixturePath), true)
-  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', './test/lib/broken-view.mjs'] })
+  await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', './test/lib/broken-view.js'] })
   a.equal(cliApp.view.constructor.name, 'TestView')
   a.ok(/View must define a `write` method/.test(view.logs[0][0]))
   a.equal(process.exitCode, 1)

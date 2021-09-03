@@ -1,7 +1,7 @@
-import renameFile from '../../lib/rename-file.mjs'
+import renameFile from '../../lib/rename-file.js'
 import assert from 'assert'
 import fs from 'fs'
-import { createFixture } from '../lib/util.mjs'
+import { createFixture } from '../lib/util.js'
 import rimraf from 'rimraf'
 import TestRunner from 'test-runner'
 const a = assert.strict

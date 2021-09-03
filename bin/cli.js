@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import CliApp from '../lib/cli-app.mjs'
+import CliApp from '../lib/cli-app.js'
 
 const cliApp = new CliApp()
 

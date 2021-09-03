@@ -1,6 +1,6 @@
 import Renamer from 'renamer'
 import assert from 'assert'
-import { createFixture } from './lib/util.mjs'
+import { createFixture } from './lib/util.js'
 import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
