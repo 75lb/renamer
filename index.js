@@ -51,7 +51,7 @@ class Renamer {
       throw new Error(`These paths or patterns do not exist: ${fileSet.notExisting.join(', ')}`)
     }
     const replaceChain = new ReplaceChain()
-    await replaceChain.loadPlugins(options.chain)
+    await replaceChain.loadPlugins(options.chain, options)
     const files = [...fileSet.files, ...fileSet.dirs.sort(depthFirstCompare)]
     const replaceResults = files
       .map((file, index) => replaceChain.replace(file, options, index, files))
