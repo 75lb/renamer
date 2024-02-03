@@ -1,7 +1,6 @@
 import Renamer from 'renamer'
 import assert from 'assert'
 import { createFixture } from './lib/util.js'
-import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
@@ -10,7 +9,7 @@ const a = assert.strict
 const tom = new TestRunner.Tom()
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
-rimraf.sync(testRoot)
+fs.rmSync(testRoot, { recursive: true, force: true })
 
 tom.test('simple', async function () {
   const testFolder = path.join(testRoot, String(this.index))

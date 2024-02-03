@@ -2,13 +2,12 @@ import renameFile from '../../lib/rename-file.js'
 import assert from 'assert'
 import fs from 'fs'
 import { createFixture } from '../lib/util.js'
-import rimraf from 'rimraf'
 import TestRunner from 'test-runner'
 const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
-rimraf.sync('tmp/rename-file')
+fs.rmSync('tmp/rename-file', { recursive: true, force: true })
 
 tom.test('simple', async function () {
   const fromPath = createFixture(`tmp/rename-file/${this.index}/one`)

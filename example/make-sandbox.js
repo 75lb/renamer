@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 import path from 'path'
-import rimraf from 'rimraf'
+import fs from 'node:fs'
 import { createFixture } from '../test/lib/util.js'
 
-rimraf.sync('sandbox')
+/* Run this script in the `example` folder, creating `example/sandbox` */
+
+fs.rmSync('sandbox', { recursive: true, force: true })
 
 ;[1, 2, 3, 4, 5].forEach(function (number) {
   const fileName = path.join('sandbox', 'file' + number + '.test')

@@ -1,13 +1,14 @@
 import { depthFirstCompare } from '../../lib/util.js'
 import assert from 'assert'
-import rimraf from 'rimraf'
 import TestRunner from 'test-runner'
+import fs from 'node:fs'
+
 const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
 const testRoot = 'tmp/util'
-rimraf.sync(testRoot)
+fs.rmSync(testRoot, { recursive: true, force: true })
 
 tom.test('depthFirstSort(files)', function () {
   const files = ['one', 'one/two', 'one/three', 'four', 'one/two/five']

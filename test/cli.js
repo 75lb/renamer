@@ -1,7 +1,6 @@
 import CliApp from '../lib/cli-app.js'
 import assert from 'assert'
 import { createFixture } from './lib/util.js'
-import rimraf from 'rimraf'
 import fs from 'fs'
 import path from 'path'
 import TestRunner from 'test-runner'
@@ -12,7 +11,7 @@ const a = assert.strict
 const tom = new TestRunner.Tom({ maxConcurrency: 1 })
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
-rimraf.sync(testRoot)
+fs.rmSync(testRoot, { recursive: true, force: true })
 
 class TestView extends DefaultView {
   log (...args) {
