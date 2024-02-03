@@ -10,7 +10,7 @@
   "type": "module",
   "exports": "./index.js",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "repository": "https://github.com/75lb/renamer",
   "files": [
