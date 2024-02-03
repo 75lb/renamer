@@ -2,8 +2,7 @@
 [![npm module downloads](https://badgen.net/npm/dt/renamer)](https://www.npmjs.org/package/renamer)
 [![Gihub repo dependents](https://badgen.net/github/dependents-repo/75lb/renamer)](https://github.com/75lb/renamer/network/dependents?dependent_type=REPOSITORY)
 [![Gihub package dependents](https://badgen.net/github/dependents-pkg/75lb/renamer)](https://github.com/75lb/renamer/network/dependents?dependent_type=PACKAGE)
-[![Build Status](https://travis-ci.org/75lb/renamer.svg?branch=master)](https://travis-ci.org/75lb/renamer)
-[![Coverage Status](https://coveralls.io/repos/github/75lb/renamer/badge.svg)](https://coveralls.io/github/75lb/renamer)
+[![Node.js CI](https://github.com/75lb/renamer/actions/workflows/node.js.yml/badge.svg)](https://github.com/75lb/renamer/actions/workflows/node.js.yml)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 ***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases). Please share feedback and improvement ideas [here](https://github.com/75lb/renamer/discussions).***
