@@ -1,5 +1,5 @@
 import CliApp from '../lib/cli-app.js'
-import assert from 'assert'
+import a from 'node:assert/strict'
 import { createFixture } from './lib/util.js'
 import fs from 'fs'
 import path from 'path'
@@ -7,7 +7,7 @@ import TestRunner from 'test-runner'
 import { spawn } from 'child_process'
 import DefaultView from '../lib/view/default.js'
 import DiffView from '../lib/view/diff.js'
-const a = assert.strict
+
 const tom = new TestRunner.Tom({ maxConcurrency: 1 })
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
