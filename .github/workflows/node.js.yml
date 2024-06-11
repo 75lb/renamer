@@ -19,11 +19,14 @@ jobs:
         node-version: [18, 20, 22]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: npm run test
+    - name: Run tests
+      run: npm run test
+      env:
+        FORCE_COLOR: 3 # To enable testing of ansi-coloured output
