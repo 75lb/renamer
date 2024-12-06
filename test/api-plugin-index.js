@@ -1,18 +1,17 @@
 import Renamer from 'renamer'
-import assert from 'assert'
 import { createFixture } from './lib/util.js'
 import fs from 'fs'
 import path from 'path'
-import TestRunner from 'test-runner'
-const a = assert.strict
+import { strict as a } from 'assert'
 
-const tom = new TestRunner.Tom()
+const [test, only, skip] = [new Map(), new Map(), new Map()]
+let index = 0
 
 const sectionFolder = `tmp/${path.basename(import.meta.url)}`
 fs.rmSync(sectionFolder, { recursive: true, force: true })
 
-tom.test('simple', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('simple', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
@@ -24,8 +23,8 @@ tom.test('simple', async function () {
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('two files same depth, check index order matches input order', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('two files same depth, check index order matches input order', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
@@ -41,8 +40,8 @@ tom.test('two files same depth, check index order matches input order', async fu
   a.equal(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-tom.test('two files same depth, different order, check index order matches input order', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('two files same depth, different order, check index order matches input order', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
@@ -58,8 +57,8 @@ tom.test('two files same depth, different order, check index order matches input
   a.equal(fs.existsSync(`${testFolder}/two2`), true)
 })
 
-tom.test('with depth, check index order matches input order', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('with depth, check index order matches input order', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
   createFixture(`${testFolder}/dir/two`)
@@ -77,8 +76,8 @@ tom.test('with depth, check index order matches input order', async function () 
   a.equal(fs.existsSync(`${testFolder}/dir/one2`), true)
 })
 
-tom.test('with depth, different order, check index order matches input order', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('with depth, different order, check index order matches input order', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   createFixture(`${testFolder}/one`)
   createFixture(`${testFolder}/dir/one`)
   createFixture(`${testFolder}/dir/two`)
@@ -96,8 +95,8 @@ tom.test('with depth, different order, check index order matches input order', a
   a.equal(fs.existsSync(`${testFolder}/one2`), true)
 })
 
-tom.test('--index-root 10', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root 10', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
@@ -110,8 +109,8 @@ tom.test('--index-root 10', async function () {
   a.equal(fs.existsSync(`${testFolder}/10`), true)
 })
 
-tom.test('--index-root 10, two input files', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root 10, two input files', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
@@ -127,8 +126,8 @@ tom.test('--index-root 10, two input files', async function () {
   a.equal(fs.existsSync(`${testFolder}/11`), true)
 })
 
-tom.test('--index-root 0', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root 0', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
@@ -141,8 +140,8 @@ tom.test('--index-root 0', async function () {
   a.equal(fs.existsSync(`${testFolder}/0`), true)
 })
 
-tom.test('--index-root 0 (type number)', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root 0 (type number)', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const renamer = new Renamer()
   const options = {
@@ -155,8 +154,8 @@ tom.test('--index-root 0 (type number)', async function () {
   a.equal(fs.existsSync(`${testFolder}/0`), true)
 })
 
-tom.test('--index-root 0, two input files', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root 0, two input files', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
@@ -172,8 +171,8 @@ tom.test('--index-root 0, two input files', async function () {
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('--index-root 0 (type number), two input files', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root 0 (type number), two input files', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
@@ -189,8 +188,8 @@ tom.test('--index-root 0 (type number), two input files', async function () {
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('--index-root -10', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root -10', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const renamer = new Renamer()
@@ -206,8 +205,8 @@ tom.test('--index-root -10', async function () {
   a.equal(fs.existsSync(`${testFolder}/-9`), true)
 })
 
-tom.test('--index-root -1, three input files', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root -1, three input files', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const fixturePath3 = createFixture(`${testFolder}/three`)
@@ -226,8 +225,8 @@ tom.test('--index-root -1, three input files', async function () {
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-tom.test('--index-root -1 (type number), three input files', async function () {
-  const testFolder = path.join(sectionFolder, String(this.index))
+test.set('--index-root -1 (type number), three input files', async function () {
+  const testFolder = path.join(sectionFolder, String(index++))
   const fixturePath = createFixture(`${testFolder}/one`)
   const fixturePath2 = createFixture(`${testFolder}/two`)
   const fixturePath3 = createFixture(`${testFolder}/three`)
@@ -246,4 +245,4 @@ tom.test('--index-root -1 (type number), three input files', async function () {
   a.equal(fs.existsSync(`${testFolder}/1`), true)
 })
 
-export default tom
+export { test, only, skip }

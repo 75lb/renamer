@@ -133,6 +133,6 @@ $ npm install --save-dev renamer
 
 * * *
 
-&copy; 2012-24 Lloyd Brookes \<75pound@gmail.com\>.
+&copy; 2012-25 Lloyd Brookes \<opensource@75lb.com\>.
 
 Tested by [test-runner](https://github.com/test-runner-js/test-runner).

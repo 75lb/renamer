@@ -1,17 +1,15 @@
 import CliApp from '../lib/cli-app.js'
-import a from 'node:assert/strict'
 import { createFixture } from './lib/util.js'
 import fs from 'fs'
 import path from 'path'
-import TestRunner from 'test-runner'
 import { spawn } from 'child_process'
 import DefaultView from '../lib/view/default.js'
 import DiffView from '../lib/view/diff.js'
-
-const tom = new TestRunner.Tom({ maxConcurrency: 1 })
+import { strict as a } from 'assert'
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
 fs.rmSync(testRoot, { recursive: true, force: true })
+let index = 0
 
 class TestView extends DefaultView {
   log (...args) {
@@ -22,32 +20,37 @@ class TestView extends DefaultView {
   logError (err) { // eslint-disable-line
     super.logError(err)
     /* Uncomment to print handled errors  */
-    // console.error('ERROR', err)
+    console.error('ERROR', err)
   }
 }
 
-tom.test('simple', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+const [test, only, skip] = [new Map(), new Map(), new Map()]
+
+test.set('simple', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({
     argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath]
   })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('simple, dry run', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple, dry run', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--dry-run'] })
   a.deepEqual(fs.existsSync(fixturePath), true)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), false)
 })
 
-tom.test('simple, using bin', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple, using bin', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const origArgv = process.argv
   process.argv = ['node', 'test.js', '-s', '--find', 'one', '--replace', 'yeah', fixturePath]
   a.deepEqual(fs.existsSync(fixturePath), true)
@@ -55,59 +58,64 @@ tom.test('simple, using bin', async function () {
   await mod.default
   process.argv = origArgv
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('simple, find string not found', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple, find string not found', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'o.e', '--replace', 'yeah', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), true)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), false)
 })
 
-tom.test('simple regexp', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple regexp', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/one`), true)
   await cliApp.start({ argv: ['-s', '--find', '/o.e/', '--replace', 'yeah', fixturePath] })
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/one`), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('simple regexp, case sensitive', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
+test.set('simple regexp, case sensitive', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/ONE`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', '/one/', '--replace', 'yeah', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), true)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), false)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), false)
 })
 
-tom.test('simple regexp, insensitive', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/ONE`)
+test.set('simple regexp, insensitive', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/ONE`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', '/one/i', '--replace', 'yeah', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('input file list on stdin', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('input file list on stdin', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = spawn('node', [path.join('bin', 'cli.js'), '-f', 'one', '-r', 'two', '-s'])
   return new Promise((resolve, reject) => {
     renamer.on('close', () => {
-      a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-      a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/two`), true)
+      a.deepEqual(fs.existsSync(`${testRoot}/${index}/one`), false)
+      a.deepEqual(fs.existsSync(`${testRoot}/${index}/two`), true)
       resolve()
     })
     renamer.stdin.end(fixturePath)
   })
 })
 
-tom.test('--help', async function () {
+test.set('--help', async function () {
   let output = ''
   const testView = new TestView()
   testView.log = function (msg) {
@@ -118,8 +126,9 @@ tom.test('--help', async function () {
   a.equal(output.match(/Synopsis/g).length, 1)
 })
 
-tom.test('--regexp, append extention', async function () {
-  const testDir = `${testRoot}/${this.index}`
+test.set('--regexp, append extention', async function () {
+  index++
+  const testDir = `${testRoot}/${index}`
   createFixture(`${testDir}/one1`)
   createFixture(`${testDir}/one2`)
   const cliApp = new CliApp()
@@ -130,8 +139,9 @@ tom.test('--regexp, append extention', async function () {
   a.equal(fs.existsSync(`${testDir}/one2`), false)
 })
 
-tom.test('--regexp, single replace', async function () {
-  const testDir = `${testRoot}/${this.index}`
+test.set('--regexp, single replace', async function () {
+  index++
+  const testDir = `${testRoot}/${index}`
   createFixture(`${testDir}/ooo`)
   const cliApp = new CliApp()
   await cliApp.start({ argv: ['-s', '-f', '/o/', '-r', 'a', `${testDir}/*`] })
@@ -139,8 +149,9 @@ tom.test('--regexp, single replace', async function () {
   a.equal(fs.existsSync(`${testDir}/ooo`), false)
 })
 
-tom.test('--regexp, global replace', async function () {
-  const testDir = `${testRoot}/${this.index}`
+test.set('--regexp, global replace', async function () {
+  index++
+  const testDir = `${testRoot}/${index}`
   createFixture(`${testDir}/ooo`)
   const cliApp = new CliApp()
   await cliApp.start({ argv: ['-s', '-f', '/o/g', '-r', 'a', `${testDir}/*`] })
@@ -148,8 +159,9 @@ tom.test('--regexp, global replace', async function () {
   a.equal(fs.existsSync(`${testDir}/ooo`), false)
 })
 
-tom.test('failed replace', async function () {
-  const testDir = `${testRoot}/${this.index}`
+test.set('failed replace', async function () {
+  index++
+  const testDir = `${testRoot}/${index}`
   createFixture(`${testDir}/one`)
   createFixture(`${testDir}/two`)
   const cliApp = new CliApp()
@@ -160,7 +172,8 @@ tom.test('failed replace', async function () {
   process.exitCode = 0
 })
 
-tom.test('simple, pass custom view to constructor', async function () {
+test.set('simple, pass custom view to constructor', async function () {
+  index++
   class TestDiffView extends DiffView {
     log (...args) {
       this.logs = this.logs || []
@@ -168,102 +181,111 @@ tom.test('simple, pass custom view to constructor', async function () {
     }
   }
 
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp({ view: new TestDiffView() })
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['--find', 'one', '--replace', 'yeah', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--view long', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--view long', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'long'] })
   a.equal(cliApp.view.constructor.name, 'LongView')
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--view diff', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--view diff', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'diff'] })
   a.equal(cliApp.view.constructor.name, 'DiffView')
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--view one-line', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--view one-line', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', 'one-line'] })
   a.equal(cliApp.view.constructor.name, 'OneLineView')
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--view: load plugin', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--view: load plugin', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--find', 'one', '--replace', 'yeah', fixturePath, '--view', './test/lib/dummy-view.js'] })
   a.equal(cliApp.view.constructor.name, 'DummyView')
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--index-root', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--index-root', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--index-root', '10', '--find', 'one', '--replace', 'yeah{{index}}', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah10`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah10`), true)
 })
 
-tom.test('--chain built-in', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--chain built-in', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
-  await cliApp.start({ argv: ['-s', '--chain', 'find-replace.js', '--find', 'one', '--replace', 'yeah', fixturePath] })
+  await cliApp.start({ argv: ['-s', '--chain', 'find-replace', '--find', 'one', '--replace', 'yeah', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--chain built-in local --help', async function () {
+test.set('--chain built-in local --help', async function () {
   const cliApp = new CliApp({ view: new TestView() })
   await cliApp.start({
-    argv: ['--chain', 'find-replace.js', '--chain', './test/lib/dummy-plugin.js', '--help']
+    argv: ['--chain', 'find-replace', '--chain', './test/lib/dummy-plugin.js', '--help']
   })
   a.ok(/FindReplace/.test(cliApp.view.logs[0][0]))
   a.ok(/DummyPlugin/.test(cliApp.view.logs[0][0]))
 })
 
-tom.test('--chain: local plugin package', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one-file`)
+test.set('--chain: local plugin package', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one-file`)
   const cliApp = new CliApp()
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['-s', '--chain', 'renamer-case', '--case', 'camel', fixturePath] })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/oneFile`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/oneFile`), true)
 })
 
-tom.test('--silent, view logging is not invoked', async function () {
+test.set('--silent, view logging is not invoked', async function () {
+  index++
   const view = new TestView()
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp({ view })
   a.deepEqual(fs.existsSync(fixturePath), true)
   await cliApp.start({ argv: ['--find', 'one', '--replace', 'yeah', fixturePath, '--silent'] })
   a.deepEqual(fs.existsSync(fixturePath), false)
-  a.deepEqual(fs.existsSync(`${testRoot}/${this.index}/yeah`), true)
+  a.deepEqual(fs.existsSync(`${testRoot}/${index}/yeah`), true)
 })
 
-tom.test('--verbose also shows non-renamed logs', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('--verbose also shows non-renamed logs', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const cliApp = new CliApp({ view: new TestView() })
   /* verbose not set - nothing logged */
   await cliApp.start({
@@ -278,4 +300,4 @@ tom.test('--verbose also shows non-renamed logs', async function () {
   a.equal(cliApp.view.logs.length, 2)
 })
 
-export default tom
+export { test, only, skip }

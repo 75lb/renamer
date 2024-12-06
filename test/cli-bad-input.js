@@ -1,13 +1,11 @@
 import CliApp from '../lib/cli-app.js'
-import assert from 'assert'
 import { createFixture } from './lib/util.js'
 import fs from 'fs'
 import path from 'path'
-import TestRunner from 'test-runner'
 import DefaultView from '../lib/view/default.js'
-const a = assert.strict
+import { strict as a } from 'assert'
 
-const tom = new TestRunner.Tom()
+const [test, only, skip] = [new Map(), new Map(), new Map()]
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
 fs.rmSync(testRoot, { recursive: true, force: true })
@@ -25,7 +23,7 @@ class TestView extends DefaultView {
   }
 }
 
-tom.test('invalid option: exit code set to 1, usage guide suggested, no file renamed', async function () {
+test.set('invalid option: exit code set to 1, usage guide suggested, no file renamed', async function () {
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const origCode = process.exitCode
   const logs = []
@@ -45,7 +43,7 @@ tom.test('invalid option: exit code set to 1, usage guide suggested, no file ren
   a.equal(/Run `renamer --help` for usage instructions/.test(logs[1]), true)
 })
 
-tom.test('--view: broken plugin', async function () {
+test.set('--view: broken plugin', async function () {
   const origCode = process.exitCode
   const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
   const view = new TestView()
@@ -58,4 +56,4 @@ tom.test('--view: broken plugin', async function () {
   process.exitCode = origCode
 })
 
-export default tom
+export { test, only, skip }

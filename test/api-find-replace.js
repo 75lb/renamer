@@ -1,18 +1,18 @@
 import Renamer from 'renamer'
-import assert from 'assert'
 import { createFixture } from './lib/util.js'
 import fs from 'fs'
 import path from 'path'
-import TestRunner from 'test-runner'
-const a = assert.strict
+import { strict as a } from 'assert'
 
-const tom = new TestRunner.Tom()
+const [test, only, skip] = [new Map(), new Map(), new Map()]
+let index = 0
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
 fs.rmSync(testRoot, { recursive: true, force: true })
 
-tom.test('simple rename', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple rename', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -20,12 +20,13 @@ tom.test('simple rename', async function () {
     replace: 'a'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one`), false)
+  a.equal(fs.existsSync(`${testRoot}/${index}/ane`), true)
 })
 
-tom.test('simple rename, just find-replace in the chain', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple rename, just find-replace in the chain', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -34,12 +35,13 @@ tom.test('simple rename, just find-replace in the chain', async function () {
     chain: 'find-replace'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), false)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one`), false)
+  a.equal(fs.existsSync(`${testRoot}/${index}/ane`), true)
 })
 
-tom.test('no find-replace in chain, not renamed', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('no find-replace in chain, not renamed', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -48,12 +50,13 @@ tom.test('no find-replace in chain, not renamed', async function () {
     chain: 'index-replace'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), false)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/ane`), false)
 })
 
-tom.test('nothing found', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('nothing found', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -61,12 +64,13 @@ tom.test('nothing found', async function () {
     replace: 'a'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one`), true)
 })
 
-tom.test('target exists', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  createFixture(`${testRoot}/${this.index}/two`)
+test.set('target exists', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
+  createFixture(`${testRoot}/${index}/two`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -79,9 +83,10 @@ tom.test('target exists', async function () {
   )
 })
 
-tom.test('target exists, force', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
-  const fixturePath2 = createFixture(`${testRoot}/${this.index}/two`)
+test.set('target exists, force', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
+  const fixturePath2 = createFixture(`${testRoot}/${index}/two`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -94,7 +99,7 @@ tom.test('target exists, force', async function () {
   a.equal(fs.existsSync(fixturePath2), true)
 })
 
-tom.test("file doesn't exist: exception thrown", async function () {
+test.set("file doesn't exist: exception thrown", async function () {
   const renamer = new Renamer()
   const options = {
     files: ['asdfasfewf'],
@@ -107,8 +112,9 @@ tom.test("file doesn't exist: exception thrown", async function () {
   )
 })
 
-tom.test('simple rename, dry-run', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('simple rename, dry-run', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -117,12 +123,13 @@ tom.test('simple rename, dry-run', async function () {
     dryRun: true
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), false)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/ane`), false)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one`), true)
 })
 
-tom.test('empty result throws', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('empty result throws', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -135,10 +142,11 @@ tom.test('empty result throws', async function () {
   )
 })
 
-tom.todo('rename symlink')
+skip.set('rename symlink')
 
-tom.test('depth-first renaming: renames deepest files first regardless or order supplied', async function () {
-  const testDir = `${testRoot}/${this.index}`
+test.set('depth-first renaming: renames deepest files first regardless or order supplied', async function () {
+  index++
+  const testDir = `${testRoot}/${index}`
   const renamer = new Renamer()
   createFixture(`${testDir}/one/two`)
   createFixture(`${testDir}/one/four/two`)
@@ -153,8 +161,9 @@ tom.test('depth-first renaming: renames deepest files first regardless or order 
   a.equal(fs.existsSync(`${testDir}/ane/twa`), true)
 })
 
-tom.test('path-element name', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
+test.set('path-element name', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one.txt`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -163,12 +172,13 @@ tom.test('path-element name', async function () {
     pathElement: 'name'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one-done.txt`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one.txt`), false)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one-done.txt`), true)
 })
 
-tom.test('path-element ext', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one.txt`)
+test.set('path-element ext', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one.txt`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -177,8 +187,8 @@ tom.test('path-element ext', async function () {
     pathElement: 'ext'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one.txt`), false)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/one.done-txt`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one.txt`), false)
+  a.equal(fs.existsSync(`${testRoot}/${index}/one.done-txt`), true)
 })
 
-export default tom
+export { test, only, skip }

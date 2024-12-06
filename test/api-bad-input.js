@@ -1,18 +1,18 @@
 import Renamer from 'renamer'
-import assert from 'assert'
 import { createFixture } from './lib/util.js'
 import fs from 'fs'
 import path from 'path'
-import TestRunner from 'test-runner'
-const a = assert.strict
+import { strict as a } from 'assert'
 
-const tom = new TestRunner.Tom()
+const [test, only, skip] = [new Map(), new Map(), new Map()]
 
 const testRoot = `tmp/${path.basename(import.meta.url)}`
 fs.rmSync(testRoot, { recursive: true, force: true })
+let index = 1
 
-tom.test('arrayifies files', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('arrayifies files', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: fixturePath,
@@ -20,11 +20,12 @@ tom.test('arrayifies files', async function () {
     replace: 'a'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/ane`), true)
 })
 
-tom.test('empty plugin list defaults to [ default, index ]', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('empty plugin list defaults to [ default, index ]', async function () {
+  index++
+  const fixturePath = createFixture(`${testRoot}/${index}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -33,11 +34,11 @@ tom.test('empty plugin list defaults to [ default, index ]', async function () {
     replace: 'a'
   }
   await renamer.rename(options)
-  a.equal(fs.existsSync(`${testRoot}/${this.index}/ane`), true)
+  a.equal(fs.existsSync(`${testRoot}/${index}/ane`), true)
 })
 
-tom.test('no find or replace input', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('no find or replace input', async function () {
+  const fixturePath = createFixture(`${testRoot}/${index++}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath]
@@ -48,8 +49,8 @@ tom.test('no find or replace input', async function () {
   )
 })
 
-tom.test('broken path-element', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('broken path-element', async function () {
+  const fixturePath = createFixture(`${testRoot}/${index++}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -63,8 +64,8 @@ tom.test('broken path-element', async function () {
   )
 })
 
-tom.test('replace result is an empty string', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('replace result is an empty string', async function () {
+  const fixturePath = createFixture(`${testRoot}/${index++}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -77,8 +78,8 @@ tom.test('replace result is an empty string', async function () {
   )
 })
 
-tom.test('replace result is an empty string 2', async function () {
-  const fixturePath = createFixture(`${testRoot}/${this.index}/one`)
+test.set('replace result is an empty string 2', async function () {
+  const fixturePath = createFixture(`${testRoot}/${index++}/one`)
   const renamer = new Renamer()
   const options = {
     files: [fixturePath],
@@ -92,4 +93,4 @@ tom.test('replace result is an empty string 2', async function () {
   )
 })
 
-export default tom
+export { test, only, skip }

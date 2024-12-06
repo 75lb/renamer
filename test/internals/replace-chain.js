@@ -1,12 +1,10 @@
 import ReplaceChain from '../../lib/replace-chain.js'
-import assert from 'assert'
 import path from 'path'
-import TestRunner from 'test-runner'
-const a = assert.strict
+import { strict as a } from 'assert'
 
-const tom = new TestRunner.Tom()
+const [test, only, skip] = [new Map(), new Map(), new Map()]
 
-tom.test('string find', async function () {
+test.set('string find', async function () {
   const file = 'one'
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -16,7 +14,7 @@ tom.test('string find', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('string find, sub-dir', async function () {
+test.set('string find, sub-dir', async function () {
   const file = path.join('dir', 'one')
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -26,7 +24,7 @@ tom.test('string find, sub-dir', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('regexp, sub-dir, unchanged', async function () {
+test.set('regexp, sub-dir, unchanged', async function () {
   const file = path.join('one', 'two')
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -36,7 +34,7 @@ tom.test('regexp, sub-dir, unchanged', async function () {
   a.deepEqual(result.renamed, false)
 })
 
-tom.test('regexp, sub-dir', async function () {
+test.set('regexp, sub-dir', async function () {
   const file = path.join('two', '/one one')
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -46,7 +44,7 @@ tom.test('regexp, sub-dir', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('regexp', async function () {
+test.set('regexp', async function () {
   const file = 'one'
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -56,7 +54,7 @@ tom.test('regexp', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('replace function', async function () {
+test.set('replace function', async function () {
   const file = 'one'
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -66,7 +64,7 @@ tom.test('replace function', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('regexp, replace function', async function () {
+test.set('regexp, replace function', async function () {
   const file = 'one-two'
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -81,7 +79,7 @@ tom.test('regexp, replace function', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('empty find', async function () {
+test.set('empty find', async function () {
   const file = 'one'
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -91,7 +89,7 @@ tom.test('empty find', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('empty find, sub-directory', async function () {
+test.set('empty find, sub-directory', async function () {
   const file = path.join('one', 'one')
   const chain = new ReplaceChain()
   await chain.loadPlugins()
@@ -101,7 +99,7 @@ tom.test('empty find, sub-directory', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('custom plugins', async function () {
+test.set('custom plugins', async function () {
   class PluginOne {
     replace (file) {
       return file.replace('one', '{{one}}')
@@ -121,7 +119,7 @@ tom.test('custom plugins', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('custom plugins plus a built-in', async function () {
+test.set('custom plugins plus a built-in', async function () {
   class PluginOne {
     replace (file) {
       return file.replace('one', '{{one}}')
@@ -141,7 +139,7 @@ tom.test('custom plugins plus a built-in', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-tom.test('custom plugins plus a relative local path plugin', async function () {
+test.set('custom plugins plus a relative local path plugin', async function () {
   class PluginOne {
     replace (file) {
       return file.replace('index:', 'bindex:')
@@ -155,4 +153,4 @@ tom.test('custom plugins plus a relative local path plugin', async function () {
   a.deepEqual(result.renamed, true)
 })
 
-export default tom
+export { test, only, skip }

@@ -1,15 +1,13 @@
 import renameFile from '../../lib/rename-file.js'
-import assert from 'assert'
 import fs from 'fs'
 import { createFixture } from '../lib/util.js'
-import TestRunner from 'test-runner'
-const a = assert.strict
-
-const tom = new TestRunner.Tom()
+import { strict as a } from 'assert'
 
 fs.rmSync('tmp/rename-file', { recursive: true, force: true })
 
-tom.test('simple', async function () {
+const [test, only, skip] = [new Map(), new Map(), new Map()]
+
+test.set('simple', async function () {
   const fromPath = createFixture(`tmp/rename-file/${this.index}/one`)
   const toPath = `tmp/rename-file/${this.index}/oneyeah`
   await renameFile(fromPath, toPath)
@@ -17,7 +15,7 @@ tom.test('simple', async function () {
   a.deepEqual(fs.existsSync(toPath), true)
 })
 
-tom.test('must not overwrite', async function () {
+test.set('must not overwrite', async function () {
   const fixturePath = createFixture(`tmp/rename-file/${this.index}/one`)
   const fixturePath2 = createFixture(`tmp/rename-file/${this.index}/two`)
   await a.rejects(
@@ -28,7 +26,7 @@ tom.test('must not overwrite', async function () {
   a.deepEqual(fs.existsSync(fixturePath2), true)
 })
 
-tom.test('must not overwrite, find and replace same', async function () {
+test.set('must not overwrite, find and replace same', async function () {
   const fixturePath = createFixture(`tmp/rename-file/${this.index}/one`)
   await a.rejects(
     () => renameFile(fixturePath, fixturePath),
@@ -37,4 +35,4 @@ tom.test('must not overwrite, find and replace same', async function () {
   a.deepEqual(fs.existsSync(fixturePath), true)
 })
 
-export default tom
+export { test, only, skip }
