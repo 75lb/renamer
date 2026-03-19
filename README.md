@@ -3,7 +3,6 @@
 [![Gihub repo dependents](https://badgen.net/github/dependents-repo/75lb/renamer)](https://github.com/75lb/renamer/network/dependents?dependent_type=REPOSITORY)
 [![Gihub package dependents](https://badgen.net/github/dependents-pkg/75lb/renamer)](https://github.com/75lb/renamer/network/dependents?dependent_type=PACKAGE)
 [![Node.js CI](https://github.com/75lb/renamer/actions/workflows/node.js.yml/badge.svg)](https://github.com/75lb/renamer/actions/workflows/node.js.yml)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 ***Upgraders, please read the [release notes](https://github.com/75lb/renamer/releases). Please share feedback and improvement ideas [here](https://github.com/75lb/renamer/discussions).***
 
@@ -133,6 +132,6 @@ $ npm install --save-dev renamer
 
 * * *
 
-&copy; 2012-25 Lloyd Brookes \<opensource@75lb.com\>.
+&copy; 2012-26 Lloyd Brookes \<opensource@75lb.com\>.
 
 Tested by [test-runner](https://github.com/test-runner-js/test-runner).
