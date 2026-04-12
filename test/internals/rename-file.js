@@ -1,5 +1,5 @@
 import renameFile from '../../lib/rename-file.js'
-import fs from 'fs'
+import fs from 'node:fs'
 import { createFixture } from '../lib/util.js'
 import { strict as a } from 'assert'
 

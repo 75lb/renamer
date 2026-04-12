@@ -1,7 +1,7 @@
 import Renamer from 'renamer'
 import { createFixture } from './lib/util.js'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { strict as a } from 'assert'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]

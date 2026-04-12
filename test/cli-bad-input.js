@@ -1,7 +1,7 @@
 import CliApp from '../lib/cli-app.js'
 import { createFixture } from './lib/util.js'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import DefaultView from '../lib/view/default.js'
 import { strict as a } from 'assert'
 

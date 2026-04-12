@@ -1,5 +1,5 @@
 import ReplaceChain from '../../lib/replace-chain.js'
-import path from 'path'
+import path from 'node:path'
 import { strict as a } from 'assert'
 
 const [test, only, skip] = [new Map(), new Map(), new Map()]

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import path from 'path'
+import path from 'node:path'
 import fs from 'node:fs'
 import { createFixture } from '../test/lib/util.js'
 

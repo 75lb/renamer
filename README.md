@@ -72,7 +72,7 @@ $ renamer --find "/one/i" --replace "two" ONE.jpg
 For more complex renames, or if you just prefer using code, you can write a [replace function](https://github.com/75lb/renamer/wiki/How-to-write-a-replace-chain-plugin). Create a module exporting a class which defines a `replace` method. This trivial example appends the text `[DONE]` to each file name.
 
 ```js
-import path from 'path'
+import path from 'node:path'
 
 class Suffix {
   replace (filePath) {
